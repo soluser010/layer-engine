@@ -1,0 +1,92 @@
+/* Keeping the offline handbook readable on desktop and mobile */
+:root {
+    color-scheme: light dark;
+    font-family: system-ui, sans-serif;
+    line-height: 1.6;
+}
+
+body {
+    margin: 0;
+}
+
+header {
+    padding: 16px 24px;
+    border-bottom: 1px solid #888;
+}
+
+a {
+    color: light-dark(#1456aa, #8bc4ff);
+}
+
+.Layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    max-width: 1320px;
+    margin: auto;
+}
+
+nav {
+    padding: 24px;
+    overflow-wrap: anywhere;
+}
+
+nav ul {
+    padding-left: 20px;
+}
+
+nav input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+}
+
+main {
+    min-width: 0;
+    padding: 24px;
+}
+
+pre {
+    overflow: auto;
+    padding: 16px;
+    background: light-dark(#f0f3f6, #18222c);
+    border-radius: 8px;
+}
+
+code {
+    font-family: ui-monospace, monospace;
+}
+
+table {
+    display: block;
+    overflow: auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #888;
+}
+
+.hljs-keyword, .hljs-literal {
+    color: light-dark(#8338a0, #d9a3ff);
+}
+
+.hljs-string {
+    color: light-dark(#176b37, #91ddb1);
+}
+
+.hljs-comment {
+    color: light-dark(#58616b, #a7b2bb);
+}
+
+/* Keeping navigation bounded on narrow screens */
+@media screen and (max-width: 760px){
+    .Layout {
+        display: block;
+    }
+
+    nav {
+        max-height: 220px;
+        overflow: auto;
+    }
+}

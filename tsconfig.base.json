@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "esModuleInterop": true,
+        "exactOptionalPropertyTypes": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "noEmit": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitOverride": true,
+        "noUncheckedIndexedAccess": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "target": "ES2024",
+        "types": [
+            "node"
+        ],
+        "useUnknownInCatchVariables": true
+    }
+}

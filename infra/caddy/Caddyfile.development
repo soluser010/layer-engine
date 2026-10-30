@@ -1,0 +1,51 @@
+{
+	admin off
+	auto_https disable_redirects
+	servers {
+		protocols h1 h2 h3
+		timeouts {
+			read_body 20s
+			read_header 10s
+			write 0s
+			idle 2m
+		}
+	}
+}
+
+(layer_security_headers) {
+	header {
+		-Server
+		Content-Security-Policy "default-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+	}
+}
+
+http://localhost:8080 {
+	import layer_security_headers
+
+	request_body {
+		max_size 256KiB
+	}
+
+	reverse_proxy 127.0.0.1:8787 {
+		flush_interval -1
+	}
+}
+
+https://localhost:8443 {
+	tls internal
+	import layer_security_headers
+
+	header Strict-Transport-Security "max-age=31536000"
+
+	request_body {
+		max_size 256KiB
+	}
+
+	reverse_proxy 127.0.0.1:8787 {
+		flush_interval -1
+	}
+}

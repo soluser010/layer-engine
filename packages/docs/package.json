@@ -1,0 +1,39 @@
+{
+    "name": "@solcorp/layer-docs",
+    "version": "0.1.1",
+    "description": "Offline English and Russian application guides for the Layer-Engine framework",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/soluser010/layer-engine.git",
+        "directory": "packages/docs"
+    },
+    "homepage": "https://www.npmjs.com/package/@solcorp/layer",
+    "bugs": {
+        "url": "https://github.com/soluser010/layer-engine/issues"
+    },
+    "type": "module",
+    "engines": {
+        "node": ">=24.22.1 <25"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./src/index.js"
+        }
+    },
+    "files": [
+        "src",
+        "dist",
+        "content",
+        "site",
+        "manifest.json",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "node ../../scripts/docs-package-build.js && tsc -p tsconfig.build.json"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

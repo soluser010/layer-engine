@@ -1,0 +1,49 @@
+/* Keeping the external viewer independent from application page rendering */
+[data-layer-link-viewer] {
+    display: none;
+    background: var(--layer-viewer-background, rgb(255, 255, 255));
+    color: var(--layer-viewer-color, rgb(24, 24, 24));
+    border: 0;
+    width: 100%;
+    height: var(--layer-viewport-height, 100dvh);
+    max-width: 100%;
+    max-height: 100%;
+    padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+        env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+[data-layer-link-viewer][open] {
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr);
+}
+
+[data-layer-link-viewer] > header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+}
+
+[data-layer-link-origin] {
+    flex: 1;
+    min-width: 0;
+    font-family: monospace;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+[data-layer-link-viewer] > p {
+    padding: 0 12px 12px;
+    margin: 0;
+    font-size: 13px;
+}
+
+[data-layer-link-viewer] > iframe {
+    border: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}

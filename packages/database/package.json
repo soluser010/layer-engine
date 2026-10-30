@@ -1,0 +1,41 @@
+{
+    "name": "@solcorp/layer-database",
+    "version": "0.1.1",
+    "description": "PostgreSQL runtime, migrations, and SQL-first repositories for Layer-Engine",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/soluser010/layer-engine.git",
+        "directory": "packages/database"
+    },
+    "homepage": "https://www.npmjs.com/package/@solcorp/layer",
+    "bugs": {
+        "url": "https://github.com/soluser010/layer-engine/issues"
+    },
+    "type": "module",
+    "engines": {
+        "node": ">=24.22.1 <25"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./src/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "src",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json"
+    },
+    "dependencies": {
+        "@electric-sql/pglite": "0.5.8",
+        "@types/pg": "8.23.1",
+        "pg": "8.16.3"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

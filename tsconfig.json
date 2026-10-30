@@ -1,0 +1,78 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "paths": {
+            "@solcorp/layer-notifications": [
+                "./packages/notifications/src/index.js"
+            ],
+            "@solcorp/layer-auth": [
+                "./packages/auth/src/index.js"
+            ],
+            "@solcorp/layer-auth/browser": [
+                "./packages/auth/src/browser.js"
+            ],
+            "@solcorp/layer-auth/server": [
+                "./packages/auth/src/server.js"
+            ],
+            "@solcorp/layer": [
+                "./packages/layer/src/index.js"
+            ],
+            "@solcorp/layer-cli": [
+                "./packages/cli/src/index.js"
+            ],
+            "@solcorp/layer-compiler": [
+                "./packages/compiler/src/index.js"
+            ],
+            "@solcorp/layer-database": [
+                "./packages/database/src/index.js"
+            ],
+            "@solcorp/layer-events": [
+                "./packages/events/src/index.js"
+            ],
+            "@solcorp/layer-protocol": [
+                "./packages/protocol/src/index.js"
+            ],
+            "@solcorp/layer-pwa": [
+                "./packages/pwa/src/index.js"
+            ],
+            "@solcorp/layer-plugin-sdk": [
+                "./packages/plugin-sdk/src/index.js"
+            ],
+            "@solcorp/layer-render": [
+                "./packages/render/src/index.js"
+            ],
+            "@solcorp/layer-router": [
+                "./packages/router/src/index.js"
+            ],
+            "@solcorp/layer-runtime": [
+                "./packages/runtime/src/index.js"
+            ],
+            "@solcorp/layer-security": [
+                "./packages/security/src/index.js"
+            ],
+            "@solcorp/layer-server": [
+                "./packages/server/src/index.js"
+            ],
+            "@solcorp/layer-server/system": [
+                "./packages/server/src/system.js"
+            ],
+            "@solcorp/layer-storage": [
+                "./packages/storage/src/index.js"
+            ],
+            "@solcorp/layer-testkit": [
+                "./packages/testkit/src/index.js"
+            ],
+            "@solcorp/layer-docs": [
+                "./packages/docs/src/index.js"
+            ]
+        },
+        "noEmit": true
+    },
+    "include": [
+        "eslint.config.js",
+        "fixtures/**/*.js",
+        "packages/*/src/**/*.js",
+        "packages/*/test/**/*.js",
+        "scripts/**/*.js"
+    ]
+}

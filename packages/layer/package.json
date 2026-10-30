@@ -1,0 +1,47 @@
+{
+    "name": "@solcorp/layer",
+    "version": "0.1.1",
+    "description": "Complete Layer-Engine framework: authoring API, CLI and application development tools",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/soluser010/layer-engine.git",
+        "directory": "packages/layer"
+    },
+    "homepage": "https://www.npmjs.com/package/@solcorp/layer",
+    "bugs": {
+        "url": "https://github.com/soluser010/layer-engine/issues"
+    },
+    "type": "module",
+    "engines": {
+        "node": ">=24.22.1 <25"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./src/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "src",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json"
+    },
+    "dependencies": {
+        "@solcorp/layer-cli": "0.1.1",
+        "@solcorp/layer-plugin-sdk": "0.1.1",
+        "@solcorp/layer-render": "0.1.1",
+        "@solcorp/layer-runtime": "0.1.1",
+        "@solcorp/layer-testkit": "0.1.1",
+        "@solcorp/layer-docs": "0.1.1"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "bin": {
+        "layer": "./src/bin.js"
+    }
+}

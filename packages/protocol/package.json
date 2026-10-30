@@ -1,0 +1,48 @@
+{
+    "name": "@solcorp/layer-protocol",
+    "version": "0.1.1",
+    "description": "Versioned public protocol contracts for Layer-Engine",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/soluser010/layer-engine.git",
+        "directory": "packages/protocol"
+    },
+    "homepage": "https://www.npmjs.com/package/@solcorp/layer",
+    "bugs": {
+        "url": "https://github.com/soluser010/layer-engine/issues"
+    },
+    "type": "module",
+    "engines": {
+        "node": ">=24.22.1 <25"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./src/index.js"
+        },
+        "./constants": {
+            "types": "./dist/constants.d.ts",
+            "import": "./src/constants.js"
+        },
+        "./data-validator": {
+            "types": "./dist/data-validator.d.ts",
+            "import": "./src/data-validator.js"
+        }
+    },
+    "files": [
+        "dist",
+        "src",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json"
+    },
+    "dependencies": {
+        "ajv": "8.20.0",
+        "ajv-formats": "3.0.1"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

@@ -1,0 +1,83 @@
+{
+    "Layer component": {
+        "prefix": "layer-component",
+        "description": "Create a Layer *.layer.js component",
+        "body": [
+            "import {",
+            "    css,",
+            "    html,",
+            "    layerComponentCreate",
+            "} from '@solcorp/layer';",
+            "",
+            "export const styles = css`",
+            ".${1:Component} {",
+            "    display: block;",
+            "}",
+            "`;",
+            "",
+            "export default layerComponentCreate(function ${1:Component}(properties, context){",
+            "    ${2://Create component state and actions}",
+            "",
+            "    return html`",
+            "        <section class=\"${1:Component}\">",
+            "            ${0}",
+            "        </section>",
+            "    `;",
+            "",
+            "});"
+        ]
+    },
+    "Layer page metadata": {
+        "prefix": "layer-page",
+        "body": [
+            "export const page = layerPageCreate({",
+            "    render: '${1|csr,ssr|}',",
+            "    auth: '${2|none,session|}',",
+            "    offline: '${3|shell,cache,network|}',",
+            "    cache: '${4|no-store,public,private|}',",
+            "    metadata: {",
+            "        title: '${5:Page title}'",
+            "    }",
+            "});"
+        ]
+    },
+    "Layer query": {
+        "prefix": "layer-query",
+        "body": [
+            "const ${1:data}Query = ${2:operationQueryCreate}(context, {",
+            "    payload: ${3:{}},",
+            "    cache: {",
+            "        policy: 'cache-and-network',",
+            "        maxAgeMs: 30000",
+            "    },",
+            "    offline: {",
+            "        fallback: 'cache'",
+            "    }",
+            "});"
+        ]
+    },
+    "Layer command": {
+        "prefix": "layer-command",
+        "body": [
+            "const ${1:save}Command = ${2:operationCommandCreate}(context, {",
+            "    offline: {",
+            "        strategy: 'outbox'",
+            "    }",
+            "});"
+        ]
+    },
+    "Layer event subscription": {
+        "prefix": "layer-events",
+        "body": [
+            "context.events.subscribe({",
+            "    channel: `${1:channel}:${2:id}`,",
+            "    event(eventData) {",
+            "        ${3://Apply the event to query cache or local state}",
+            "    },",
+            "    gap(eventGap) {",
+            "        ${4://Refresh a snapshot after a sequence gap}",
+            "    }",
+            "});"
+        ]
+    }
+}

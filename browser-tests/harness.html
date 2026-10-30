@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Layer browser matrix</title>
+    <script type="importmap">
+        {
+            "imports": {
+                "@solcorp/layer-compiler/expression": "/packages/compiler/src/expression.js",
+                "@solcorp/layer-protocol/constants": "/packages/protocol/src/constants.js",
+                "@solcorp/layer-protocol/data-validator": "/packages/protocol/src/data-validator.js",
+                "acorn": "/node_modules/acorn/dist/acorn.mjs"
+            }
+        }
+    </script>
+</head>
+<body>
+    <main id="layer-browser-root"></main>
+    <script type="module">
+        import {
+            layerCommitWait,
+            layerComponentMount,
+            signal
+        } from '/packages/render/src/index.js';
+        import {layerEventRuntimeCreate} from '/packages/runtime/src/event-runtime.js';
+        import {layerMultiTabEventsCreate} from '/packages/runtime/src/multi-tab-events.js';
+        import {LayerRuntimeError} from '/packages/runtime/src/runtime-error.js';
+        import {
+            layerOfflineOutboxCreate,
+            layerShareTargetInboxCreate,
+            layerStorageOpen,
+            layerStorageSchemaDefine,
+            layerWorkerOutboxConfigurationClear,
+            layerWorkerOutboxConfigure,
+            layerWorkerOutboxDrainCreate,
+            layerWorkerShareTargetCaptureCreate
+        } from '/packages/storage/src/index.js';
+
+        window.layerBrowser = Object.freeze({
+            layerEventRuntimeCreate,
+            layerMultiTabEventsCreate,
+            LayerRuntimeError,
+            layerCommitWait,
+            layerComponentMount,
+            layerOfflineOutboxCreate,
+            layerShareTargetInboxCreate,
+            layerStorageOpen,
+            layerStorageSchemaDefine,
+            layerWorkerOutboxConfigurationClear,
+            layerWorkerOutboxConfigure,
+            layerWorkerOutboxDrainCreate,
+            layerWorkerShareTargetCaptureCreate,
+            signal
+        });
+    </script>
+</body>
+</html>

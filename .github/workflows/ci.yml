@@ -1,0 +1,112 @@
+name: Layer-Engine CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Supply-chain policy
+        run: npm run supply-chain:check
+
+      - name: Build and quality gates
+        run: npm run check
+
+      - name: Threat suite
+        run: npm run test:threats
+
+      - name: Load and stream soak
+        run: npm run test:load
+
+      - name: Generated application preview
+        run: npm run preview:check
+
+      - name: Install Linux browser dependencies
+        run: npx --no-install playwright install-deps chromium firefox webkit
+
+      - name: Install Linux browser matrix
+        env:
+          PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT: '120000'
+        run: |
+          for attempt_number in 1 2 3; do
+            if npx --no-install playwright install chromium firefox webkit; then
+              exit 0
+            fi
+            if [ "$attempt_number" -eq 3 ]; then
+              exit 1
+            fi
+            sleep "$((attempt_number * 10))"
+          done
+
+      - name: Portable production bundle on Linux x64
+        run: |
+          workspace_directory="$PWD"
+          release_directory="$RUNNER_TEMP/layer-production-dist"
+          state_directory="$RUNNER_TEMP/layer-production-state"
+          fixture_directory="$RUNNER_TEMP/layer-production-fixture"
+          node scripts/public-preview-check.js "$fixture_directory"
+          cd "$fixture_directory"
+          mkdir -p "$release_directory"
+          cp -a dist/. "$release_directory/"
+          cd "$release_directory"
+          LAYER_STATE_DIRECTORY="$state_directory" npm run check
+          LAYER_STATE_DIRECTORY="$state_directory" LAYER_HTTP_PORT=18080 LAYER_HTTPS_PORT=18443 npm start > "$RUNNER_TEMP/layer-production-caddy.log" 2>&1 &
+          launcher_process=$!
+          trap 'kill -TERM "$launcher_process" 2>/dev/null || true' EXIT
+          for attempt_number in $(seq 1 30); do
+            if curl --fail --silent --show-error --insecure --header 'Accept: text/html' https://localhost:18443/ > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent --show-error --insecure --header 'Accept: text/html' https://localhost:18443/second/ > /dev/null
+          metadata_status="$(curl --silent --output /dev/null --write-out '%{http_code}' --insecure https://localhost:18443/_layer/build.json)"
+          test "$metadata_status" = "404"
+          cd "$workspace_directory"
+          LAYER_PRODUCTION_URL=https://localhost:18443 node scripts/production-browser-check.js
+          kill -TERM "$launcher_process"
+          wait "$launcher_process" || true
+          trap - EXIT
+
+      - name: Chromium, Firefox, and Safari WebKit matrix on Linux x64
+        run: LAYER_PLAYWRIGHT_CHROME_CHANNEL=chromium npx --no-install playwright test --project=chrome --project=firefox --project=safari-webkit
+
+      - name: Public API compatibility
+        run: npm run api:check
+
+      - name: Dependency audit
+        run: npm audit --audit-level=moderate
+
+      - name: Generate CycloneDX SBOM
+        run: npm run sbom:generate
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: layer-engine-sbom
+          path: artifacts/layer-engine.cdx.json
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,18 @@
+node_modules/
+dist/
+coverage/
+artifacts/
+playwright-report/
+test-results/
+.npm-cache/
+.layer/
+*.tgz
+*.log
+.DS_Store
+Thumbs.db
+
+# Applications and private working state are never framework source
+/apps/
+/tmp/
+.env
+.env.*

@@ -1,0 +1,39 @@
+{
+    "name": "@solcorp/layer-render",
+    "version": "0.1.1",
+    "description": "Signals, direct DOM bindings, SSR, and hydration for Layer-Engine",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/soluser010/layer-engine.git",
+        "directory": "packages/render"
+    },
+    "homepage": "https://www.npmjs.com/package/@solcorp/layer",
+    "bugs": {
+        "url": "https://github.com/soluser010/layer-engine/issues"
+    },
+    "type": "module",
+    "engines": {
+        "node": ">=24.22.1 <25"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./src/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "src",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json"
+    },
+    "dependencies": {
+        "@solcorp/layer-compiler": "0.1.1"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

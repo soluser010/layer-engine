@@ -1,0 +1,316 @@
+{
+    "schemaVersion": 1,
+    "packages": {
+        "@solcorp/layer-auth": {
+            "version": "0.1.1",
+            "declarations": {
+                "auth-error.d.ts": "d8184fa1872eb2f19c509d224929dbc4390c279c1d482a9cae447cc56edbee80",
+                "auth-service.d.ts": "69e0438cbf676955313c8f313966f0a4a88cc3c033be4c36245ab4d34a8aa826",
+                "browser.d.ts": "88fe1236ecb6eaa2cdb9a21499b799c0b72415fbb4f84ab8585de5c4abc94a89",
+                "configuration.d.ts": "2cb45506e201ffd5e4352e6dc3e01b19850e6f158281dffbdd36134581ef38bf",
+                "context.d.ts": "7760910fdb7f290ae8bff9372892614ea910e6ae4a9689d590d2c0a164e5f29f",
+                "identifier.d.ts": "cc59889406b94d9dfa373e47155e7903a00f4cdf270df5fd57c5a8ce379e7192",
+                "index.d.ts": "a821c65e1c1f9031f4d289117f8f73c24259755db87d71aff458b4ee909fd7e4",
+                "lifecycle.d.ts": "5983abf60ec81f094a0baa2da0ddd4888c75122c4db787e49c61093ccdc04049",
+                "mail-delivery.d.ts": "3b5a2fb58f19ffe76029a660a1a22583f9e55228fdc7c3d3b6023823c0a7683b",
+                "mail-queue.d.ts": "5b5014bcdc368dcf6232148cf75426ddb23428fc10b23c27d3c33ed63360b726",
+                "oauth-provider.d.ts": "fd233413e6bc0d61d87b7fa47d25d827c1c2da201868a3e550a80f1306521483",
+                "oauth-signing.d.ts": "7464fbf20253d76f76c5a0b310c51c03f8b4668f9824b2a308824fc835348ab3",
+                "oidc-adapter.d.ts": "0251e244ad4de80dd0ee7d2f58264c01f5513545375d24acd52643dd65fc6e51",
+                "oidc-operations.d.ts": "d7adf3fd76549e216ec7342c8c2654659e5235b93a2e9f3854e63b5c90231e80",
+                "oidc-service.d.ts": "2ade84bbef9121aef191adb1c8cd6c8ea3bc304a4d5d17354fc15545a32974cc",
+                "operations.d.ts": "343d978b744bf4fb9af3425d2f83a3d3babc16af3138a350b71bdb348dad34c1",
+                "passkey-operations.d.ts": "59af9aebf0ad0299f3668c90f466b7a704f7323844d960a168d61908ad159f5a",
+                "passkey-service.d.ts": "8a53fcb75f0ed29e5ec67b536e0cd91321c9c4495f6d32e25a3d590039fe80dd",
+                "password.d.ts": "86f4cb2e3be56f93842cf46af24d8f44b8d8173f3c5adc7a952ab9bbdc43d9f6",
+                "phone-operations.d.ts": "07d372222411c47cfe89d705d704e68910a20965d707a14a401d5ce25b6194c7",
+                "secret-envelope.d.ts": "1a299679a2c08a785beab678cb01c9d4457c42ea1eb0c7a0bbe2be566d09181e",
+                "server-runtime.d.ts": "ed30766b46c9a41f3af4e9ce504450e2f4df0d11666608211b647d1896f4cabb",
+                "server.d.ts": "5fd89573c1c87f2c21efe5c593cc19a609f75f312749ea0da17bcd75b849ab6b",
+                "session-data.d.ts": "71c6f5a6d26f2a6027ef9ab52048ba7d45749d448143019ab277d13f81912254",
+                "totp-operations.d.ts": "5c6c97f7220f079eb28c111ebef3ef371a4d296a622748431fbba1691ba75146",
+                "totp-service.d.ts": "426af6799c10aee74ff491fe0c979a20ea20ce7be84265d0fdd909eba7124e2e"
+            }
+        },
+        "@solcorp/layer-cli": {
+            "version": "0.1.1",
+            "declarations": {
+                "application-bundle.d.ts": "2273c2e96bc57c729a0a6d7b803d31cf7afe6156b1927090dad641dded395b0b",
+                "application-server-runtime.d.ts": "0ea07f140d32ee24c1f971c80161961c1d3596aa8422608598e01c9e3fa190b7",
+                "bin.d.ts": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012",
+                "cli-error.d.ts": "2efa0435cc0dd56947d008bf14cd8a108d076ffe59d2d5679a72fd569ea485f1",
+                "cli.d.ts": "872149fa5c67631e039fc1a1896fd1f34916f305942a6a13ebdc0cf334d9a8ef",
+                "component-bundle.d.ts": "08ba792edd3220c644ec4c0764e7e08ea06f090db5141e7a353f40e5d9e7f6a3",
+                "component-declaration.d.ts": "9aee770f9f30f4c40d060927af01236cfb451cdd3113d6bd3d3de6c4eed8fb6a",
+                "config.d.ts": "e174acc0ebb5d8785a7279d0a96cb13d948d210ebc6d2baf9692ea30c2859762",
+                "content-security-policy.d.ts": "c12904d29cad7b3db4b67cfcdefddb1d856c831a3072c72913837602f4f0c8ac",
+                "css-build.d.ts": "053e304801d8dc92460ca482fe57a7334a7885b32d3127f35a4b7a570d522d32",
+                "database-workflow.d.ts": "5faf3be2edad3a7f9e4d881fd345da90c99babbfd6d55129a2f2a8d61423f0f1",
+                "deployment-bundle.d.ts": "b4716f9eeef1eec1ccb19e034463d1e73cf02e11ac61f3a70fc94dd9d962f144",
+                "deployment-runner.d.ts": "d81a30414faa0d4dc530802029aa6e7bd7033036373e62ddacbf83bd995b0679",
+                "development-host.d.ts": "cd63e83c49dbb5ee81befdd9cbdf4a8df8e07ab466bb2efbb28718f8e3eff991",
+                "development-live-reload.d.ts": "6250982eee7e3091969034cb4e5152a44d87e116e762ffda52b7ec31a4fb36a6",
+                "development-server.d.ts": "b304691bbf765df2150a4c63c4f2daf65a3a42b1fabce8b1cfcda3e97b3c29f3",
+                "development.d.ts": "aa928859225e45d116669f3c63831939c6b101981569047d1f28572dd0ff7c8a",
+                "doctor.d.ts": "757dda4bb0256c8ae224df3f77486d4a591cd8e3a17a074d2e8e2a4de77ab3d4",
+                "documentation.d.ts": "b75c787dde0dfe124fbb386610357b7f0559abdfb602946745f9f07778d6107e",
+                "index.d.ts": "ec34de08dad8b5df7c4921b0c6a61161ba8e25b6fabdde619f8b535cf253b90d",
+                "infrastructure-config.d.ts": "136580264e7d3cf029c1fc7f2b84eba18f1c4b92b6b6d72b266f5721ee9ec0b8",
+                "navigation-bootstrap.d.ts": "aeb366993c825acaa8680a93851529ebce45c37317006d8cfec4d3524aa30ce5",
+                "operation-facade.d.ts": "52b3bb7c99bb42f799ae07e65fac8b2477a9015ad517fa6df8ede017b787a6db",
+                "package-versions.d.ts": "8c587cadc647591edeee9efe17ad8c5db7758450d17aeebf7e72a11970a415b7",
+                "private-artifacts.d.ts": "9d0a67b821ed5ac49c3638120c8431834db68a832c0322e5fc396eb9f86b9766",
+                "project-build.d.ts": "27be7f5075ff1ae4ec256fbfce2a633c29ed674cdaf3a74763b95a3110920e94",
+                "project-create.d.ts": "ad25f543bb054e030d9bab13c1a7921d67eec447c7701871cb91f1dc9e3c68f4",
+                "runtime-version.d.ts": "557c94f2302c0589c4a5238595cffe68e3a9288164b446ef44195cdb328df12d",
+                "service-worker-bundle.d.ts": "bc88b57d4092185434cf8e9363fde8935d7ab50a52d349971b2c041798d9ea96",
+                "ssr-document.d.ts": "7a3cac7ed83835004020adadebbddb0ecb2b565bff3eb1704b25f2111c1dd902"
+            }
+        },
+        "@solcorp/layer-compiler": {
+            "version": "0.1.1",
+            "declarations": {
+                "compiler-error.d.ts": "b93e90312155c2f9f6eb9c05df6180c30fc176f9444f5ac61a55e5d6d70c6d14",
+                "compiler.d.ts": "2024ff202324ed89bb4fcf34e5e89467d729b29f92db9ac50fe2703398e1dd52",
+                "expression.d.ts": "2be67ebf8e19c515f8b05cd1a4e4b7097c89a1d552fedb026234b1e44a8a945d",
+                "index.d.ts": "85193167bbfb74a6542e50e3eb8dbf1df0551eb385c40d806d22416b3d54343a",
+                "javascript-component.d.ts": "5de10ca3e92fa0a8959a2b4425ef5bcac736b6da1cc575d575cd1a3a93152ca8",
+                "operation-contract.d.ts": "0c353f4050f2925dfe26dba6b4499dc6c2303dc8697a30cd6b50a042f21d3f45",
+                "route-contract.d.ts": "00aca51605191f0e3cb425a739c4bf6bc1d3b77a491e7f9edf267b91fb13cd37",
+                "scoped-css.d.ts": "a8b10f6a535f8e91336100e2f6e099861dca008d808b505019a43ef7984bf23e"
+            }
+        },
+        "@solcorp/layer-database": {
+            "version": "0.1.1",
+            "declarations": {
+                "api-key-repository.d.ts": "a3b055fb46c1892071e97b5da2ca1f758de92f254eff3190251610e622c5c592",
+                "audit-repository.d.ts": "80a5591e8a838b9088e6c98a2309e65c40d9585085c72c4fcee899980cc315c4",
+                "auth-challenge-repository.d.ts": "d9f1e87f011cb72c1b6b5ebfd82f9f991626fc73aeea638b5466cb0dbd8124d8",
+                "auth-external-identity-repository.d.ts": "0470879e5b5a9643d2547d00b910148db7b9cfc2a25d7ba6696282475bbd9642",
+                "auth-invitation-repository.d.ts": "a4257a78709fb71cea7d03e8d0858e1d4cb948ae4397d00d3158e37e9dd4a4c4",
+                "auth-mail-repository.d.ts": "052b66e17f0e1390b7a00047769f52a0bc2b37631fee5f1c08192a77dd7358b9",
+                "auth-passkey-repository.d.ts": "4d424e48c09551f691295527f4f3b885c781f7c23895647596555f1567156689",
+                "auth-role-repository.d.ts": "de03db5ef36b781ef8a0bd58b1115268d4bfae3ae289b6acdb98d6609b013cce",
+                "auth-session-repository.d.ts": "839086b808dd77164e7e8a28fa74a064387fd1df02b69ecdf5447dd18f92f93f",
+                "auth-totp-repository.d.ts": "1734a7ae265fccc6b1b997d77964dc80747f584d95cddc00bbf69b27cb5f1a06",
+                "auth-user-repository.d.ts": "cf70b4bdb3747d87c6ab89f6243e73de85c1c71d858b185ea946049cc2312c54",
+                "cache-invalidation-repository.d.ts": "40b4e4ef2523cd697341adf48106d958c6e8ebacf8eee4670214c9836e4fbb91",
+                "cache-invalidation-sql.d.ts": "5311d569b27fb3c340a66aa10c1d482fc9a2804e86bd3f1d22c7a208f00afe06",
+                "command-result-repository.d.ts": "1af721512d72060658ed90d1443c30e4e16a725f33de0277d20962cef07cfb98",
+                "database-error.d.ts": "a43f182669ff050b1993a4e04102b97faff6b9d3436eaf3a8034aba33c090cfc",
+                "database-lease-manager.d.ts": "92c4930ef0090f24534b00bc15e2b4b4ed45795030d9d50eb11f4cc0d8eca74b",
+                "durable-rate-limiter.d.ts": "f500206a5a0ce01cee3e87a457a09cca8fe133bc5cc0625a1ab834cb00cfa374",
+                "index.d.ts": "d14957f2848b3a01bb83b96a68e866f360bc78f9334d839eb6a7b86f24bab88f",
+                "migrations/001-foundation.d.ts": "8c0fbf90292173364e5f3c2c51f1f2f7db4299fb5c201b5d503b02f0310242bb",
+                "migrations/002-event-outbox-lease.d.ts": "d1f5802ce7ca788b3c63dbbe5d6eabd60dd980a9e5ee72af503032c82e620898",
+                "migrations/003-security-audit.d.ts": "6417f6b867f263534ffe4cad6a5fb2e27320a1a2d5c9ecddedc65d34fe4987e3",
+                "migrations/004-runtime-coordination.d.ts": "db180b41be660abfef9b98f2ac92989fd4e280f85e0f88a47af9c887b89a4243",
+                "migrations/005-auth-foundation.d.ts": "c37cb0ee24366537e719cf186673d05feefbf1f885fa4d344542ffd852320f04",
+                "migrations/006-auth-oauth-account-revocation.d.ts": "5e1d03c64711c980a066c4e660ef450c9e746ceb11f03ee8bbc55dae7c64b323",
+                "migrations/007-auth-phone-identifier.d.ts": "0d0592b79accab044bd6ecccb2bbfa9e04f9f88e2792cca65df66a2e11d24576",
+                "migrations/008-web-push.d.ts": "989b554794b2c56a37e4561a7a5c536eec46b26aefeb8eb86649506260f9ea7c",
+                "migrations/009-auth-session-activity.d.ts": "a883bbbd1f6aee4a7fb2d188692a6802c4e719d5478a36ab74909112a489e396",
+                "migrations/010-command-replay-identity.d.ts": "8d3af1b616afd2cd2bf7990cc3e986122e0e0145e0745dec3762b9c0d6423de0",
+                "migrations.d.ts": "a1a03b3dec2921857d1b492d212adc0eaac1b1bbf805ceb4dccd0ce9911fd677",
+                "pglite-database.d.ts": "acd9c71e9d5f7597a28564f13a0c6bba8b6d44766efa87be9d40a54d5b7f01e4",
+                "postgres-cluster.d.ts": "7bde8c5fb618a84daaff4b32c6f1ed7b04b325485573bbfa17bf8835126e9fc7",
+                "postgres-database.d.ts": "4d65d1b56c9d30bf24e7b24483aa4e3dc98103e7a76749543afe65894f9c430a",
+                "schema-declarations.d.ts": "07e9f030656dc468d97d50ffb4f0df155bef28031013078baae15beaf55dbe50",
+                "schema-definition.d.ts": "b0987f3c607da154cb1dfd0827d7e8dde7824b9bbf3aee3701649ff3a2b53ec7",
+                "schema-lock.d.ts": "fe87eb113948405f896409578501d13802ba8b4f067fe45bd6e9ce2d3a888411",
+                "schema-synchronization.d.ts": "158b1fc255113012253eab372c6d9ae0dbef0dde599f21440c5af33f1bad2678",
+                "session-repository.d.ts": "9c515a77adf1afb424215bf5070695b8d9d03a71639ec67ca27b5c63d49df03f",
+                "structured-database.d.ts": "6c2b7445988346304a3aea1561044206f06232199727d12e43a5c15db6816c56",
+                "system-schema.d.ts": "16efb6e3eb040262d85f1a009ef31db9bd08d51c0052ef191c7dbc5e34be43d0"
+            }
+        },
+        "@solcorp/layer-docs": {
+            "version": "0.1.1",
+            "declarations": {
+                "index.d.ts": "5936da4998c01b6d016f0c07ec3c10d74757e45bc2e3af7e37de92e458d41b29"
+            }
+        },
+        "@solcorp/layer-events": {
+            "version": "0.1.1",
+            "declarations": {
+                "cache-invalidation-synchronizer.d.ts": "05967e73059a789b5ac05ba6ca13882a73e941c46dd3ce50a82aaeb27210f592",
+                "database-event-bus.d.ts": "f8a24a91f9546d44ac6ef8210f254ba5ff1937502062fe29a3fc57a8d155a1bc",
+                "event-distribution.d.ts": "d0fcae6969c324b82b7ecd82f32db43d325e220e28383a37ab0c65c905966a72",
+                "event-repository.d.ts": "d8212574e82d6e02e620723128e3006756c1439269d1695632c8b10673bdc4b2",
+                "event-stream-manager.d.ts": "721736a2731de0b5f2d033a520319a2d58150b8d0f9b2ad9b7d60b0112380910",
+                "events-open-operation.d.ts": "0a4072891a94f14961e38726af1c92f65e2797096a61f232bb250b8692a972ae",
+                "hybrid-event-bus.d.ts": "c8acde380de9f056fe4ff17804b958b2f8f18b7717c0b83f0b1cb03da2f8b6e5",
+                "index.d.ts": "e7617520ea179e63406e8b0efd143db030aee80e7c8be3124990a1b58a306cec",
+                "outbox-publisher.d.ts": "e8677c5729cb29bb2d522ba976b76307710e6117bcf152f5b314f45138a3b2fa",
+                "outbox-repository.d.ts": "ef4261dacb7774d3606f95d16d1ec8109324c3c9bc734de1dd8a764fbd07c662",
+                "redis-coordination.d.ts": "fffd3d62b0e70d094ae4902ca61fd98b37605c9f87375b119ecf6fd5c43b3175",
+                "redis-event-bus.d.ts": "f4db02e3e4e3def51449b16dcc244dc611530a911dc7e4749f83f5788aecdff6",
+                "redis-query-cache.d.ts": "a6e8c90cf0912ab57b3711e0917a4578401c17e740d34eb9b949f77e11fbd197",
+                "stream-codec.d.ts": "218aaaa28f12dd0971a4a3680f4b3b868e3af3855eace5d2a46d01bdc0bb5e2e"
+            }
+        },
+        "@solcorp/layer": {
+            "version": "0.1.1",
+            "declarations": {
+                "bin.d.ts": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012",
+                "index.d.ts": "becc7432bf5cbd7c40105705e223daa7407f958eae5a9ede855c9b5599bd40bb"
+            }
+        },
+        "@solcorp/layer-notifications": {
+            "version": "0.1.1",
+            "declarations": {
+                "configuration.d.ts": "e48b1aca4741b2781c6e993c97bd3f31be08960568c9d8f4d5a08ae01cad1c11",
+                "crypto.d.ts": "2a3b30d7d87989c1ecb0c4ffc8b67c6050dda4008b4d83e5c2af00423500e2ef",
+                "index.d.ts": "d1add59504b2b7bbbc4f5ef5e4e7b3387d7cdb0f76141cfae796e59a6fd4e943",
+                "repository.d.ts": "b7fb4ab7c6013892161680042063c62eaf866749ec48166069558ca7605a3076",
+                "runtime.d.ts": "83d23515defa04b8fa8cbf6aef759b72b42c1a07feae10fe92dbb98925a127a9",
+                "transport.d.ts": "a4b02668b87b5f927f9d6bbfaf2798c49a88d911c0a24d4a1106b4e2ab0d97cc"
+            }
+        },
+        "@solcorp/layer-plugin-sdk": {
+            "version": "0.1.1",
+            "declarations": {
+                "index.d.ts": "e617bfe1df91612de316bb2e491597fa2eddf4fc802b1ec95ac6508bb176e0a0",
+                "plugin-error.d.ts": "d35f6de80a6f01a7756ad63e1230c905801de1def470781a69ead2dc9b616148",
+                "plugin-manifest.d.ts": "7acedb1a6c9bdd95b32b332bb2d68b6de048344f4e5327f2e4410dc9d189b4ee",
+                "plugin-registry.d.ts": "ab125f70585c4d69ec4d8ea1c6bf92433328e9d7a11ffa5fff119386d182434c"
+            }
+        },
+        "@solcorp/layer-protocol": {
+            "version": "0.1.1",
+            "declarations": {
+                "constants.d.ts": "e28014dd6530c3b2fe93900e2521230fd651f8f7326e6f07a936921f6ac4d2ac",
+                "data-validator.d.ts": "d5a47f0319a2ced6be090a8db19c3993a5b988266e8d549263b1e66d8fe28917",
+                "index.d.ts": "23a92fe803f2fe529e2d7a85363b90cbf90d33cc1d22c23587c25da40e96c44d",
+                "layer-error.d.ts": "e189a0cef06a3f9cc9da0143de9d22287153de480b822065155f9d4f29c4b710",
+                "response.d.ts": "69f3b0362f2f3ac36deb95759a463bf65c026993b5acbd64ecee37590ab42e06",
+                "schemas.d.ts": "df0bdd12976b693710fe75a09e5a4de5b98c2a54b59dd37c6a92db765d293198",
+                "validator.d.ts": "5e80e34713843e94bb83d80375d83e2cd1ca3f20b82ca7b91453e6d9f5c29b80"
+            }
+        },
+        "@solcorp/layer-pwa": {
+            "version": "0.1.1",
+            "declarations": {
+                "application-updates.d.ts": "eb129d3a3a4d07f2d07f37bea868dca51a739800b83a89ca31eb0d66509a2231",
+                "capabilities.d.ts": "1fc82d0324fb3f48e4a25847c3f75da7c922f76859babb697702bfdfd3ea986c",
+                "index.d.ts": "4eeaf8a0fab1f1a9d60ddf0c56d228ddcf6cadf0963f4f91c3a312e7d1323d15",
+                "launch-broker.d.ts": "089b173749648a88a0c28420a95fa1c815795bd913af293fb35c0c5bbb83a287",
+                "link-associations.d.ts": "98fe93d008b4a5bc157de8696f40ee412ae440ff504146f74c828b4d2178b4cb",
+                "links-configuration.d.ts": "49ce7525fa157025650c76660defc6f9defaa730f10df1059fe9b6335f7e2583",
+                "navigation-handoff.d.ts": "4bdd7007c9eb852a6ccab8e52cb22a0ac14e1adf744a5f885257b8567ab98b20",
+                "push-receipts.d.ts": "ab67489f4d35a1b1b89e16467bac61bcb08bfff2c3c6a1c9ededd8eaf46bc40d",
+                "pwa-error.d.ts": "176f1e61725b2b05994abc07ad86ee0fa41ba5bbe91fbeeb38de3ebc08dfdfdb",
+                "registration.d.ts": "86660ca8d86bcdfcd0106dcc0b83d62631de75ef242349f8bc7a17075735935d",
+                "service-worker.d.ts": "f5c9d3e3032cbd349748c38ba80d6e259e858c6bb76ae075ab3c2b42940d409b",
+                "update-card.d.ts": "8a7d8b3f77a3ee5c7b4f7d75c5d1ac596415f8917ac41fc9587bbd918702d0e2",
+                "update-coordinator.d.ts": "17fba63e8bf20831b5bedee7b5116f1b2ca9d284d537ac659396253126c2a89e",
+                "update-protocol.d.ts": "8e86c8a8c529a3be2925dacb7574de752aab017bf129be6ae02ca0f279b79c70",
+                "update-store.d.ts": "6d650dc19cd2b5b0461e05ce45a34d51d652db63d9b50e9861426219a4baa641",
+                "update-worker.d.ts": "2556e44b125bf0ee097750f46b8963d80e60f8439ff9f274f895fcf1c5962486",
+                "version-manifest.d.ts": "d09bbd405aa20e9a3c24f62a6e8e4c248f3b3ad96237bdc8d298237fec137db8",
+                "web-app-manifest-validator.d.ts": "3560f9b9954c4de6e4d7ecb250f347e8ec4d65b89ff180e508e0f3338b335afe",
+                "web-app-manifest.d.ts": "43c4e7451aca89be8226dd06efb25566e575d6051fa99bf05db9777f755ef8ec"
+            }
+        },
+        "@solcorp/layer-render": {
+            "version": "0.1.1",
+            "declarations": {
+                "component-invocation.d.ts": "f76c0ea88977fa73008c54f35493bee3c94fd310231fadd719fa134cb05cb9a9",
+                "component-runtime.d.ts": "86d0011ee6894bbe8204b1175b9f6d1e2df35d893d7a85345352d3c7e7efbb07",
+                "diagnostics.d.ts": "d58058e4d328f8bf5cce3b0c1beeb3b498a02d6f8835216078d864e48b0f7991",
+                "dom-renderer.d.ts": "7dbf14346ffc91db7c467a122ea6f4dbc6f22059164bddedfee3d60da66d999f",
+                "error-boundary.d.ts": "cedacb7ce3a1153e6fa7a527bdc6e26cea57c853297f4ad20338fa6b59d04cf3",
+                "index.d.ts": "04434b97080129bda72f41515daa40d7ec1b103b1ea91700ba45321740c6226c",
+                "reference.d.ts": "60a32411bbd974f52912bcc0563e7553ef50345f9dcd0ad6980b9f9ef81c0c87",
+                "render-values.d.ts": "fff95216653bb696939b45d5e8a45cb78c963d1b611bd2c3088860f954554fd0",
+                "server-regions.d.ts": "56bb28e53fc1480df8fe5145e1dc8be9d4d5f518529d9e89ebb37051c901bb12",
+                "signals.d.ts": "780511d6c4e0a360974e582c2a915e569f21550450be5f76af790cb34d5f8bff",
+                "ssr.d.ts": "7e0ad31f7848900edcbe015b19e66823cd7b4cf8f8b0ed1c982286a78f975cf9",
+                "structures.d.ts": "d6065bcdaa24c2c6e040344f9bf742560b66d87155abb0903b0a5dee628d0789"
+            }
+        },
+        "@solcorp/layer-router": {
+            "version": "0.1.1",
+            "declarations": {
+                "index.d.ts": "b508df063fe815e513914b628b02d9d263dbf58c39ca63c40bf88af9347cf7a7",
+                "route-manifest.d.ts": "956baaead3801932a100ac2ad4e4dea5cc0978f812059ed65159a613ac75f3fd",
+                "route-metadata.d.ts": "9ece31b4b78bbfd39f9ee5c67892d2eee2a83671e04538ddb4c96208b965450b",
+                "router-error.d.ts": "ff654a000b5d37120292804432d21575e38abd96fa133655a4dba83be7bd4042",
+                "router.d.ts": "618c23be7c7e5f434ebaf1ea8efb1941ac9de2da3892ea297a3719f19b2599d3"
+            }
+        },
+        "@solcorp/layer-runtime": {
+            "version": "0.1.1",
+            "declarations": {
+                "api-client.d.ts": "36457a75fd426bd32b178690df67d904eaa3fba21b2db03d4691db9ae3eb2af2",
+                "application-api.d.ts": "ef6499f1d0288c3a7a0910971bbc1eaf84c2ebe1fecdc35a1bc69de6ba49fed6",
+                "command-runtime.d.ts": "c16f5cf45dcfabe9abf1f84048a358d70d7e22514e90093ffc7492618c63541e",
+                "devtools-panel.d.ts": "e7d616a0874198fd13d16bbb196db653b28412b431fb50ed26ed55bac2e75289",
+                "devtools.d.ts": "7c944a112afce006d7622f11b12a088ef358624ab4da48f2fdd05117d48fa7dc",
+                "event-recovery.d.ts": "fa3d4c33f2afe655a69e5fc19db24ee7aa701de83d3bb7dc8f5b83356c7baf36",
+                "event-runtime.d.ts": "e610caf920819b83ebddf293567b45fafd01b2a7b986431017b2f403dad47b2c",
+                "event-stream-parser.d.ts": "462108b47b75ffe6a9dadbcc26ce397266d57b0f03204eda2e472ae5deb3d84f",
+                "event-subscriptions.d.ts": "c50577574b8053514638e5c720bf116a4c58957a528ead8dd68498e7df9c1451",
+                "index.d.ts": "0347d03c7ea23e7c9886e7560bb459825d02f4d4bd02a9f0d46705f88829f497",
+                "keyboard.d.ts": "a0bccd1eae3a8c7fa343e69eb52221f916849c9f964ec2ae39c44c908368914c",
+                "links.d.ts": "636a445aa0f78416fdefbe1201c410c74d53fb9e967d9df3c306a7e82b195332",
+                "multi-tab-events.d.ts": "1fb74476754aa2219098b6fa935918ec5fbf2687206d31ed91a673cede4652c5",
+                "post-event-stream.d.ts": "26983eb24462d8755af540b6d500881a1dec01733678cbb9a77ebce190aee4ff",
+                "runtime-error.d.ts": "da410edc31083e0aa839a0ba103bdbae9b70dd9737b67b59ab239277dd7e5192",
+                "viewport-scroll.d.ts": "24e52d0d71b66b26d64b07c3f94fbdb7a3cda219abcec684fb8e7cc201b1f0c8",
+                "viewport-zoom.d.ts": "1d9fe87b2e16f4cf9de87930c097794ed1252c3d300fb86df24a41b853baab41",
+                "viewport.d.ts": "fc173da7983dd06e8bf2f80db7c33e21945c361be1c3e412869c27e494fe61af"
+            }
+        },
+        "@solcorp/layer-security": {
+            "version": "0.1.1",
+            "declarations": {
+                "authentication.d.ts": "9586eec699639632f649e9ec70310b8059f6fafdf3926717829b22169b2ed1f9",
+                "headers.d.ts": "43191e29285907cd4e4ec98946cc316baa8910aa72f354b4318ed0a156a65ee6",
+                "identity-cache.d.ts": "cc0b1252130ede5608f3fb0651cf6ca25424f96071606c8b1187107bb1471d07",
+                "index.d.ts": "33458ef5e02feccb47f5f86f042d4123ca83d8adbc3ba374f1334076ecf0d959",
+                "outbound-url-policy.d.ts": "049c62d8adfc1bc5dadc646596e5b72dbeacd5f97a99b48e7f183e829bc54b79",
+                "rate-limiter-failover.d.ts": "237d4351c18eb17ffa26e058bc3dd50af20e5a656f9f968bbd774135dd688fa7",
+                "rate-limiter.d.ts": "b620521d591d2557e643ac47122f4fc801b6f14986eddda3638c7c4e3eda6000",
+                "redis-rate-limiter.d.ts": "28f079a17faa7bb5658f9aac35163ce309bae50e23e5c094ec7123dc0981af32",
+                "session-security.d.ts": "4090f5bf93dd240a64b8f07ee0b9ab766462accb22b77d5b3100278a55dbc3aa"
+            }
+        },
+        "@solcorp/layer-server": {
+            "version": "0.1.1",
+            "declarations": {
+                "index.d.ts": "df2a5bb21b30744ffe23b4151cf7216966d1adef84eec391c73198faf91e69c1",
+                "operation-registry.d.ts": "39b79696caedcc2152a3c4e5a7db99efcb5c6763258eb2576b456e988f806fb4",
+                "runtime/client-address.d.ts": "2d4ab862182408068c4805ea092996eef5f2e8d8e1a2cf3af8252f12276c1d2a",
+                "runtime/command-identity.d.ts": "7a88c4f2aed90a0e47856d848935ff6e765a56330d07029f79c3f73c2b9b4c23",
+                "runtime/diagnostics.d.ts": "3bb4e697cffd7e2b40a8b8de5326ea29bbfc2956ab984d6b71cbf51ea70ed4e3",
+                "runtime/http-runtime.d.ts": "7f1499c8584fe85f1a1413104409055b8ed79abf544f7b3e05c1f737b98c0409",
+                "runtime/operation-executor.d.ts": "bc522fd5657179a26620873e297b6325aa6f0790523bbf17a4d3ec3e0cabb65c",
+                "runtime/request-body.d.ts": "318d6ef2ad19829816e6a8f7ea759fdb6a3d1d9aa350cbae2ebabc7bd3ef2af1",
+                "runtime/request-failure.d.ts": "0994b4b62d049260b064358f991c07cb138035d1a68f467ff5d94dc89e73a6ed",
+                "runtime/response-effects.d.ts": "4e8d6d7b821ab21139b368ec590d0c4e4686329eb5adac5cfe627162696c9e6b",
+                "system-operation.d.ts": "e6edd2950b79c57011b67ca021898327da564625e9aa66c392710acb03ecab44",
+                "system.d.ts": "78bc367e7583444935e24b05c93e011dcf5771e0f77f849e4b28d7da97419a05"
+            }
+        },
+        "@solcorp/layer-storage": {
+            "version": "0.1.1",
+            "declarations": {
+                "index.d.ts": "7c00ed46627926c35214ab295c4a4a70f621b23f2038aa0b519cd1fc4eba0c40",
+                "offline-outbox.d.ts": "cb9c08f3949c0a909415c187193ecfda12045882a58ad624c01344ae22fc13a4",
+                "schema.d.ts": "9944f9f35c6a47e5e298626a10ce4d5d0fef96475bb0483ecf1bbe19ddb6e668",
+                "share-target-inbox.d.ts": "3af718da18af2bc13c06da7438b3bdd96643a5c8661138ba644e526ba9905505",
+                "storage-error.d.ts": "fb2c7156f551d144b960b3c8644de7ea99be62cadbdf79af3e149c1810161eed",
+                "storage.d.ts": "24d7d634bfebe132ac0bcce87cf1a3d5ddf4086528f58a1575eacb51c8a903ac",
+                "worker-outbox.d.ts": "4a00057600e052a5363fdafa88a7340bd5d419f82a9a54cd98d43949900308aa"
+            }
+        },
+        "@solcorp/layer-testkit": {
+            "version": "0.1.1",
+            "declarations": {
+                "fixtures.d.ts": "a5307f976dcb940e7ff0d8fdd37e88262a24684c6a95e9680c62bdc461b2f7e5",
+                "index.d.ts": "7e3219fd908ae1f7c44bb5a2337ab4c795814e2afd55a9d394fc62c3abb267f0"
+            }
+        }
+    }
+}

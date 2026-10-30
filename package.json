@@ -1,0 +1,84 @@
+{
+    "name": "layer-engine",
+    "version": "0.1.1",
+    "private": true,
+    "description": "Layer-Engine workspace",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/soluser010/layer-engine.git"
+    },
+    "homepage": "https://www.npmjs.com/package/@solcorp/layer",
+    "bugs": {
+        "url": "https://github.com/soluser010/layer-engine/issues"
+    },
+    "type": "module",
+    "packageManager": "npm@11.16.0",
+    "engines": {
+        "node": ">=24.22.1 <25",
+        "npm": ">=11 <12"
+    },
+    "workspaces": [
+        "packages/*",
+        "extensions/layer-vscode"
+    ],
+    "overrides": {
+        "@azure/msal-node": "7.1.0",
+        "uuid": "11.1.1"
+    },
+    "scripts": {
+        "api:check": "node scripts/api-compatibility.js",
+        "api:snapshot": "node scripts/api-compatibility.js --update",
+        "build": "node scripts/workspace-build.js",
+        "check": "npm run lint && npm run build && npm run typecheck && npm run docs:check && npm run test:coverage && npm run ide:test && npm run consumer:check && npm run pack:check",
+        "cli:install": "npm link --workspace=@solcorp/layer",
+        "consumer:check": "node fixtures/consumer/consumer.js && tsc -p fixtures/consumer/tsconfig.json",
+        "docs:check": "node scripts/docs-check.js",
+        "ide:package": "npm run package --workspace=layer-engine-vscode",
+        "ide:test": "npm run typecheck --workspace=layer-engine-vscode && npm run test --workspace=layer-engine-vscode && npm run build --workspace=layer-engine-vscode",
+        "lint": "eslint packages extensions scripts browser-tests test fixtures eslint.config.js playwright.config.js",
+        "pack:check": "node scripts/packages-pack-check.js",
+        "provenance:generate": "node scripts/provenance-generate.js",
+        "preview:check": "node scripts/public-preview-check.js",
+        "release:check": "npm run check && npm run test:threats && npm run test:load && npm run preview:check && npm run test:browsers && npm run api:check && npm run supply-chain:check && npm run sbom:check",
+        "release:verify": "node scripts/release-verify.js",
+        "sbom:check": "node scripts/sbom-generate.js",
+        "sbom:generate": "node scripts/sbom-generate.js --write",
+        "stable:test:cleanup": "node scripts/stable-test/stable-runner.js cleanup",
+        "stable:test:cluster-load": "node scripts/stable-test/stable-runner.js cluster-load",
+        "stable:test:cluster-sse": "node scripts/stable-test/stable-runner.js cluster-sse",
+        "stable:test:integration": "node scripts/stable-test/stable-runner.js integration",
+        "stable:test:load": "node scripts/stable-test/stable-runner.js load",
+        "stable:test:prepare": "node scripts/stable-test/stable-runner.js prepare",
+        "stable:test:soak": "node scripts/stable-test/stable-runner.js soak",
+        "stable:test:workers": "node scripts/stable-test/stable-runner.js workers",
+        "staging:data-check": "node scripts/staging-data-check.js",
+        "supply-chain:check": "node scripts/supply-chain-check.js",
+        "test": "node --test \"packages/*/test/*.test.js\" \"test/*.test.js\"",
+        "test:browsers": "playwright test",
+        "test:load": "node scripts/load-soak.js",
+        "test:threats": "node --test test/security-threats.test.js",
+        "test:coverage": "node --test --experimental-test-coverage --test-coverage-lines=90 --test-coverage-functions=90 --test-coverage-branches=85 --test-coverage-exclude=fixtures/** --test-coverage-exclude=dist/** --test-coverage-exclude=packages/**/test/** --test-coverage-exclude=packages/cli/src/deployment-runner.js \"packages/*/test/*.test.js\" \"test/*.test.js\"",
+        "typecheck": "tsc -p tsconfig.json"
+    },
+    "devDependencies": {
+        "@eslint/js": "10.0.1",
+        "@playwright/test": "1.63.0",
+        "@types/autocannon": "7.12.7",
+        "@types/jsdom": "30.0.0",
+        "@types/node": "24.19.2",
+        "@types/pg": "8.23.1",
+        "@types/web-push": "3.6.4",
+        "@types/yauzl": "2.10.3",
+        "autocannon": "8.0.0",
+        "eslint": "10.10.0",
+        "fake-indexeddb": "6.2.5",
+        "globals": "17.12.0",
+        "highlight.js": "11.12.0",
+        "jsdom": "29.1.1",
+        "markdown-it": "15.0.3",
+        "pg": "8.16.3",
+        "redis": "6.2.1",
+        "typescript": "7.0.2"
+    }
+}

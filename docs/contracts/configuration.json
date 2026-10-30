@@ -1,0 +1,410 @@
+{
+    "defaults": {
+        "appName": "reference",
+        "appVersion": "0.1.0",
+        "css": {
+            "targets": {
+                "chrome": "109",
+                "edge": "109",
+                "firefox": "115",
+                "safari": "16.4",
+                "ios_saf": "16.4"
+            }
+        },
+        "auth": null,
+        "notifications": null,
+        "sourceDirectory": "src",
+        "publicDirectory": "public",
+        "outputDirectory": "dist",
+        "deployment": {
+            "domain": null,
+            "serverEntry": null,
+            "originPort": 8787,
+            "dependencies": {}
+        },
+        "database": {
+            "embedded": {
+                "dataDirectory": null
+            },
+            "postgres": [],
+            "schema": {
+                "file": "src/server/database.js",
+                "synchronization": "additive"
+            },
+            "replica": {
+                "maximumLagMs": 2000
+            },
+            "pool": {
+                "maximumConnectionsPerWorker": 5,
+                "connectionBudget": null
+            }
+        },
+        "redis": null,
+        "runtime": {
+            "workers": {
+                "minimum": 1,
+                "maximum": 1
+            }
+        },
+        "security": {
+            "csp": {
+                "sources": {}
+            }
+        },
+        "links": {
+            "external": {
+                "mode": "viewer",
+                "allowedOrigins": []
+            },
+            "scopeExtensions": [],
+            "associations": {
+                "android": [],
+                "apple": [],
+                "windows": [],
+                "web": []
+            }
+        },
+        "updates": {
+            "enabled": true,
+            "ui": true,
+            "checkIntervalMs": 300000
+        },
+        "development": {
+            "host": "127.0.0.1",
+            "port": 5173,
+            "https": false,
+            "liveReload": true
+        }
+    },
+    "authDefaults": {
+        "enabled": true,
+        "secret": {
+            "env": "REFERENCE_SECRET"
+        },
+        "registration": {
+            "mode": "disabled"
+        },
+        "identifiers": {
+            "email": true,
+            "username": false,
+            "phone": false
+        },
+        "emailVerification": {
+            "required": false,
+            "lifetimeMs": 86400000
+        },
+        "password": {
+            "minimumLength": 12,
+            "maximumLength": 128,
+            "commonPasswordBlocklist": true
+        },
+        "passwordRecovery": {
+            "enabled": false,
+            "lifetimeMs": 1800000
+        },
+        "session": {
+            "idleLifetimeMs": 1800000,
+            "absoluteLifetimeMs": 43200000,
+            "rememberIdleLifetimeMs": 604800000,
+            "rememberAbsoluteLifetimeMs": 2592000000,
+            "touchIntervalMs": 300000,
+            "maximumPerUser": 20,
+            "dataMaximumBytes": 16384
+        },
+        "smtp": null,
+        "passkey": null,
+        "totp": null,
+        "oauth": null,
+        "oidc": [],
+        "authorizationResolve": null,
+        "anonymization": null
+    },
+    "example": {
+        "appName": "reference",
+        "appVersion": "0.1.0",
+        "css": {
+            "targets": {
+                "chrome": "109",
+                "edge": "109",
+                "firefox": "115",
+                "safari": "16.4",
+                "ios_saf": "16.4"
+            }
+        },
+        "auth": {
+            "enabled": true,
+            "secret": {
+                "env": "REFERENCE_SECRET"
+            },
+            "registration": {
+                "mode": "disabled"
+            },
+            "identifiers": {
+                "email": true,
+                "username": false,
+                "phone": false
+            },
+            "emailVerification": {
+                "required": false,
+                "lifetimeMs": 86400000
+            },
+            "password": {
+                "minimumLength": 12,
+                "maximumLength": 128,
+                "commonPasswordBlocklist": true
+            },
+            "passwordRecovery": {
+                "enabled": false,
+                "lifetimeMs": 1800000
+            },
+            "session": {
+                "idleLifetimeMs": 1800000,
+                "absoluteLifetimeMs": 43200000,
+                "rememberIdleLifetimeMs": 604800000,
+                "rememberAbsoluteLifetimeMs": 2592000000,
+                "touchIntervalMs": 300000,
+                "maximumPerUser": 20,
+                "dataMaximumBytes": 16384
+            },
+            "smtp": {
+                "host": "mail.example.com",
+                "port": 465,
+                "secure": true,
+                "username": "app",
+                "password": {
+                    "env": "REFERENCE_SECRET"
+                },
+                "from": "app@example.com"
+            },
+            "passkey": {
+                "rpId": "app.example.com",
+                "rpName": "Example",
+                "origins": [
+                    "https://app.example.com"
+                ],
+                "userVerification": "required",
+                "timeoutMs": 60000
+            },
+            "totp": {
+                "issuer": "Example",
+                "algorithm": "SHA1",
+                "digits": 6,
+                "period": 30,
+                "window": 1,
+                "recoveryCodeCount": 10
+            },
+            "oauth": {
+                "issuer": "https://app.example.com",
+                "interactionUrl": "/authorize",
+                "scopes": [
+                    "offline_access",
+                    "openid"
+                ],
+                "clients": [
+                    {
+                        "id": "example-client",
+                        "type": "confidential",
+                        "secret": {
+                            "env": "REFERENCE_SECRET"
+                        },
+                        "displayName": "Example client",
+                        "redirectUris": [
+                            "https://client.example.com/callback"
+                        ],
+                        "grantTypes": [
+                            "authorization_code",
+                            "refresh_token"
+                        ],
+                        "scopes": [
+                            "offline_access",
+                            "openid"
+                        ],
+                        "dpop": "optional"
+                    }
+                ]
+            },
+            "oidc": [
+                {
+                    "id": "example-provider",
+                    "issuer": "https://identity.example.com",
+                    "clientId": "example",
+                    "clientSecret": {
+                        "env": "REFERENCE_SECRET"
+                    },
+                    "redirectUri": "https://app.example.com/oauth/callback",
+                    "scopes": [
+                        "email",
+                        "openid",
+                        "profile"
+                    ]
+                }
+            ],
+            "authorizationResolve": null,
+            "anonymization": null
+        },
+        "notifications": {
+            "secret": {
+                "env": "REFERENCE_SECRET"
+            },
+            "webPush": {
+                "vapid": {
+                    "subject": "mailto:app@example.com",
+                    "publicKey": {
+                        "env": "REFERENCE_SECRET"
+                    },
+                    "privateKey": {
+                        "env": "REFERENCE_SECRET"
+                    }
+                },
+                "delivery": {
+                    "concurrencyPerWorker": 8,
+                    "batchSize": 50,
+                    "pollIntervalMs": 5000,
+                    "maximumAttempts": 8,
+                    "defaultTtlSeconds": 3600,
+                    "maximumTtlSeconds": 86400
+                },
+                "allowedOrigins": []
+            }
+        },
+        "sourceDirectory": "src",
+        "publicDirectory": "public",
+        "outputDirectory": "dist",
+        "deployment": {
+            "domain": null,
+            "serverEntry": "server/index.js",
+            "originPort": 8787,
+            "dependencies": {}
+        },
+        "database": {
+            "embedded": {
+                "dataDirectory": null
+            },
+            "postgres": [
+                {
+                    "name": "primary",
+                    "role": "primary",
+                    "host": "database.example.com",
+                    "port": 5432,
+                    "database": "application",
+                    "username": "application",
+                    "password": {
+                        "env": "REFERENCE_SECRET"
+                    },
+                    "tls": {
+                        "mode": "verify-full",
+                        "serverName": null,
+                        "caFile": null
+                    }
+                }
+            ],
+            "schema": {
+                "file": "src/server/database.js",
+                "synchronization": "additive"
+            },
+            "replica": {
+                "maximumLagMs": 2000
+            },
+            "pool": {
+                "maximumConnectionsPerWorker": 5,
+                "connectionBudget": null
+            }
+        },
+        "redis": {
+            "host": "cache.example.com",
+            "port": 6379,
+            "username": "application",
+            "password": {
+                "env": "REFERENCE_SECRET"
+            },
+            "database": 0,
+            "tls": {
+                "mode": "verify-full",
+                "serverName": null,
+                "caFile": null
+            }
+        },
+        "runtime": {
+            "workers": {
+                "minimum": 1,
+                "maximum": 1
+            }
+        },
+        "security": {
+            "csp": {
+                "sources": {
+                    "script-src": [],
+                    "style-src": [],
+                    "connect-src": [],
+                    "img-src": [],
+                    "media-src": [],
+                    "font-src": [],
+                    "frame-src": [],
+                    "child-src": [],
+                    "worker-src": [],
+                    "manifest-src": []
+                }
+            },
+            "permissionsPolicy": {
+                "camera": [],
+                "microphone": [],
+                "geolocation": [],
+                "payment": []
+            }
+        },
+        "links": {
+            "external": {
+                "mode": "viewer",
+                "allowedOrigins": []
+            },
+            "scopeExtensions": [],
+            "associations": {
+                "android": [
+                    {
+                        "packageName": "com.example.app",
+                        "sha256CertFingerprints": [
+                            "AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA:AA"
+                        ]
+                    }
+                ],
+                "apple": [
+                    {
+                        "appId": "ABCDEFGHIJ.com.example.app",
+                        "paths": [
+                            "/*"
+                        ]
+                    }
+                ],
+                "windows": [
+                    {
+                        "packageFamilyName": "Example.App_123456789abcd",
+                        "paths": [
+                            "*"
+                        ],
+                        "excludePaths": []
+                    }
+                ],
+                "web": [
+                    {
+                        "appId": "https://related.example.com/app",
+                        "scope": "/"
+                    }
+                ]
+            }
+        },
+        "updates": {
+            "enabled": true,
+            "ui": true,
+            "checkIntervalMs": 300000
+        },
+        "development": {
+            "host": "127.0.0.1",
+            "port": 5173,
+            "https": {
+                "keyFile": "certificates/key.pem",
+                "certificateFile": "certificates/certificate.pem"
+            },
+            "liveReload": true
+        }
+    }
+}

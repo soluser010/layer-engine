@@ -1,0 +1,39 @@
+{
+    "name": "@solcorp/layer-storage",
+    "version": "0.1.1",
+    "description": "IndexedDB schemas, migrations, transactions, watch queries, and offline outbox for Layer-Engine",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/soluser010/layer-engine.git",
+        "directory": "packages/storage"
+    },
+    "homepage": "https://www.npmjs.com/package/@solcorp/layer",
+    "bugs": {
+        "url": "https://github.com/soluser010/layer-engine/issues"
+    },
+    "type": "module",
+    "engines": {
+        "node": ">=24.22.1 <25"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./src/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "src",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json"
+    },
+    "dependencies": {
+        "@solcorp/layer-protocol": "0.1.1"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

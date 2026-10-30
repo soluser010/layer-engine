@@ -1,0 +1,45 @@
+{
+	admin off
+	servers {
+		max_header_size 32KB
+		timeouts {
+			read_body 15s
+			read_header 10s
+			write 30s
+			idle 2m
+		}
+	}
+}
+
+http://{$LAYER_DOMAIN} {
+	redir https://{host}{uri} permanent
+}
+
+https://{$LAYER_DOMAIN} {
+	encode zstd gzip
+
+	request_body {
+		max_size 256KB
+	}
+
+	header {
+		-Server
+		Content-Security-Policy "default-src 'self'; base-uri 'none'; frame-ancestors 'none'; object-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data: blob:; worker-src 'self'; manifest-src 'self'; require-trusted-types-for 'script'"
+		Cross-Origin-Opener-Policy "same-origin"
+		Cross-Origin-Resource-Policy "same-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+		Referrer-Policy "no-referrer"
+		Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+		X-Content-Type-Options "nosniff"
+	}
+
+	reverse_proxy 127.0.0.1:{$LAYER_PORT:3000} {
+		flush_interval -1
+		health_uri /health/ready
+		health_interval 10s
+		transport http {
+			dial_timeout 3s
+			response_header_timeout 15s
+		}
+	}
+}

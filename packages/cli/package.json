@@ -1,0 +1,62 @@
+{
+    "name": "@solcorp/layer-cli",
+    "version": "0.1.1",
+    "description": "Project creation, build, inspection, documentation, and diagnostics CLI for Layer-Engine",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/soluser010/layer-engine.git",
+        "directory": "packages/cli"
+    },
+    "homepage": "https://www.npmjs.com/package/@solcorp/layer",
+    "bugs": {
+        "url": "https://github.com/soluser010/layer-engine/issues"
+    },
+    "type": "module",
+    "bin": {
+        "layer": "./src/bin.js"
+    },
+    "engines": {
+        "node": ">=24.22.1 <25"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./src/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "src",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json"
+    },
+    "dependencies": {
+        "@solcorp/layer-auth": "0.1.1",
+        "@solcorp/layer-compiler": "0.1.1",
+        "@solcorp/layer-database": "0.1.1",
+        "@solcorp/layer-events": "0.1.1",
+        "@solcorp/layer-notifications": "0.1.1",
+        "@solcorp/layer-protocol": "0.1.1",
+        "@solcorp/layer-pwa": "0.1.1",
+        "@solcorp/layer-render": "0.1.1",
+        "@solcorp/layer-router": "0.1.1",
+        "@solcorp/layer-runtime": "0.1.1",
+        "@solcorp/layer-security": "0.1.1",
+        "@solcorp/layer-server": "0.1.1",
+        "@solcorp/layer-storage": "0.1.1",
+        "acorn": "8.18.0",
+        "esbuild-wasm": "0.28.2",
+        "lightningcss": "1.33.0",
+        "parse5": "8.0.1",
+        "redis": "6.2.1",
+        "tar": "7.5.22",
+        "yauzl": "3.4.0",
+        "@solcorp/layer-docs": "0.1.1"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

@@ -1,0 +1,1412 @@
+[
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "LayerAuthError",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthAccountLifecycleCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthConfigurationCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthConfigurationRedact",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthContextExtensionCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthIdentifierCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthMailDeliveryCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthMailQueueCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthOAuthProviderCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthOAuthSigningJwksCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthOidcAdapterFactoryCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthOidcServiceCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthOperationDefinitionsCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthPasskeyOperationDefinitionsCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthPasskeyServiceCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthPasswordCheck",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthPasswordHashCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthPasswordLengthGet",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthPasswordVerify",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthRoleServiceCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthSecretEnvelopeCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthServerRuntimeCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthServiceCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthSessionDataCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthTotpOperationDefinitionsCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-auth",
+        "name": "layerAuthTotpServiceCreate",
+        "level": "advanced",
+        "article": "layer-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "LayerCliError",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerApplicationServerRuntimeCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerCliErrorDiagnosticCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerCliErrorDiagnosticFormat",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerCliRun",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerConfigLoad",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerConfigPublicCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerConfigValidate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerDatabaseConfigurationCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerDatabaseSchemaWorkflowRun",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerDevelopmentHostCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerDevelopmentRequestHandlerCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerDevelopmentServerCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerDevelopmentWatchCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerDoctorRun",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerDocumentationGenerate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerInfrastructureConfigurationRedact",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerInfrastructureDatabaseRuntimeCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerOperationFacadeCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerProductionSecretsAssert",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerProjectBuild",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerProjectCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerRedisConfigurationCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-cli",
+        "name": "layerRuntimeConfigurationCreate",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-compiler",
+        "name": "LayerCompilerError",
+        "level": "tooling",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-compiler",
+        "name": "layerComponentCompile",
+        "level": "tooling",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-compiler",
+        "name": "layerComponentRouteExtract",
+        "level": "tooling",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-compiler",
+        "name": "layerComponentScriptValidate",
+        "level": "tooling",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-compiler",
+        "name": "layerExpressionAssign",
+        "level": "tooling",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-compiler",
+        "name": "layerExpressionCompile",
+        "level": "tooling",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-compiler",
+        "name": "layerExpressionEvaluate",
+        "level": "tooling",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-compiler",
+        "name": "layerJavascriptComponentCompile",
+        "level": "tooling",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-compiler",
+        "name": "layerOperationContractsCompile",
+        "level": "tooling",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-compiler",
+        "name": "layerScopedCssCompile",
+        "level": "tooling",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-compiler",
+        "name": "layerStylesheetCompile",
+        "level": "tooling",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "LayerDatabaseError",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerApiKeyRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerAuditRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerAuthChallengeRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerAuthExternalIdentityRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerAuthInvitationRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerAuthMailRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerAuthPasskeyRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerAuthRoleRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerAuthSessionRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerAuthTotpRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerAuthUserRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerCacheInvalidationRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerCommandResultRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerDatabaseFacadeCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerDatabaseLeaseManagerCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerDatabaseLegacyMigrate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerDatabaseMigrate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerDatabaseRateLimiterCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerDatabaseSchemaApply",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerDatabaseSchemaDeclarationsCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerDatabaseSchemaDefine",
+        "level": "application",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerDatabaseSchemaDefinitionCheck",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerDatabaseSchemaPlan",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerDatabaseSchemaSynchronize",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerPgliteDatabaseCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerPostgresClusterCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerPostgresDatabaseCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerSessionRepositoryCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerSqlIdentifierQuote",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerSystemSchemaNameAssert",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerSystemSchemaNameCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerSystemSchemaRead",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerSystemTableReferenceCreate",
+        "level": "advanced",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-database",
+        "name": "layerTableDefine",
+        "level": "application",
+        "article": "structured-data.md"
+    },
+    {
+        "package": "@solcorp/layer-docs",
+        "name": "layerGuideServe",
+        "level": "tooling",
+        "article": "installation-cli.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerCacheInvalidationSynchronizerCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerControlFrameCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerDatabaseEventBusCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerEventDistributionCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerEventFrameCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerEventRepositoryCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerEventStreamManagerCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerEventsOpenOperationDefinitionCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerHeartbeatFrameCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerHybridEventBusCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerOutboxPublisherCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerOutboxRepositoryCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerRedisCoordinationCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerRedisEventBusCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer-events",
+        "name": "layerRedisQueryCacheCreate",
+        "level": "advanced",
+        "article": "server-events.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "ErrorBoundary",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "css",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "html",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "layerBatch",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "layerComponentCreate",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "layerComponentDefinitionCheck",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "layerComputedCreate",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "layerEffectCreate",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "layerOperationContractsCreate",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "layerPageCreate",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "layerReferenceCreate",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "layerSignalCreate",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "layerStoreCreate",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "layerTemplateResultCheck",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "repeat",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer",
+        "name": "when",
+        "level": "application",
+        "article": "authoring-layer-js.md"
+    },
+    {
+        "package": "@solcorp/layer-notifications",
+        "name": "layerNotificationsConfigurationCreate",
+        "level": "advanced",
+        "article": "web-push.md"
+    },
+    {
+        "package": "@solcorp/layer-notifications",
+        "name": "layerNotificationsRuntimeCreate",
+        "level": "advanced",
+        "article": "web-push.md"
+    },
+    {
+        "package": "@solcorp/layer-notifications",
+        "name": "layerNotificationsSecretsRead",
+        "level": "advanced",
+        "article": "web-push.md"
+    },
+    {
+        "package": "@solcorp/layer-notifications",
+        "name": "layerNotificationsVapidGenerate",
+        "level": "advanced",
+        "article": "web-push.md"
+    },
+    {
+        "package": "@solcorp/layer-plugin-sdk",
+        "name": "LayerPluginError",
+        "level": "experimental",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-plugin-sdk",
+        "name": "layerPluginEngineCompatible",
+        "level": "experimental",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-plugin-sdk",
+        "name": "layerPluginManifestValidate",
+        "level": "experimental",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-plugin-sdk",
+        "name": "layerPluginRegistryCreate",
+        "level": "experimental",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-protocol",
+        "name": "LayerError",
+        "level": "advanced",
+        "article": "operations.md"
+    },
+    {
+        "package": "@solcorp/layer-protocol",
+        "name": "layerErrorNormalize",
+        "level": "advanced",
+        "article": "operations.md"
+    },
+    {
+        "package": "@solcorp/layer-protocol",
+        "name": "layerErrorResponseDataCreate",
+        "level": "advanced",
+        "article": "operations.md"
+    },
+    {
+        "package": "@solcorp/layer-protocol",
+        "name": "layerProtocolDataValidatorCreate",
+        "level": "advanced",
+        "article": "operations.md"
+    },
+    {
+        "package": "@solcorp/layer-protocol",
+        "name": "layerProtocolValidatorCreate",
+        "level": "advanced",
+        "article": "operations.md"
+    },
+    {
+        "package": "@solcorp/layer-protocol",
+        "name": "layerSuccessResponseDataCreate",
+        "level": "advanced",
+        "article": "operations.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "LayerPwaError",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerApplicationUpdatesCreate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerLinkAssociationDocumentsCreate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerLinkAssociationPathCheck",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerLinksConfigurationCreate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerPwaCapabilitiesCreate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerServiceWorkerRegister",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerServiceWorkerRuntimeCreate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerUpdateCardCreate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerUpdateCoordinatorCreate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerUpdateDescriptorValidate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerUpdateMetadataPathCheck",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerUpdatesConfigurationCreate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerVersionCompare",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerVersionManifestValidate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerWebAppManifestCreate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-pwa",
+        "name": "layerWebAppManifestValidate",
+        "level": "advanced",
+        "article": "pwa-capabilities.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "batch",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "computed",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "effect",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerBindingObserve",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerCommitWait",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerComponentContextCreate",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerComponentDefinitionCreate",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerComponentHydrate",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerComponentInstanceHydrate",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerComponentInstanceMount",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerComponentInstanceRenderToString",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerComponentInvocationCreate",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerComponentMount",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerComponentRenderToString",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerErrorBoundaryValueCreate",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerErrorBoundaryValueResolve",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerReactiveValueRead",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerReferenceCreate",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerRenderDiagnosticsCreate",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerRenderErrorNormalize",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerRepeatValueCreate",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerRepeatValueResolve",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerSchedulerFlush",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerSlotContentCreate",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerWhenValueCreate",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "layerWhenValueResolve",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "signal",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-render",
+        "name": "store",
+        "level": "advanced",
+        "article": "advanced-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-router",
+        "name": "LayerRouterError",
+        "level": "advanced",
+        "article": "routing-ssr.md"
+    },
+    {
+        "package": "@solcorp/layer-router",
+        "name": "layerRouteManifestCreate",
+        "level": "advanced",
+        "article": "routing-ssr.md"
+    },
+    {
+        "package": "@solcorp/layer-router",
+        "name": "layerRouteMatch",
+        "level": "advanced",
+        "article": "routing-ssr.md"
+    },
+    {
+        "package": "@solcorp/layer-router",
+        "name": "layerRouteMetadataDocumentCreate",
+        "level": "advanced",
+        "article": "routing-ssr.md"
+    },
+    {
+        "package": "@solcorp/layer-router",
+        "name": "layerRouterCreate",
+        "level": "advanced",
+        "article": "routing-ssr.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "LayerRuntimeError",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerApiClientCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerApplicationApiCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerCommandRuntimeCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerDevtoolsCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerDevtoolsPanelCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerEventRuntimeCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerEventStreamParserCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerEventSubscriptionsCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerLinksCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerMultiTabEventsCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerPostEventStreamCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-runtime",
+        "name": "layerViewportCreate",
+        "level": "advanced",
+        "article": "context-api.md"
+    },
+    {
+        "package": "@solcorp/layer-security",
+        "name": "layerAuthenticationCreate",
+        "level": "advanced",
+        "article": "security-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-security",
+        "name": "layerCookieValueGet",
+        "level": "advanced",
+        "article": "security-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-security",
+        "name": "layerHeaderValueGet",
+        "level": "advanced",
+        "article": "security-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-security",
+        "name": "layerIdentityCacheCreate",
+        "level": "advanced",
+        "article": "security-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-security",
+        "name": "layerInMemoryRateLimiterCreate",
+        "level": "advanced",
+        "article": "security-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-security",
+        "name": "layerOutboundUrlPolicyCreate",
+        "level": "advanced",
+        "article": "security-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-security",
+        "name": "layerRateLimiterFailoverCreate",
+        "level": "advanced",
+        "article": "security-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-security",
+        "name": "layerRedisRateLimiterCreate",
+        "level": "advanced",
+        "article": "security-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-security",
+        "name": "layerSessionSecurityCreate",
+        "level": "advanced",
+        "article": "security-auth.md"
+    },
+    {
+        "package": "@solcorp/layer-server",
+        "name": "layerClientAddressResolve",
+        "level": "advanced",
+        "article": "server-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-server",
+        "name": "layerDiagnosticsCreate",
+        "level": "advanced",
+        "article": "server-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-server",
+        "name": "layerHttpRuntimeCreate",
+        "level": "advanced",
+        "article": "server-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-server",
+        "name": "layerOperationExecutorCreate",
+        "level": "advanced",
+        "article": "server-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-server",
+        "name": "layerOperationRegistryCreate",
+        "level": "advanced",
+        "article": "server-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-server",
+        "name": "layerRequestBodyRead",
+        "level": "advanced",
+        "article": "server-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-server",
+        "name": "layerTrustedProxyCreate",
+        "level": "advanced",
+        "article": "server-runtime.md"
+    },
+    {
+        "package": "@solcorp/layer-storage",
+        "name": "LayerStorageError",
+        "level": "advanced",
+        "article": "indexeddb.md"
+    },
+    {
+        "package": "@solcorp/layer-storage",
+        "name": "layerOfflineOutboxCreate",
+        "level": "advanced",
+        "article": "indexeddb.md"
+    },
+    {
+        "package": "@solcorp/layer-storage",
+        "name": "layerShareTargetInboxCreate",
+        "level": "advanced",
+        "article": "indexeddb.md"
+    },
+    {
+        "package": "@solcorp/layer-storage",
+        "name": "layerStorageOpen",
+        "level": "application",
+        "article": "indexeddb.md"
+    },
+    {
+        "package": "@solcorp/layer-storage",
+        "name": "layerStorageSchemaDefine",
+        "level": "application",
+        "article": "indexeddb.md"
+    },
+    {
+        "package": "@solcorp/layer-storage",
+        "name": "layerWorkerOutboxConfigurationClear",
+        "level": "advanced",
+        "article": "indexeddb.md"
+    },
+    {
+        "package": "@solcorp/layer-storage",
+        "name": "layerWorkerOutboxConfigure",
+        "level": "advanced",
+        "article": "indexeddb.md"
+    },
+    {
+        "package": "@solcorp/layer-storage",
+        "name": "layerWorkerOutboxDrainCreate",
+        "level": "advanced",
+        "article": "indexeddb.md"
+    },
+    {
+        "package": "@solcorp/layer-storage",
+        "name": "layerWorkerShareTargetCaptureCreate",
+        "level": "advanced",
+        "article": "indexeddb.md"
+    },
+    {
+        "package": "@solcorp/layer-testkit",
+        "name": "layerErrorResponseFixtureCreate",
+        "level": "tooling",
+        "article": "testing.md"
+    },
+    {
+        "package": "@solcorp/layer-testkit",
+        "name": "layerEventFixtureCreate",
+        "level": "tooling",
+        "article": "testing.md"
+    },
+    {
+        "package": "@solcorp/layer-testkit",
+        "name": "layerOperationFixtureCreate",
+        "level": "tooling",
+        "article": "testing.md"
+    },
+    {
+        "package": "@solcorp/layer-testkit",
+        "name": "layerRequestFixtureCreate",
+        "level": "tooling",
+        "article": "testing.md"
+    },
+    {
+        "package": "@solcorp/layer-testkit",
+        "name": "layerSuccessResponseFixtureCreate",
+        "level": "tooling",
+        "article": "testing.md"
+    }
+]

@@ -1,0 +1,58 @@
+{
+    "name": "@solcorp/layer-auth",
+    "version": "0.1.1",
+    "description": "Headless identity, session, MFA, OAuth, and OIDC contracts for Layer-Engine",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/soluser010/layer-engine.git",
+        "directory": "packages/auth"
+    },
+    "homepage": "https://www.npmjs.com/package/@solcorp/layer",
+    "bugs": {
+        "url": "https://github.com/soluser010/layer-engine/issues"
+    },
+    "type": "module",
+    "engines": {
+        "node": ">=24.22.1 <25"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./src/index.js"
+        },
+        "./browser": {
+            "types": "./dist/browser.d.ts",
+            "import": "./src/browser.js"
+        },
+        "./server": {
+            "types": "./dist/server.d.ts",
+            "import": "./src/server.js"
+        }
+    },
+    "files": [
+        "dist",
+        "src",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json"
+    },
+    "dependencies": {
+        "@node-rs/argon2": "2.2.1",
+        "@simplewebauthn/browser": "14.0.0",
+        "@simplewebauthn/server": "14.0.0",
+        "@solcorp/layer-database": "0.1.1",
+        "@solcorp/layer-protocol": "0.1.1",
+        "@solcorp/layer-security": "0.1.1",
+        "@solcorp/layer-server": "0.1.1",
+        "jose": "6.2.12",
+        "nodemailer": "10.2.1",
+        "oidc-provider": "9.12.2",
+        "openid-client": "6.8.8",
+        "otpauth": "9.5.2"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

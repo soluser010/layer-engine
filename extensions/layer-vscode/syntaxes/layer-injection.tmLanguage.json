@@ -1,0 +1,96 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Layer tagged template injections",
+    "scopeName": "layer.injection.tagged-templates",
+    "injectionSelector": "L:source.js",
+    "patterns": [
+        {
+            "include": "#html-template"
+        },
+        {
+            "include": "#css-template"
+        }
+    ],
+    "repository": {
+        "html-template": {
+            "name": "meta.embedded.block.html.layer",
+            "begin": "(?<![\\w$])(html)(\\s*)(`)",
+            "beginCaptures": {
+                "1": {
+                    "name": "support.function.tagged-template.html.layer"
+                },
+                "3": {
+                    "name": "punctuation.definition.string.template.begin.js"
+                }
+            },
+            "end": "(`)",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.string.template.end.js"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#javascript-interpolation"
+                },
+                {
+                    "match": "(@[A-Za-z][A-Za-z0-9:_-]*)(?=\\s*=)",
+                    "name": "entity.other.attribute-name.event.layer"
+                },
+                {
+                    "match": "([.?][A-Za-z][A-Za-z0-9:_-]*)(?=\\s*=)",
+                    "name": "entity.other.attribute-name.binding.layer"
+                },
+                {
+                    "include": "text.html.basic"
+                }
+            ]
+        },
+        "css-template": {
+            "name": "meta.embedded.block.css.layer",
+            "begin": "(?<![\\w$])(css)(\\s*)(`)",
+            "beginCaptures": {
+                "1": {
+                    "name": "support.function.tagged-template.css.layer"
+                },
+                "3": {
+                    "name": "punctuation.definition.string.template.begin.js"
+                }
+            },
+            "end": "(`)",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.string.template.end.js"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#javascript-interpolation"
+                },
+                {
+                    "include": "source.css"
+                }
+            ]
+        },
+        "javascript-interpolation": {
+            "name": "meta.embedded.expression.js.layer",
+            "begin": "(\\$\\{)",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.section.embedded.begin.js"
+                }
+            },
+            "end": "(\\})",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.section.embedded.end.js"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "source.js"
+                }
+            ]
+        }
+    }
+}

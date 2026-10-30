@@ -1,0 +1,46 @@
+{
+    "name": "@solcorp/layer-compiler",
+    "version": "0.1.1",
+    "description": "Safe .layer.js AST and render-plan compiler for Layer-Engine",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/soluser010/layer-engine.git",
+        "directory": "packages/compiler"
+    },
+    "homepage": "https://www.npmjs.com/package/@solcorp/layer",
+    "bugs": {
+        "url": "https://github.com/soluser010/layer-engine/issues"
+    },
+    "type": "module",
+    "engines": {
+        "node": ">=24.22.1 <25"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./src/index.js"
+        },
+        "./expression": {
+            "types": "./dist/expression.d.ts",
+            "import": "./src/expression.js"
+        }
+    },
+    "files": [
+        "dist",
+        "src",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json"
+    },
+    "dependencies": {
+        "acorn": "8.18.0",
+        "parse5": "8.0.1",
+        "postcss": "8.5.28",
+        "postcss-selector-parser": "7.1.6"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}
