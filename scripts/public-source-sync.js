@@ -1,6 +1,6 @@
 import {execFile} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {lstat, mkdir, readFile, realpath, rm, writeFile} from 'node:fs/promises';
+import {lstat, mkdir, realpath, rm, writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {promisify} from 'node:util';
 
@@ -56,7 +56,7 @@ const publicFileAllowed = function( nameData ){
     if ( segmentsData.some( function( segmentData ){
         //Rejecting unexpected path forms even when Git reports them as tracked files
         return ['..', '.', '.git', 'node_modules', 'artifacts', '.layer', '.aws', '.codex'].includes( segmentData ) ||
-            segmentData.startsWith( '.env' ) || segmentData.includes( '\\' ) || segmentData.includes( ':' );
+            segmentData.startsWith( '.env' ) || segmentData.includes( '\\' ) || segmentData.includes( ':' ) || /\p{Cc}/u.test( segmentData );
 
     }) ){
         return false;
@@ -100,6 +100,18 @@ const filesData = (await gitRead( sourceDirectoryData, ['ls-files', '-z'] )).spl
 const previousFilesData = (await gitRead( targetDirectoryData, ['ls-files', '-z'] )).split( '\0' ).filter( Boolean );
 const inventoryData = [];
 
+//Reading canonical Git blobs so Windows checkout line endings cannot invalidate public hashes
+const blobResultData = executeData( 'git', ['cat-file', '--batch'], {
+    cwd: sourceDirectoryData, windowsHide: true, encoding: 'buffer', maxBuffer: 64 * 1024 * 1024
+});
+blobResultData.child.stdin?.end( filesData.map( function( nameData ){
+    //Requesting only the already allowlisted paths from the reviewed commit
+    return 'HEAD:' + nameData + '\n';
+
+}).join( '' ) );
+const blobOutputData = (await blobResultData).stdout;
+let blobOffsetData = 0;
+
 //Preparing the complete validated copy before modifying the public working tree
 for ( const nameData of filesData ){
     const sourcePathData = path.join( sourceDirectoryData, nameData );
@@ -108,7 +120,20 @@ for ( const nameData of filesData ){
 
     }
     const targetPathData = await targetPathResolve( nameData );
-    const contentData = await readFile( sourcePathData );
+    const headerEndData = blobOutputData.indexOf( 10, blobOffsetData );
+    const headerData = blobOutputData.subarray( blobOffsetData, headerEndData ).toString( 'utf8' );
+    const sizeMatchData = /^[a-f0-9]+ blob (\d+)$/u.exec( headerData );
+    if ( headerEndData < blobOffsetData || sizeMatchData === null ){
+        throw new Error( 'Public source is not a regular committed Git blob: ' + nameData );
+
+    }
+    const sizeData = Number( sizeMatchData[1] );
+    const contentData = blobOutputData.subarray( headerEndData + 1, headerEndData + 1 + sizeData );
+    blobOffsetData = headerEndData + 1 + sizeData + 1;
+    if ( contentData.length !== sizeData || blobOutputData[blobOffsetData - 1] !== 10 ){
+        throw new Error( 'Incomplete public source blob: ' + nameData );
+
+    }
     inventoryData.push({name: nameData, target: targetPathData, content: contentData, sha256: createHash( 'sha256' ).update( contentData ).digest( 'hex' )});
 
 }

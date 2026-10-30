@@ -1,5 +1,5 @@
 {
-    "sourceRevision": "d9442b2b8689670e5515f9a31e0ea1779586ee73",
+    "sourceRevision": "b4272a69dcbbc043fd4f6fa0fff6b799da53a94c",
     "files": [
         {
             "path": ".editorconfig",
@@ -1707,7 +1707,7 @@
         },
         {
             "path": "packages/pwa/src/service-worker.js",
-            "sha256": "73eb4ca3b38aee85106ea3cd4ef9edb6ebc31eaf8ab429a5953b92a3ffa4e514"
+            "sha256": "1e48557618509ec1bbc371f89e15a548cc633365a64eeba5df70b764b070dbf9"
         },
         {
             "path": "packages/pwa/src/update-card.js",
@@ -2275,7 +2275,7 @@
         },
         {
             "path": "scripts/public-source-sync.js",
-            "sha256": "823dd00e9ecc67944a69acd2172486b3bf965f81480500a4057ec02b133d85d7"
+            "sha256": "aa15e38507c07d600d3755836509724d8a3a1f961ea3e4d43324209faf95bfa9"
         },
         {
             "path": "scripts/release-verify.js",
@@ -2323,7 +2323,7 @@
         },
         {
             "path": "test/public-source.test.js",
-            "sha256": "f81713f7fc4d578dd05466756c8ed37ebba1056763370dcec2312baa04d9e26f"
+            "sha256": "345f50f2b6c1025373798f8a9f2c1d1c3ef4771dc6fd3794045b583b48986b5f"
         },
         {
             "path": "test/security-threats.test.js",

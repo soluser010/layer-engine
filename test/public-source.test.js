@@ -35,9 +35,10 @@ test( 'public export copies reviewed source without application files or private
         await mkdir( path.join( sourceDirectoryData, 'apps/private-app' ), {recursive: true} );
         await writeFile( path.join( sourceDirectoryData, 'apps/private-app/private.txt' ), 'synthetic private application', 'utf8' );
         await writeFile( path.join( sourceDirectoryData, '.env' ), 'SYNTHETIC_TEST=excluded\n', 'utf8' );
-        await writeFile( path.join( sourceDirectoryData, 'README.md' ), '# Public framework\n', 'utf8' );
+        await writeFile( path.join( sourceDirectoryData, '.gitattributes' ), '* text=auto eol=lf\n', 'utf8' );
+        await writeFile( path.join( sourceDirectoryData, 'README.md' ), '# Public framework\r\n', 'utf8' );
         await writeFile( path.join( sourceDirectoryData, 'package.json' ), '{"type":"module"}\n', 'utf8' );
-        await gitRun( sourceDirectoryData, ['add', '--', 'scripts', 'apps', '.env', 'README.md', 'LICENSE', 'package.json'] );
+        await gitRun( sourceDirectoryData, ['add', '--', 'scripts', 'apps', '.env', '.gitattributes', 'README.md', 'LICENSE', 'package.json'] );
         await gitRun( sourceDirectoryData, ['commit', '-m', 'Private fixture'] );
         await gitRun( targetDirectoryData, ['add', '--', 'LICENSE'] );
         await gitRun( targetDirectoryData, ['commit', '-m', 'Public initial fixture'] );
@@ -50,7 +51,7 @@ test( 'public export copies reviewed source without application files or private
         await assert.rejects( readFile( path.join( targetDirectoryData, '.env' ) ), {code: 'ENOENT'} );
         assert.equal( (await gitRun( targetDirectoryData, ['rev-parse', 'HEAD'] )).stdout, publicHeadData );
         const inventoryData = JSON.parse( await readFile( path.join( targetDirectoryData, 'public-source.json' ), 'utf8' ) );
-        assert.equal( inventoryData.files.length, 4 );
+        assert.equal( inventoryData.files.length, 5 );
         assert.equal( inventoryData.sourceRevision, (await gitRun( sourceDirectoryData, ['rev-parse', 'HEAD'] )).stdout.trim() );
         await assert.rejects( executeData( process.execPath, commandArgumentsData, {env: environmentData, windowsHide: true} ), /pending changes/u );
 
