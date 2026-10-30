@@ -121,7 +121,7 @@ npx layer guide --lang en --open
 
 **[Навык Layer-Engine](https://github.com/soluser010/layer-engine/blob/main/skills/layer-engine/SKILL.md)** помогает совместимому агенту найти документацию установленной версии, работать с `.layer.js`, соблюдать границы браузера и сервера и использовать штатные API. [Установка и применение](https://github.com/soluser010/layer-engine/blob/main/skills/layer-engine/README.md).
 
-Навык необязателен, не устанавливается автоматически и не предоставляет доступ к аккаунтам или production. Он предназначен для Layer-Engine, а не старого Layer CMS.
+Навык необязателен, не устанавливается автоматически и не предоставляет доступ к аккаунтам или production.
 
 ## Расширение VS Code
 

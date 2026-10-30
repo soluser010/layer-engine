@@ -10,7 +10,7 @@ Layer-Engine is ESM-only JavaScript for Node.js 24. Public types are JSDoc plus 
 4. Run `npm run check` for ordinary changes and `npm run release:check` for release-sensitive changes.
 5. Run `npm run api:snapshot` only after reviewing the SemVer effect of declaration changes.
 
-Code follows `syntax-v1`: descriptive domain names, action comments inside non-trivial functions, explicit branches, and stable visual blocks. Do not copy APIs from the old Layer project.
+Code follows `syntax-v1`: descriptive domain names, action comments inside non-trivial functions, explicit branches, and stable visual blocks. Use the documented Layer-Engine APIs.
 
 ## Compatibility and security
 

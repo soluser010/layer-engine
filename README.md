@@ -121,7 +121,7 @@ The guide serves version-matched English/Russian articles, examples, highlighted
 
 **[Layer-Engine agent skill](https://github.com/soluser010/layer-engine/blob/main/skills/layer-engine/SKILL.md)** teaches compatible coding agents to locate the installed version's documentation, use `.layer.js`, respect browser/server boundaries and work through supported APIs. [Installation and usage](https://github.com/soluser010/layer-engine/blob/main/skills/layer-engine/README.md).
 
-The skill is optional and does not grant access to your accounts, deploy applications or install itself. It is specific to Layer-Engine, not the older Layer CMS.
+The skill is optional and does not grant access to your accounts, deploy applications or install itself.
 
 ## VS Code extension
 

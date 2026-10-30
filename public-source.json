@@ -1,5 +1,5 @@
 {
-    "sourceRevision": "b4272a69dcbbc043fd4f6fa0fff6b799da53a94c",
+    "sourceRevision": "db94b8a145caab92a55e97a5c8134a63c240db87",
     "files": [
         {
             "path": ".editorconfig",
@@ -31,7 +31,7 @@
         },
         {
             "path": "CONTRIBUTING.md",
-            "sha256": "23e054f25abc72edaf6e0261828f26863a4ff9c22d0da9099dcbc2ae7d8d2868"
+            "sha256": "79e14fe9d638ec64813c6201edbc47e338c0ee8127a834564137534af77b797a"
         },
         {
             "path": "LICENSE",
@@ -39,11 +39,11 @@
         },
         {
             "path": "README.md",
-            "sha256": "cd22cb6b4dbdeefe44e2812e9c726f0d63d894712a76fe279cae611c5bb88106"
+            "sha256": "a6ba01cc0b3a135471b4b1aaf82528dc065b3b1e777016417492f6c2dde6b042"
         },
         {
             "path": "README.ru.md",
-            "sha256": "5f7ab3130cea01ae15560644521b0f53d8751281b4be43d22caffee5eb6afc8a"
+            "sha256": "888275d20e22c754f3f120730d968685aa6efdb5397dd0b153c57a713c21e0e4"
         },
         {
             "path": "SECURITY.md",
@@ -1495,7 +1495,7 @@
         },
         {
             "path": "packages/layer/README.md",
-            "sha256": "cd22cb6b4dbdeefe44e2812e9c726f0d63d894712a76fe279cae611c5bb88106"
+            "sha256": "a6ba01cc0b3a135471b4b1aaf82528dc065b3b1e777016417492f6c2dde6b042"
         },
         {
             "path": "packages/layer/package.json",
