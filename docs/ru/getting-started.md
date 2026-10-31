@@ -3,7 +3,7 @@ title: Быстрый старт
 description: Создание первого приложения, dev server и реактивная страница.
 audience: beginner
 order: 30
-status: release-candidate
+status: documented
 updated: 2026-10-29
 ---
 

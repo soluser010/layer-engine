@@ -3,7 +3,7 @@ title: Application performance
 description: Measure your application's capacity and choose workers, limits and caching.
 audience: advanced
 order: 220
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 
@@ -62,7 +62,5 @@ You obtain a load/latency table, measured saturation and headroom for your own a
 ## Failure contract
 
 Stop escalation when errors, latency or memory keep growing; the application's SLO defines its limits. For an initial local run, reasonable stop thresholds are CPU 85% for three intervals, memory 75%, error rate 1%, p99 2.5 seconds. Losing a confirmed command or event is a defect regardless of throughput.
-
-The [historical internal report from September 21, 2026](../reports/2026-09-21/performance-en.md) applies to SHA `8b987f5acdc1a6ab326144d5ec3424e9f48a5282` and an older test environment; it is not a current capacity guarantee.
 
 Next: [Databases](database-runtime.md), [Application testing](testing.md), [Deployment](deployment-diagnostics.md).

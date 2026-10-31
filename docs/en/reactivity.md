@@ -3,7 +3,7 @@ title: Signals, stores, and partial DOM
 description: Layer reactive primitives, batching, computed/effect, and updates limited to dependent DOM bindings.
 audience: beginner
 order: 80
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

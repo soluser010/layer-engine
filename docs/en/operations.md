@@ -3,7 +3,7 @@ title: Operations — complete and simplified approaches
 description: src/operations.js, server handlers, generated facade, permissions, limits, transactions, and failure contracts.
 audience: intermediate
 order: 110
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

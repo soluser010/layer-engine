@@ -3,7 +3,7 @@ title: Databases, Redis, and workers
 description: PGlite, PostgreSQL, Structured CRUD, Redis, and multi-process runtime.
 audience: advanced
 order: 140
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 
@@ -97,13 +97,17 @@ Ephemeral Redis locks/presence are available only when Redis is configured and a
 
 ```js
 const lock = await context.coordination.locks?.acquire('messages:compact', 5000);
-if (lock !== null && lock !== undefined) {
+if ( lock !== null && lock !== undefined ){
     try {
         await messagesCompact();
-        await lock.renew(5000);
+        await lock.renew( 5000 );
+
     } finally {
+        //Releasing the lock even when the application task fails
         await lock.release();
+
     }
+
 }
 await context.coordination.presence?.touch('chat:42', 'user:17', 30000);
 const onlineUserIds = await context.coordination.presence?.list('chat:42', 100);

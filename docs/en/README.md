@@ -3,7 +3,7 @@ title: Layer-Engine documentation
 description: Complete English guide to developing, testing, and deploying Layer-Engine applications.
 audience: all
 order: 0
-status: release-candidate
+status: documented
 updated: 2026-10-29
 ---
 
@@ -69,9 +69,9 @@ Each article separates the smallest working path from the recommended production
 25. [Configuration, CLI, and errors reference](reference.md)
 26. [Glossary](glossary.md)
 
-## Status
+## Handbook version
 
-This documentation describes the implemented 0.1.x release candidate. Features not present in the code are marked planned/post-stable. Version 0.1.0 is published on npm; 0.1.1 is being prepared. Marketplace publication, 1.0.0 and stable tags have not been released.
+Use the handbook matching your installed Layer-Engine version. Run `npx layer guide --lang en` to open the local documentation.
 
 ## Detailed APIs and contracts
 

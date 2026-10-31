@@ -189,8 +189,13 @@ function catalogTableCreate( catalog, locale ){
         '| --- | --- | --- |'
     ];
 
-    //Keeping each exported function visible even when it is intended for a custom trusted host
+    //Keeping application integrations visible without exposing build tooling in the handbook
     for ( const entry of catalog ){
+        if ( entry.level === 'tooling' ){
+            //Retaining these exports in the machine-readable inventory only
+            continue;
+
+        }
         rows.push( '| `' + entry.package + '` / `' + entry.name + '` | ' + entry.level + ' | [API](' + entry.article + ') |' );
 
     }

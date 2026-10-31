@@ -3,7 +3,7 @@ title: Поддержка браузеров
 description: Browser matrix и capability fallbacks, включая Safari policy.
 audience: all
 order: 210
-status: release-candidate
+status: documented
 updated: 2026-10-27
 ---
 
@@ -23,15 +23,24 @@ updated: 2026-10-27
 
 ## Пример
 
-```js
-const pushState = await window.layer.pwa.push.getCapability();
+Вызывайте `notificationsEnable()` из обработчика кнопки после запуска приложения. Не запускайте эту функцию при SSR или автоматически при открытии страницы.
 
-if (pushState.availability === 'available') {
-    //Call only from a user action; the server must have Web Push enabled
+```js
+const notificationsEnable = async function(){
+    //Checking browser support when the user requests notifications
+    const pushCapabilityData = await window.layer.pwa.push.getCapability();
+
+    if ( pushCapabilityData.availability !== 'available' ){
+        //Replace this message with your application's notification settings UI
+        console.info( pushCapabilityData.reason );
+        return;
+
+    }
+
+    //Requesting permission and registering this device with the configured server
     await window.layer.pwa.push.enable();
-} else {
-    notificationsFallbackShow(pushState.reason);
-}
+
+};
 ```
 
 ## Ожидаемый результат
@@ -42,7 +51,7 @@ if (pushState.availability === 'available') {
 
 ## Объяснение
 
-Ориентируйтесь на доступность конкретной функции, а не только на название браузера. Для Safari не заявляется полная сертификация всех сочетаний устройств и режимов. Если ваша аудитория использует iOS, проверяйте ключевые сценарии своего приложения на целевых устройствах.
+Ориентируйтесь на доступность конкретной функции, а не только на название браузера. Если ваша аудитория использует iOS, проверяйте ключевые сценарии своего приложения на целевых устройствах.
 
 ## Типовые ошибки
 

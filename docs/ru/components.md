@@ -3,7 +3,7 @@ title: Компоненты, props, events, slots и context
 description: Композиция компонентов и явный поток данных.
 audience: beginner
 order: 90
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

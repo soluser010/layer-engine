@@ -3,7 +3,7 @@ title: Базы данных, Redis и workers
 description: PGlite, PostgreSQL, Structured CRUD, Redis и multi-process runtime.
 audience: advanced
 order: 140
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 
@@ -175,13 +175,17 @@ Redis coordination доступен только при настроенном R
 ```js
 const lock = await context.coordination.locks?.acquire('chat:compact', 5000);
 
-if (lock !== null && lock !== undefined) {
+if ( lock !== null && lock !== undefined ){
     try {
         await messagesCompact();
-        await lock.renew(5000);
+        await lock.renew( 5000 );
+
     } finally {
+        //Releasing the lock even when the application task fails
         await lock.release();
+
     }
+
 }
 
 await context.coordination.presence?.touch('chat:42', 'user:17', 30000);
@@ -231,13 +235,17 @@ Singleton background job должен получить durable lease:
 ```js
 const acquired = await context.leases.acquire('jobs:email-digest', 30000);
 
-if (acquired === true) {
+if ( acquired === true ){
     try {
         await digestSend();
-        await context.leases.renew('jobs:email-digest', 30000);
+        await context.leases.renew( 'jobs:email-digest', 30000 );
+
     } finally {
-        await context.leases.release('jobs:email-digest');
+        //Releasing the lease after success or failure
+        await context.leases.release( 'jobs:email-digest' );
+
     }
+
 }
 ```
 

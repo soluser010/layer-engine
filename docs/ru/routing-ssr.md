@@ -3,7 +3,7 @@ title: Маршрутизация, layouts, SSR и hydration
 description: Файловые routes, metadata, layouts и режимы первого рендера.
 audience: intermediate
 order: 100
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

@@ -3,7 +3,7 @@ title: Configuration, CLI и errors reference
 description: Краткий справочник команд, блоков конфигурации и ошибок.
 audience: all
 order: 250
-status: release-candidate
+status: documented
 updated: 2026-10-06
 ---
 

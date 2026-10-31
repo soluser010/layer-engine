@@ -1,21 +1,20 @@
 ---
 title: Каталог публичных API
-description: Разделение API приложения, доверенного host и инструментов сборки.
+description: API компонентов, хранилища и серверных интеграций приложения.
 audience: advanced
 order: 255
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 
 # Каталог публичных API
 
-Начинайте с `@solcorp/layer` и [Context API](context-api.md), а не с ручного создания всех перечисленных объектов. Таблица перечисляет callable exports основных entrypoints. Constants, types и nested methods описаны в связанных статьях/generated declarations; отсутствие отдельного примера на каждый низкоуровневый helper не означает отсутствующую функцию.
+Начинайте с `@solcorp/layer` и [Context API](context-api.md), а не с ручного создания всех перечисленных объектов. Таблица перечисляет функции компонентов и серверных интеграций; внутренние инструменты сборки в неё не входят. Constants, types и nested methods описаны в связанных статьях/generated declarations; отсутствие отдельного примера на каждый низкоуровневый helper не означает отсутствующую функцию.
 
 | Уровень | Как использовать |
 | --- | --- |
 | application | Обычный код компонентов, декларативная schema, локальное хранилище |
 | advanced | Явно собранный server/browser host; вызывающий владеет auth, lifecycle, ресурсами и ошибками |
-| tooling | CLI/compiler/testkit для инструментов, не browser bundle |
 | experimental | Доверенный Plugin SDK кандидата; закрепляйте версии, не рассчитывайте на sandbox или автоматический loader |
 
 Корневой `@solcorp/layer-auth` содержит server primitives. В браузере импортируйте только `@solcorp/layer-auth/browser`, серверный интеграционный entrypoint — `@solcorp/layer-auth/server`. `@solcorp/layer-server/system` предназначен для trusted system operations, не прикладного обхода security metadata. Публичный export не означает разрешение включать серверный модуль в браузер.
@@ -60,41 +59,6 @@ updated: 2026-10-28
 | `@solcorp/layer-auth` / `layerAuthSessionDataCreate` | advanced | [API](layer-auth.md) |
 | `@solcorp/layer-auth` / `layerAuthTotpOperationDefinitionsCreate` | advanced | [API](layer-auth.md) |
 | `@solcorp/layer-auth` / `layerAuthTotpServiceCreate` | advanced | [API](layer-auth.md) |
-| `@solcorp/layer-cli` / `LayerCliError` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerApplicationServerRuntimeCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerCliErrorDiagnosticCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerCliErrorDiagnosticFormat` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerCliRun` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerConfigLoad` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerConfigPublicCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerConfigValidate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerDatabaseConfigurationCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerDatabaseSchemaWorkflowRun` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerDevelopmentHostCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerDevelopmentRequestHandlerCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerDevelopmentServerCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerDevelopmentWatchCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerDoctorRun` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerDocumentationGenerate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerInfrastructureConfigurationRedact` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerInfrastructureDatabaseRuntimeCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerOperationFacadeCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerProductionSecretsAssert` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerProjectBuild` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerProjectCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerRedisConfigurationCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-cli` / `layerRuntimeConfigurationCreate` | tooling | [API](installation-cli.md) |
-| `@solcorp/layer-compiler` / `LayerCompilerError` | tooling | [API](advanced-runtime.md) |
-| `@solcorp/layer-compiler` / `layerComponentCompile` | tooling | [API](advanced-runtime.md) |
-| `@solcorp/layer-compiler` / `layerComponentRouteExtract` | tooling | [API](advanced-runtime.md) |
-| `@solcorp/layer-compiler` / `layerComponentScriptValidate` | tooling | [API](advanced-runtime.md) |
-| `@solcorp/layer-compiler` / `layerExpressionAssign` | tooling | [API](advanced-runtime.md) |
-| `@solcorp/layer-compiler` / `layerExpressionCompile` | tooling | [API](advanced-runtime.md) |
-| `@solcorp/layer-compiler` / `layerExpressionEvaluate` | tooling | [API](advanced-runtime.md) |
-| `@solcorp/layer-compiler` / `layerJavascriptComponentCompile` | tooling | [API](advanced-runtime.md) |
-| `@solcorp/layer-compiler` / `layerOperationContractsCompile` | tooling | [API](advanced-runtime.md) |
-| `@solcorp/layer-compiler` / `layerScopedCssCompile` | tooling | [API](advanced-runtime.md) |
-| `@solcorp/layer-compiler` / `layerStylesheetCompile` | tooling | [API](advanced-runtime.md) |
 | `@solcorp/layer-database` / `LayerDatabaseError` | advanced | [API](structured-data.md) |
 | `@solcorp/layer-database` / `layerApiKeyRepositoryCreate` | advanced | [API](structured-data.md) |
 | `@solcorp/layer-database` / `layerAuditRepositoryCreate` | advanced | [API](structured-data.md) |
@@ -130,7 +94,6 @@ updated: 2026-10-28
 | `@solcorp/layer-database` / `layerSystemSchemaRead` | advanced | [API](structured-data.md) |
 | `@solcorp/layer-database` / `layerSystemTableReferenceCreate` | advanced | [API](structured-data.md) |
 | `@solcorp/layer-database` / `layerTableDefine` | application | [API](structured-data.md) |
-| `@solcorp/layer-docs` / `layerGuideServe` | tooling | [API](installation-cli.md) |
 | `@solcorp/layer-events` / `layerCacheInvalidationSynchronizerCreate` | advanced | [API](server-events.md) |
 | `@solcorp/layer-events` / `layerControlFrameCreate` | advanced | [API](server-events.md) |
 | `@solcorp/layer-events` / `layerDatabaseEventBusCreate` | advanced | [API](server-events.md) |
@@ -264,11 +227,6 @@ updated: 2026-10-28
 | `@solcorp/layer-storage` / `layerWorkerOutboxConfigure` | advanced | [API](indexeddb.md) |
 | `@solcorp/layer-storage` / `layerWorkerOutboxDrainCreate` | advanced | [API](indexeddb.md) |
 | `@solcorp/layer-storage` / `layerWorkerShareTargetCaptureCreate` | advanced | [API](indexeddb.md) |
-| `@solcorp/layer-testkit` / `layerErrorResponseFixtureCreate` | tooling | [API](testing.md) |
-| `@solcorp/layer-testkit` / `layerEventFixtureCreate` | tooling | [API](testing.md) |
-| `@solcorp/layer-testkit` / `layerOperationFixtureCreate` | tooling | [API](testing.md) |
-| `@solcorp/layer-testkit` / `layerRequestFixtureCreate` | tooling | [API](testing.md) |
-| `@solcorp/layer-testkit` / `layerSuccessResponseFixtureCreate` | tooling | [API](testing.md) |
 <!-- generated-contract:end -->
 
 ## Ошибки и границы

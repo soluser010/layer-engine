@@ -3,7 +3,7 @@ title: Что такое Layer-Engine
 description: Назначение, архитектурные принципы и границы нового PWA-фреймворка Layer-Engine.
 audience: beginner
 order: 10
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

@@ -3,7 +3,7 @@ title: Дополнительные PWA API
 description: Badging, уведомления, фоновая синхронизация, persistent storage и протоколы.
 audience: intermediate
 order: 185
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 

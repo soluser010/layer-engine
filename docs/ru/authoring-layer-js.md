@@ -3,7 +3,7 @@ title: Разработка на *.layer.js
 description: Синтаксис компонентов, generated operations, CSS matrix и live reload.
 audience: intermediate
 order: 70
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 
@@ -59,9 +59,11 @@ export const operations = layerOperationContractsCreate([
 Компонент импортирует wrapper с типами, выведенными из JSON Schema:
 
 ```js
+import {html, layerComponentCreate} from '@solcorp/layer';
 import {chatMessagesListQueryCreate} from '#layer/operations';
 
-export default layerComponentCreate(function ChatPage(properties, context) {
+export default layerComponentCreate(function ChatPage( properties, context ){
+    //Creating a query owned by this page's lifecycle
     const messagesQuery = chatMessagesListQueryCreate(context, {
         payload: {
             conversationId: properties.conversationId
@@ -69,6 +71,7 @@ export default layerComponentCreate(function ChatPage(properties, context) {
     });
 
     return html`<output>${messagesQuery.status}</output>`;
+
 });
 ```
 
@@ -86,7 +89,7 @@ Schema компилируются Ajv во время build. Dynamic expressions
 
 ## CSS matrix
 
-Поддерживаются четыре режима:
+Поддерживаются следующие варианты подключения:
 
 | Файл | Class map | Component scope |
 |---|---:|---:|
@@ -101,10 +104,12 @@ import {html, layerComponentCreate} from '@solcorp/layer';
 import styles from './MessageCard.layer.css';
 import './application.global.layer.css';
 
-export default layerComponentCreate(function MessageCard() {
+export default layerComponentCreate(function MessageCard(){
+    //Applying the imported class map to this component
     return html`
-        <article class=${styles.card}>...</article>
+        <article class=${styles.card}>Message preview</article>
     `;
+
 });
 ```
 

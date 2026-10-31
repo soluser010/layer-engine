@@ -3,7 +3,7 @@ title: Server runtime и serverEntry
 description: Контракт full-stack server entry, operation registry, private origin, readiness, drain и Caddy.
 audience: intermediate
 order: 130
-status: release-candidate
+status: documented
 updated: 2026-10-20
 ---
 

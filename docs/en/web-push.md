@@ -3,7 +3,7 @@ title: Server Web Push
 description: VAPID, user devices, transactional SQL delivery and Redis wakeups.
 audience: intermediate
 order: 185
-status: release-candidate
+status: documented
 updated: 2026-10-06
 ---
 
@@ -81,14 +81,17 @@ Wire names are lowercase to satisfy the protocol; the JS property is webPush. au
 ## Browser API and expected result
 
 ```js
-async function notificationsEnableHandle(){
+const notificationsEnableHandle = async function(){
     //Call from a user action, never automatically during startup
     const result = await window.layer.pwa.push.enable();
-    console.log(result.subscriptionId);
+    console.log( result.subscriptionId );
+
 }
 
-async function notificationsDisableHandle(){
+const notificationsDisableHandle = async function(){
+    //Removing this device subscription after an explicit user action
     await window.layer.pwa.push.disable();
+
 }
 ```
 

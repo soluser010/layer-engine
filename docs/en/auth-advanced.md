@@ -3,7 +3,7 @@ title: Permissions, session data and account lifecycle
 description: Application permissions and safe account administration beyond sign-in.
 audience: advanced
 order: 155
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 

@@ -3,7 +3,7 @@ title: Context API компонентов
 description: Высокоуровневые query, command, events и lifecycle handles.
 audience: intermediate
 order: 120
-status: release-candidate
+status: documented
 updated: 2026-09-30
 ---
 
@@ -17,13 +17,19 @@ Viewport, input policies, scroll anchors, lifecycle-owned `context.viewport` и 
 
 ## Query
 
+Фрагмент ниже размещается внутри функции компонента `(properties, context)`. `properties.conversationId` — идентификатор открытого диалога; операция `chat.messages.list` должна быть объявлена в вашем приложении.
+
 ```js
 const messagesQuery = context.api.query({
     operation: 'chat.messages.list',
-    payload: () => ({
-        conversationId: properties.conversationId,
-        limit: 50
-    }),
+    payload: function(){
+        //Reading the current conversation when the query runs
+        return {
+            conversationId: properties.conversationId,
+            limit: 50
+        };
+
+    },
     cache: {
         policy: 'cache-and-network',
         maxAgeMs: 30000
@@ -64,17 +70,21 @@ const messageSendCommand = context.api.command({
         strategy: 'outbox'
     },
     optimistic: {
-        async apply(commandPayload, queryCache) {
-            await queryCache.insert('chat.messages.list', {
+        apply: async function( commandPayload, queryCache ){
+            //Displaying a pending message until the server confirms the command
+            await queryCache.insert( 'chat.messages.list', {
                 commandId: commandPayload.commandId,
                 text: commandPayload.text,
                 state: 'pending'
             });
 
             return commandPayload.commandId;
+
         },
-        async rollback(_commandError, queryCache, optimisticCommandId) {
-            await queryCache.removeByCommandId(optimisticCommandId);
+        rollback: async function( _commandError, queryCache, optimisticCommandId ){
+            //Removing the optimistic message after a rejected command
+            await queryCache.removeByCommandId( optimisticCommandId );
+
         }
     }
 });

@@ -3,7 +3,7 @@ title: Viewport, keyboard, and application shell
 description: Native-like PWA behavior, search, composer, scroll anchors, and context.viewport.
 audience: all
 order: 105
-status: release-candidate
+status: documented
 updated: 2026-10-27
 ---
 

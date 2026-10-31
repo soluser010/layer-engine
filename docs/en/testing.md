@@ -3,7 +3,7 @@ title: Testing applications
 description: Unit, protocol, renderer, browser, security, integration, and load verification for Layer applications.
 audience: intermediate
 order: 200
-status: release-candidate
+status: documented
 updated: 2026-10-27
 ---
 
@@ -11,7 +11,7 @@ updated: 2026-10-27
 
 ## Goal
 
-Verify domain logic quickly while keeping real browser/database/PWA contracts in separate reproducible gates.
+Verify domain logic quickly while keeping real browser/database/PWA contracts in separate reproducible tests.
 
 ## Verification pyramid
 
@@ -82,9 +82,9 @@ A local fault proxy is safer than stopping a shared service: it models PostgreSQ
 
 Add your own unit and integration test commands to the application package.json. They should exercise your operations, access policies, and user workflows. Before deployment, verify the built production bundle, data recovery, and version rollback in a separate environment.
 
-## Load gate
+## Load testing
 
-Increase load gradually. Stop at CPU above 85% for three intervals, memory above 75%, error rate above 1%, or p99 above 2.5 s. Separate successful 200 responses from protective 429 responses; total transport rate is not useful throughput.
+Increase load gradually. Define acceptable latency and resource usage for your application. Separate successful 200 responses from protective 429 responses; total transport rate is not useful throughput.
 
 ## Safari
 
@@ -92,6 +92,6 @@ Choose browsers according to your application audience. For iPhone/iPad, check S
 
 ## Failure contract
 
-A rate-limit test bypass is allowed only on localhost and non-standard test ports. It never enters the production bundle. Unexpected 5xx, command/event loss or duplication, connection-budget overflow, and worker/SSE leakage fail the gate.
+If latency exceeds your budget, data is lost or access control fails, fix the cause and repeat that scenario before deployment. Keep API protection enabled in public environments.
 
 Next: [Errors](errors.md), [Browser support](browser-support.md), [Performance report](performance-report.md).

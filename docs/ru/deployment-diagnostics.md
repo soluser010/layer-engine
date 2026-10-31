@@ -3,7 +3,7 @@ title: Build, deployment и diagnostics
 description: Переносимый dist, Caddy HTTPS, supervisor и диагностика запуска.
 audience: advanced
 order: 190
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

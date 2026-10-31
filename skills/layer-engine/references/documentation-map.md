@@ -22,8 +22,8 @@
 Для задач сопровождения дополнительно выбирайте существующие файлы:
 
 - Совместимость и поддержка: `policies/semver-and-migrations.md`, `policies/runtime-support.md`, `policies/dependency-risk-acceptance.md`.
-- Выпуск/развёртывание: `runbooks/release.md`, `runbooks/production-deployment.md`.
+- Выпуск/развёртывание: `runbooks/production-deployment.md`.
 - Восстановление и инциденты: `runbooks/backup-restore.md`, `runbooks/incident-response.md`.
-- Нагрузка и браузерная проверка: `runbooks/ddos-and-capacity.md`, `runbooks/native-safari-release-check.md`.
+- Нагрузка и браузерная проверка: `runbooks/ddos-and-capacity.md`.
 
 Чтение runbook не является разрешением выполнить описанные в нём изменения. Действуйте в рамках запроса пользователя и подтверждённой среды. Не представляйте устаревший performance report как измерение текущего приложения.

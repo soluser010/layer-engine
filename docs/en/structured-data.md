@@ -3,7 +3,7 @@ title: Structured CRUD and revisions
 description: Application schemas, ownership isolation, atomic edits and failures.
 audience: intermediate
 order: 145
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 

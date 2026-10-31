@@ -3,7 +3,7 @@ title: Структура проекта
 description: Каталоги исходников, public assets, server code и generated dist.
 audience: beginner
 order: 40
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

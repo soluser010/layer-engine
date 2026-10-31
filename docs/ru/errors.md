@@ -3,7 +3,7 @@ title: Ошибки и диагностика
 description: Как читать CLI, runtime, protocol и browser ошибки Layer и безопасно выбирать retry или исправление.
 audience: beginner
 order: 230
-status: release-candidate
+status: documented
 updated: 2026-10-06
 ---
 

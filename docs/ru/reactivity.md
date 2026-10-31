@@ -3,7 +3,7 @@ title: Signals, stores и частичный DOM
 description: Реактивные примитивы Layer, batching, computed/effect и обновление только зависимых DOM-привязок.
 audience: beginner
 order: 80
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

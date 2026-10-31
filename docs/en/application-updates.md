@@ -3,7 +3,7 @@ title: Application updates
 description: Observable resource updates, a manifest-branded card and safe Service Worker replacement.
 audience: all
 order: 183
-status: release-candidate
+status: documented
 updated: 2026-10-16
 ---
 

@@ -3,7 +3,7 @@ title: Тестирование приложений
 description: Unit, protocol, renderer, browser, security, integration и load-проверки Layer-приложения.
 audience: intermediate
 order: 200
-status: release-candidate
+status: documented
 updated: 2026-10-27
 ---
 
@@ -11,7 +11,7 @@ updated: 2026-10-27
 
 ## Цель
 
-Проверять бизнес-логику быстро, а реальные browser/database/PWA контракты — отдельными воспроизводимыми gates.
+Проверять бизнес-логику быстро, а реальные browser/database/PWA контракты — отдельными воспроизводимыми проверками.
 
 ## Пирамида проверок
 
@@ -82,9 +82,9 @@ test( 'public status handler returns the documented result', async function(){
 
 Добавьте в package.json приложения собственные команды для unit и integration tests. Они должны запускать проверки ваших операций, политик доступа и пользовательских сценариев. Перед развёртыванием проверьте собранный production bundle, восстановление данных и откат версии на отдельном стенде.
 
-## Load gate
+## Нагрузочные проверки
 
-Повышайте нагрузку ступенчато. Остановитесь при CPU выше 85% три интервала, памяти выше 75%, error rate выше 1% или p99 выше 2,5 s. Отделяйте успешные 200 от защитных 429; общий transport rate не равен полезной пропускной способности.
+Повышайте нагрузку ступенчато. Задайте допустимые задержки и потребление ресурсов для своего приложения. Отделяйте успешные 200 от защитных 429; общий transport rate не равен полезной пропускной способности.
 
 ## Safari
 
@@ -92,6 +92,6 @@ test( 'public status handler returns the documented result', async function(){
 
 ## Failure contract
 
-Тестовый bypass rate limits допускается только на localhost и нестандартных тестовых портах. Он не входит в production bundle. Неожиданный 5xx, потеря/дубль команды или события, превышение connection budget и утечка workers/SSE проваливают gate.
+При превышении допустимой задержки, потере данных или нарушении прав доступа исправьте причину и повторите соответствующий сценарий перед развёртыванием. Не отключайте защиту API в публичной среде.
 
 Далее: [ошибки](errors.md), [browser support](browser-support.md), [performance report](performance-report.md).

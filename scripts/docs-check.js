@@ -372,6 +372,12 @@ for (const localeData of localeItemsData) {
         const absoluteFileData = path.join(documentationDirectory, localeData, relativeFileData);
         const sourceData = await readFile(absoluteFileData, 'utf8');
 
+        //Keeping framework release procedures and internal reports out of the application handbook
+        if ( /release:check|pack:check|framework-recovery-main|framework-public|\.\.\/reports\//u.test( sourceData ) ){
+            throw new Error( relativeFileData + ' contains framework-maintainer material instead of application guidance.' );
+
+        }
+
         frontmatterValidate( sourceData, relativeFileData );
         codeBlocksValidate(sourceData, relativeFileData);
         cliCommandsValidate( sourceData, relativeFileData );

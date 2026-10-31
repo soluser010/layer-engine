@@ -3,7 +3,7 @@ title: Structured CRUD и ревизии
 description: Прикладная schema, изоляция владельцев, атомарное изменение и ошибки.
 audience: intermediate
 order: 145
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 

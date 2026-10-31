@@ -3,7 +3,7 @@ title: IndexedDB для данных приложения
 description: Схемы, миграции, транзакции, watch и очистка локального хранилища.
 audience: intermediate
 order: 171
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 
@@ -77,8 +77,16 @@ const draft = await storage.get( 'drafts', 'draft-1' );
 const roomDrafts = await storage.query( 'drafts', {index: 'by_room', query: 'room-1', count: 50} );
 const stopWatching = storage.watch(
     ['drafts'],
-    function(){ return storage.query( 'drafts' ); },
-    function( drafts ){ console.log( drafts.length ); }
+    function(){
+        //Reloading drafts after a committed storage change
+        return storage.query( 'drafts' );
+
+    },
+    function( drafts ){
+        //Replacing this output with the application's draft list
+        console.log( drafts.length );
+
+    }
 );
 await storage.delete( 'drafts', 'draft-1' );
 stopWatching();

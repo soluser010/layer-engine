@@ -3,7 +3,7 @@ title: Реактивные ошибки и расширение runtime
 description: Store, ErrorBoundary, manual host и границы доверенных plugins.
 audience: advanced
 order: 265
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 

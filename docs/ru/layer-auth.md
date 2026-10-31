@@ -3,7 +3,7 @@ title: Layer Auth
 description: Headless identities, sessions, MFA, OAuth 2.1 и OIDC.
 audience: intermediate
 order: 150
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

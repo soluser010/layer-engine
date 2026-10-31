@@ -3,7 +3,7 @@ title: VS Code, IntelliSense, and live reload
 description: Installing the Layer VS Code Extension, embedded HTML/CSS IntelliSense, snippets, and automatic browser refresh.
 audience: beginner
 order: 60
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

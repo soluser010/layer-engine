@@ -3,7 +3,7 @@ title: PWA, Service Worker и обновления
 description: Capabilities, offline cache, background sync и безопасные обновления.
 audience: intermediate
 order: 180
-status: release-candidate
+status: documented
 updated: 2026-09-28
 ---
 
@@ -21,14 +21,20 @@ updated: 2026-09-28
 
 ## Пример
 
-```js
-const installState = window.layer.pwa.install.getCapability();
+Вызывайте `installHandle()` из обработчика кнопки после запуска приложения. Не запускайте эту функцию при SSR или автоматически при открытии страницы.
 
-async function installHandle() {
-    if (installState.availability === 'available') {
+```js
+const installHandle = async function(){
+    //Checking current availability inside the application's install button handler
+    const installCapabilityData = window.layer.pwa.install.getCapability();
+
+    if ( installCapabilityData.availability === 'available' ){
+        //Leaving the installation decision to the user and browser
         await window.layer.pwa.install.prompt();
+
     }
-}
+
+};
 ```
 
 ## Ожидаемый результат

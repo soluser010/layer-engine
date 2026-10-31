@@ -1,9 +1,9 @@
 ---
 title: Installation and CLI
-description: Source workspace installation, Layer CLI commands, and environment setup.
+description: Installing the framework, using application CLI commands and configuring the environment.
 audience: beginner
 order: 20
-status: release-candidate
+status: documented
 updated: 2026-10-29
 ---
 
@@ -11,7 +11,7 @@ updated: 2026-10-29
 
 ## Goal
 
-Install the complete framework and start a first application. npm 0.1.0 is published; local `guide` is added in the upcoming 0.1.1 release.
+Install the framework and start your first application. The local handbook command `guide` is available from version 0.1.1.
 
 ## Requirements
 
@@ -62,31 +62,15 @@ The global npm bin directory must be on PATH. Global tooling does not replace ap
 
 `guide` needs no project configuration, binds only to loopback and prints its URL. `--lang ru` selects Russian; `--open` requests a browser window. Ctrl+C closes the listener. Search and code highlighting use local files. External reference links still require a network. The handbook matches the installed framework version and is excluded from production bundles.
 
-## Source installation
-
-For framework contributors, clone the public repository and use the workspace:
-
-```text
-git clone https://github.com/soluser010/layer-engine.git
-cd layer-engine
-npm ci --ignore-scripts
-npm run build
-npm run cli:install
-```
 
 ## Common mistakes
 
 - `layer` is not found after local installation: use `npx layer` or npm scripts.
 - `npm run dev` in the parent folder: enter `apps/hello-layer` first.
-- No `guide` in 0.1.0: use the online handbook until 0.1.1 is published.
-- Node ExperimentalWarning from passkey probing in 0.1.0: the next CLI loads infrastructure only when needed; this is not an installation failure.
+- No `guide` in 0.1.0: use the online handbook or upgrade to 0.1.1 or later.
 
 ## Failure contract
 
 Missing packages must be restored using the application lockfile. An unsupported Node version fails with `CLI_NODE_UNSUPPORTED`. Invalid guide options fail with `CLI_ARGUMENT_UNKNOWN`; an occupied listener or missing guide asset is an explicit error/404, not a redirect to application files.
 
 Next: [quick start](getting-started.md), [editor](editor-tooling.md), [deployment](deployment-diagnostics.md).
-
-## Programmatic guide lifecycle
-
-`layerGuideServe({lang, port})` from `@solcorp/layer-docs` returns `{origin, url, close}` for custom tools. `port: 0` selects a free loopback port; `await close()` releases the listener. Invalid options reject with TypeError; port binding errors propagate to the caller. This is a tooling API, not an application runtime API.

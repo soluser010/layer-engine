@@ -3,7 +3,7 @@ title: Серверные события от транзакции до вкла
 description: Авторизация каналов, журнал, outbox, доставка и восстановление.
 audience: advanced
 order: 174
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 

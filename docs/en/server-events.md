@@ -3,7 +3,7 @@ title: Server events from transaction to tab
 description: Channel authorization, journal, outbox, delivery and recovery.
 audience: advanced
 order: 174
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 

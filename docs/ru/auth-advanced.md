@@ -3,7 +3,7 @@ title: Права, данные сессии и lifecycle аккаунта
 description: Прикладные permissions и безопасное управление аккаунтом без повторения входа.
 audience: advanced
 order: 155
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 

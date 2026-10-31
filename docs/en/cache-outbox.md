@@ -3,7 +3,7 @@ title: Local cache and command queue
 description: Optimistic UI, queue inspection and explicit conflict resolution.
 audience: advanced
 order: 172
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 
@@ -104,14 +104,22 @@ export function pendingCommandsCreate( storage, apiClient ){
 
 ```js
 const rows = await pending.list();
-const conflict = rows.find( function( row ){ return row.status === 'conflict'; } );
-//Call only after loading the authorized latest record and receiving user confirmation.
-const resolved = await pending.resolve( conflict.commandId, {
-    operation: conflict.operation,
-    payload: {id: latest.id, text: mergedText},
-    baseRevision: latest.revision,
-    conflictDomain: conflict.conflictDomain
-});
+const conflict = rows.find( function( row ){
+    //Selecting a command that requires an explicit conflict decision
+    return row.status === 'conflict';
+
+} );
+//Resolving only an existing conflict after the user has confirmed the merged text
+if ( conflict !== undefined ){
+    const resolved = await pending.resolve( conflict.commandId, {
+        operation: conflict.operation,
+        payload: {id: latest.id, text: mergedText},
+        baseRevision: latest.revision,
+        conflictDomain: conflict.conflictDomain
+    });
+
+}
+
 ```
 
 `pending` is the helper; latest is a new server snapshot; mergedText is user-approved text. Check that a conflict exists before calling resolve. States: queued, sending, retryable, failed, conflict, confirmed, cancelled, resolved. Low-level outbox has `list({statuses})`; this helper shows all. `watch(commandId, listener)` returns unsubscribe. Run list again when entering the queue screen after reload.

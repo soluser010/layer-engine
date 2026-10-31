@@ -3,7 +3,7 @@ title: Configuration, CLI, and error reference
 description: Concise command, configuration block, and error reference.
 audience: all
 order: 250
-status: release-candidate
+status: documented
 updated: 2026-10-06
 ---
 

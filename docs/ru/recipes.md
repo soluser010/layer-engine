@@ -3,7 +3,7 @@ title: Практические рецепты
 description: Короткие проверяемые шаблоны для типичных задач Layer-приложения.
 audience: beginner
 order: 240
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

@@ -3,7 +3,7 @@ title: Полный справочник конфигурации
 description: Поля строгого конфига, defaults, отключение подсистем и применение изменений.
 audience: advanced
 order: 252
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 
@@ -201,6 +201,6 @@ updated: 2026-10-28
 - Manifest остаётся отдельным `public/manifest.webmanifest`, не произвольным вложенным блоком config: name/icons/theme/start_url/scope/share_target/protocol_handlers валидируются в [PWA](pwa-service-worker.md).
 - Ошибка имени/типа — `CLI_CONFIG_INVALID` с file/path и доступными suggestions; `DATABASE_CLUSTER_REQUIRED` — workers без PostgreSQL; `APPLICATION_DATABASE_REQUIRED` — прикладная schema в embedded. Не отключайте auth/TLS вместо исправления конкретного поля.
 
-Команды приложения: `layer create name`, `layer dev`, `layer build`, `layer doctor`, `layer database schema plan`, `layer database schema apply <checksum> --confirm-data-loss`; запуск готового dist — `npm start`. Команды `release:check`, `pack:check` относятся к репозиторию разработчиков фреймворка и не требуются вашему приложению.
+Команды приложения: `layer create name`, `layer dev`, `layer build`, `layer doctor`, `layer database schema plan`, `layer database schema apply <checksum> --confirm-data-loss`; запуск готового dist — `npm start`.
 
 Далее: [конфигурация с примерами](configuration.md), [CLI](installation-cli.md), [deployment](deployment-diagnostics.md).

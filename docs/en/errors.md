@@ -3,7 +3,7 @@ title: Errors and diagnostics
 description: Reading Layer CLI, runtime, protocol, and browser errors and safely choosing retry or correction.
 audience: beginner
 order: 230
-status: release-candidate
+status: documented
 updated: 2026-10-06
 ---
 

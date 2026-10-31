@@ -3,7 +3,7 @@ title: Links, incoming launches and viewer
 description: PWA navigation, a bounded external viewer and platform association generation.
 audience: all
 order: 185
-status: release-candidate
+status: documented
 updated: 2026-10-16
 ---
 
@@ -40,21 +40,21 @@ New manifests declare id, scope, start_url, standalone and a focus-existing laun
 window.layer.links is the shared controller. context.links is a component owner, or null in SSR/manual hosts without the provider. Call actions from browser lifecycle or user handlers:
 
 ```js
-async function helpOpen(context) {
+const helpOpen = async function( context ){
     //Keeping server rendering and isolated hosts free from browser side effects
-    if (!context.links) {
+    if ( !context.links ){
         return;
 
     }
     //Opening only an origin explicitly allowed in application configuration
-    const result = await context.links.open('https://docs.example.com/help', {mode: 'viewer'});
-    if (result.status === 'blocked') {
+    const result = await context.links.open( 'https://docs.example.com/help', {mode: 'viewer'} );
+    if ( result.status === 'blocked' ){
         //Reporting the safe action reason rather than a stack or sensitive URL
-        console.warn(result.reason);
+        console.warn( result.reason );
 
     }
 
-}
+};
 ```
 
 open(url, {mode}) returns a result Promise. Modes: auto (default), app, viewer, external. Auto uses the router for app routes, browser navigation for related origins, the viewer for allowlisted origins, otherwise the platform. App stays within permitted scope. Explicit viewer rejects unlisted and same-origin iframe URLs. External requests a new window with noopener/noreferrer.
@@ -106,12 +106,12 @@ One native broker shares delivery between router, pwa.launch.setConsumer and pwa
 
 A manual launch consumer takes priority; register it in onReady. Startup replay and queued file delivery preserve early launches. Up to 32 file envelopes wait for registration; overflow reports PWA_LAUNCH_QUEUE_LIMIT. Callback failures do not prevent other delivery. Do not call native launchQueue.setConsumer directly.
 
-launch.setDefaultConsumer, hasConsumer, startupComplete and dispose are shared host infrastructure hooks, not component APIs. Without Launch Queue, initial URLs and router navigation still work. Users may disable link capture. [Chrome navigation management](https://developer.chrome.com/docs/capabilities/pwa-navigation-management).
+Without Launch Queue, initial URLs and router navigation still work. Users may disable link capture. [Chrome navigation management](https://developer.chrome.com/docs/capabilities/pwa-navigation-management).
 
 ## Errors and verification
 
 CLI_CONFIG_INVALID and PWA_LINKS_CONFIG_INVALID report links paths without reflecting input values. CLI_BUILD_ASSOCIATION_CONFLICT requires choosing generated or public ownership. Blocked reasons include url-denied, viewer-origin-denied, viewer-unavailable, app-scope-denied and router boundaries such as auth-required, offline and superseded. Invalid options/disposed APIs throw TypeError. Auto may fall back for a known local viewer capability failure, never a guessed iframe error.
 
-Test direct URLs/query/hash, repeated launches, viewer, Escape/focus, modifiers and embedding refusal. Browser matrix success does not prove OS association: APK/Apple/Windows packages and HTTPS hosting need separate manual gates. Native Safari remains best effort without certification.
+Test direct URLs/query/hash, repeated launches, viewer, Escape/focus, modifiers and embedding refusal. OS link opening requires configuration in the corresponding APK/Apple/Windows package and association files on the HTTPS domain. Verify this workflow on devices used by your audience.
 
 Next: [PWA](pwa-service-worker.md), [routing](routing-ssr.md), [configuration](configuration.md), [browser support](browser-support.md).

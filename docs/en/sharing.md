@@ -3,7 +3,7 @@ title: Sharing — sending and receiving data
 description: Web Share, Share Target, text, links and files in Layer PWA.
 audience: beginner
 order: 183
-status: release-candidate
+status: documented
 updated: 2026-10-26
 ---
 

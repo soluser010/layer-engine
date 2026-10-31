@@ -3,7 +3,7 @@ title: Offline, outbox, and realtime without WebSocket
 description: Durable commands, conflicts, cursor replay, and POST Fetch Stream.
 audience: intermediate
 order: 170
-status: release-candidate
+status: documented
 updated: 2026-10-20
 ---
 

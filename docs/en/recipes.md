@@ -3,7 +3,7 @@ title: Practical recipes
 description: Short verified patterns for common Layer application tasks.
 audience: beginner
 order: 240
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

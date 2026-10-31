@@ -3,7 +3,7 @@ title: Ссылки, входящие запуски и viewer
 description: Навигация PWA, безопасный внешний viewer и генерация platform associations.
 audience: all
 order: 185
-status: release-candidate
+status: documented
 updated: 2026-10-16
 ---
 
@@ -40,21 +40,21 @@ export default {
 window.layer.links — shared controller. context.links — component owner; в SSR/manual host без провайдера он null. Действия вызываются в browser lifecycle или пользовательском handler:
 
 ```js
-async function helpOpen(context) {
+const helpOpen = async function( context ){
     //Keeping server rendering and isolated hosts free from browser side effects
-    if (!context.links) {
+    if ( !context.links ){
         return;
 
     }
     //Opening only an origin explicitly allowed in application configuration
-    const result = await context.links.open('https://docs.example.com/help', {mode: 'viewer'});
-    if (result.status === 'blocked') {
+    const result = await context.links.open( 'https://docs.example.com/help', {mode: 'viewer'} );
+    if ( result.status === 'blocked' ){
         //Reporting the safe action reason rather than a stack or sensitive URL
-        console.warn(result.reason);
+        console.warn( result.reason );
 
     }
 
-}
+};
 ```
 
 open(url, {mode}) возвращает Promise результата. Modes: auto (default), app, viewer, external. Auto использует router для своих маршрутов, browser navigation для связанных origins, viewer для allowlist, иначе платформу. App не выходит из разрешённого scope. Explicit viewer вне allowlist или для same-origin iframe запрещён. External запрашивает новое окно с noopener/noreferrer.
@@ -106,12 +106,12 @@ scopeExtensions — origins связанных сайтов, добавляем�
 
 Manual launch consumer имеет приоритет; регистрируйте его в onReady. Startup replay и queued file delivery сохраняют ранние launches. До 32 file envelopes удерживаются до регистрации; overflow сообщает PWA_LAUNCH_QUEUE_LIMIT. Ошибка callback не лишает другой consumer доставки. Native launchQueue.setConsumer напрямую не вызывайте.
 
-launch.setDefaultConsumer, hasConsumer, startupComplete, dispose — infrastructure hooks host, не component API. Без Launch Queue работают initial URL и router. Пользователь может отключить link capture. [Chrome navigation management](https://developer.chrome.com/docs/capabilities/pwa-navigation-management).
+Без Launch Queue работают initial URL и router. Пользователь может отключить link capture. [Chrome navigation management](https://developer.chrome.com/docs/capabilities/pwa-navigation-management).
 
 ## Ошибки и проверка
 
 CLI_CONFIG_INVALID и PWA_LINKS_CONFIG_INVALID сообщают links path без отражения входного значения. CLI_BUILD_ASSOCIATION_CONFLICT требует выбрать generated/public файл. Blocked reasons: url-denied, viewer-origin-denied, viewer-unavailable, app-scope-denied и текущие router boundaries (auth-required, offline, superseded). Invalid options/disposed API дают TypeError. Auto допускает platform fallback при известной локальной недоступности viewer, не при предположении об ошибке iframe.
 
-Проверяйте direct URL/query/hash, повторный launch, viewer, Escape/focus, modifiers и отказ embedding. Browser matrix не доказывает реальную OS association: APK/Apple/Windows packages и HTTPS hosting проверяются отдельно. Native Safari — best effort, без certification.
+Проверяйте direct URL/query/hash, повторный launch, viewer, Escape/focus, modifiers и отказ embedding. Для открытия ссылок операционной системой нужны настройки соответствующего APK/Apple/Windows-пакета и association-файлы на HTTPS-домене. Проверяйте этот сценарий на устройствах своей аудитории.
 
 Далее: [PWA](pwa-service-worker.md), [routing](routing-ssr.md), [configuration](configuration.md), [browser support](browser-support.md).

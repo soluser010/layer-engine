@@ -3,7 +3,7 @@ title: Локальный cache и очередь команд
 description: Оптимистичный интерфейс, просмотр очереди и явное разрешение конфликтов.
 audience: advanced
 order: 172
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 
@@ -104,14 +104,22 @@ export function pendingCommandsCreate( storage, apiClient ){
 
 ```js
 const rows = await pending.list();
-const conflict = rows.find( function( row ){ return row.status === 'conflict'; } );
-//Call only after loading the authorized latest record and receiving user confirmation.
-const resolved = await pending.resolve( conflict.commandId, {
-    operation: conflict.operation,
-    payload: {id: latest.id, text: mergedText},
-    baseRevision: latest.revision,
-    conflictDomain: conflict.conflictDomain
-});
+const conflict = rows.find( function( row ){
+    //Selecting a command that requires an explicit conflict decision
+    return row.status === 'conflict';
+
+} );
+//Resolving only an existing conflict after the user has confirmed the merged text
+if ( conflict !== undefined ){
+    const resolved = await pending.resolve( conflict.commandId, {
+        operation: conflict.operation,
+        payload: {id: latest.id, text: mergedText},
+        baseRevision: latest.revision,
+        conflictDomain: conflict.conflictDomain
+    });
+
+}
+
 ```
 
 `pending` — созданный helper; latest — новый серверный снимок; mergedText — подтверждённый пользователем текст. UI обязан сначала проверить наличие conflict. Статусы: queued, sending, retryable, failed, conflict, confirmed, cancelled, resolved. `list({statuses})` есть у низкоуровневого outbox; helper выше показывает все. `watch(commandId, listener)` возвращает unsubscribe; повторите list при входе на экран после reload.

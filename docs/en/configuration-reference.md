@@ -3,7 +3,7 @@ title: Complete configuration reference
 description: Strict configuration fields, defaults, disabled modes and applying changes.
 audience: advanced
 order: 252
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 
@@ -201,6 +201,6 @@ Config changes are not hot-applied: restart dev after editing; rebuild and redep
 - Manifest remains `public/manifest.webmanifest`, not an arbitrary config block. name/icons/theme/start_url/scope/share_target/protocol_handlers are validated separately; see [PWA](pwa-service-worker.md).
 - Wrong name/type produces `CLI_CONFIG_INVALID` with file/path and available suggestions; `DATABASE_CLUSTER_REQUIRED` means workers without PostgreSQL; `APPLICATION_DATABASE_REQUIRED` means an application schema in embedded mode. Fix the field instead of disabling auth/TLS.
 
-Application commands: `layer create name`, `layer dev`, `layer build`, `layer doctor`, `layer database schema plan`, `layer database schema apply <checksum> --confirm-data-loss`. Start built dist with `npm start`. Commands such as `release:check` and `pack:check` belong to the framework-maintainer repository and are not required in your application.
+Application commands: `layer create name`, `layer dev`, `layer build`, `layer doctor`, `layer database schema plan`, `layer database schema apply <checksum> --confirm-data-loss`. Start built dist with `npm start`.
 
 Next: [configuration examples](configuration.md), [CLI](installation-cli.md), [deployment](deployment-diagnostics.md).

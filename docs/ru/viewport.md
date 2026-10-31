@@ -3,7 +3,7 @@ title: Viewport, клавиатура и оболочка приложения
 description: Нативно-подобное PWA поведение, поиск, composer, scroll anchors и context.viewport.
 audience: all
 order: 105
-status: release-candidate
+status: documented
 updated: 2026-10-27
 ---
 

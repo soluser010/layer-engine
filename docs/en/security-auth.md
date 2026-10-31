@@ -3,7 +3,7 @@ title: Security and authentication primitives
 description: Identity, permissions, CSRF, rate limits, and trust boundaries.
 audience: intermediate
 order: 160
-status: release-candidate
+status: documented
 updated: 2026-10-07
 ---
 

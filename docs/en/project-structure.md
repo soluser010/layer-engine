@@ -3,7 +3,7 @@ title: Project structure
 description: Source directories, public assets, server code, and generated dist.
 audience: beginner
 order: 40
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

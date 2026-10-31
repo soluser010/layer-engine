@@ -3,7 +3,7 @@ title: What Layer-Engine is
 description: Purpose, architecture principles, and boundaries of the new Layer-Engine PWA framework.
 audience: beginner
 order: 10
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

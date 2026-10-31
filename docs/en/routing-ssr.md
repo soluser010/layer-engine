@@ -3,7 +3,7 @@ title: Routing, layouts, SSR, and hydration
 description: File routes, metadata, layouts, and first-render modes.
 audience: intermediate
 order: 100
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

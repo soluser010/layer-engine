@@ -3,7 +3,7 @@ title: Application configuration
 description: Strict layer.config.js, safe disable modes, infrastructure, and production secrets.
 audience: beginner
 order: 50
-status: release-candidate
+status: documented
 updated: 2026-10-13
 ---
 
@@ -131,8 +131,10 @@ The total pool must stay within the PostgreSQL budget. Caddy distributes request
 ## Secrets
 
 ```js
-password: {
-    env: 'LAYER_POSTGRES_PRIMARY_PASSWORD'
+{
+    password: {
+        env: 'LAYER_POSTGRES_PRIMARY_PASSWORD'
+    }
 }
 ```
 

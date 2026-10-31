@@ -3,7 +3,7 @@ title: Обновления приложения
 description: Наблюдаемое обновление ресурсов, manifest-карточка и безопасная смена Service Worker.
 audience: all
 order: 183
-status: release-candidate
+status: documented
 updated: 2026-10-16
 ---
 

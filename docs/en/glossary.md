@@ -3,7 +3,7 @@ title: Glossary
 description: Short definitions of the main Layer-Engine terms.
 audience: beginner
 order: 260
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

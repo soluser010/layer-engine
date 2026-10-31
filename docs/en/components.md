@@ -3,7 +3,7 @@ title: Components, props, events, slots, and context
 description: Component composition and explicit data flow.
 audience: beginner
 order: 90
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

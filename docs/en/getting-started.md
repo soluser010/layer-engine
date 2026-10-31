@@ -3,7 +3,7 @@ title: Getting started
 description: Creating a first application, dev server, and reactive page.
 audience: beginner
 order: 30
-status: release-candidate
+status: documented
 updated: 2026-10-29
 ---
 

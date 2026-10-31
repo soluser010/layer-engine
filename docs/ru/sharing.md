@@ -3,7 +3,7 @@ title: Поделиться — отправка и приём данных
 description: Web Share, Share Target, текст, ссылки и файлы в Layer PWA.
 audience: beginner
 order: 183
-status: release-candidate
+status: documented
 updated: 2026-10-26
 ---
 

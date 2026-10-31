@@ -3,7 +3,7 @@ title: Конфигурация приложения
 description: Строгий layer.config.js, безопасные режимы отключения, инфраструктура и production-секреты.
 audience: beginner
 order: 50
-status: release-candidate
+status: documented
 updated: 2026-10-13
 ---
 
@@ -131,8 +131,10 @@ password: null и plaintext разрешены только для loopback deve
 ## Секреты
 
 ```js
-password: {
-    env: 'LAYER_POSTGRES_PRIMARY_PASSWORD'
+{
+    password: {
+        env: 'LAYER_POSTGRES_PRIMARY_PASSWORD'
+    }
 }
 ```
 

@@ -3,7 +3,7 @@ title: Build, deployment, and diagnostics
 description: Portable dist, Caddy HTTPS, supervisor, and startup diagnostics.
 audience: advanced
 order: 190
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

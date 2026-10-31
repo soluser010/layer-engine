@@ -3,7 +3,7 @@ title: Глоссарий
 description: Краткие определения основных терминов Layer-Engine.
 audience: beginner
 order: 260
-status: release-candidate
+status: documented
 updated: 2026-09-24
 ---
 

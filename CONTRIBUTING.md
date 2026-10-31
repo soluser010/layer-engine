@@ -24,4 +24,4 @@ A change is ready when its success and failure contracts are tested, generated d
 
 ## Maintainer source synchronization
 
-The public GitHub repository has independent history. Private GitVerse history must never be merged or pushed into it. See [the two-checkout workflow](docs/runbooks/public-source.md). Application projects under `apps/` are not framework contributions.
+The public GitHub repository has independent history. Private GitVerse history must never be merged or pushed into it. Maintainers transfer reviewed source snapshots between separate checkouts. Application projects under `apps/` are not framework contributions.

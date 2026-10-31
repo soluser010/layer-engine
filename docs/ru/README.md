@@ -3,7 +3,7 @@ title: Документация Layer-Engine
 description: Полное русскоязычное руководство по разработке, проверке и развёртыванию приложений Layer-Engine.
 audience: all
 order: 0
-status: release-candidate
+status: documented
 updated: 2026-10-29
 ---
 
@@ -69,9 +69,9 @@ Layer‑Engine — JavaScript-фреймворк S.O.L CORP для безопа�
 25. [Configuration, CLI и errors reference](reference.md)
 26. [Глоссарий](glossary.md)
 
-## Статус
+## Версия руководства
 
-Документация описывает реализованный release candidate 0.1.x. Возможности, которых ещё нет в коде, обозначаются как planned/post-stable. Версия 0.1.0 опубликована в npm; обновление 0.1.1 подготавливается. Marketplace, 1.0.0 и stable tag не выпускались.
+Используйте руководство, соответствующее установленной версии Layer-Engine. Команда `npx layer guide --lang ru` открывает локальную документацию.
 
 ## Подробные API и контракты
 

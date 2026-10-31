@@ -3,7 +3,7 @@ title: Reactive errors and runtime extensions
 description: Store, ErrorBoundary, manual hosts and trusted plugin boundaries.
 audience: advanced
 order: 265
-status: release-candidate
+status: documented
 updated: 2026-10-28
 ---
 

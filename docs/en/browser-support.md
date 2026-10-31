@@ -3,7 +3,7 @@ title: Browser support
 description: Browser matrix and capability fallbacks, including Safari policy.
 audience: all
 order: 210
-status: release-candidate
+status: documented
 updated: 2026-10-27
 ---
 
@@ -23,15 +23,24 @@ Design an application around capabilities rather than assuming identical PWA API
 
 ## Example
 
-```js
-const pushState = await window.layer.pwa.push.getCapability();
+Call `notificationsEnable()` from a button handler after the application starts. Do not call it during SSR or automatically when opening the page.
 
-if (pushState.availability === 'available') {
-    //Call only from a user action; the server must have Web Push enabled
+```js
+const notificationsEnable = async function(){
+    //Checking browser support when the user requests notifications
+    const pushCapabilityData = await window.layer.pwa.push.getCapability();
+
+    if ( pushCapabilityData.availability !== 'available' ){
+        //Replace this message with your application's notification settings UI
+        console.info( pushCapabilityData.reason );
+        return;
+
+    }
+
+    //Requesting permission and registering this device with the configured server
     await window.layer.pwa.push.enable();
-} else {
-    notificationsFallbackShow(pushState.reason);
-}
+
+};
 ```
 
 ## Expected result
@@ -42,7 +51,7 @@ Server integration and VAPID are covered in [Web Push](web-push.md). API availab
 
 ## Explanation
 
-Rely on availability of the individual feature rather than only the browser name. Full certification of every Safari device and mode combination is not claimed. If your audience uses iOS, verify key application workflows on target devices.
+Rely on availability of the individual feature rather than only the browser name. If your audience uses iOS, verify key application workflows on target devices.
 
 ## Common errors
 
