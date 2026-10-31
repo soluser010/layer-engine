@@ -4,10 +4,12 @@ description: Full-stack server entry contract, operation registry, private origi
 audience: intermediate
 order: 130
 status: documented
-updated: 2026-10-20
+updated: 2026-10-31
 ---
 
 # Server runtime and serverEntry
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-server.md)
 
 ## Goal
 

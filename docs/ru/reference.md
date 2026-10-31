@@ -4,10 +4,12 @@ description: Краткий справочник команд, блоков ко
 audience: all
 order: 250
 status: documented
-updated: 2026-10-06
+updated: 2026-10-31
 ---
 
 # Configuration, CLI и errors reference
+
+[Карта возможностей](capabilities.md)
 
 ## Цель
 

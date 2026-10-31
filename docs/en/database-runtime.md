@@ -4,10 +4,12 @@ description: PGlite, PostgreSQL, Structured CRUD, Redis, and multi-process runti
 audience: advanced
 order: 140
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Databases, Redis, and workers
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-database.md)
 
 ## Goal
 
@@ -156,3 +158,5 @@ An unavailable optional replica does not prevent a healthy primary from starting
 Primary loss makes write readiness fail until an operator/provider switches the topology. Layer does not promote replicas, configure WAL, or invent a backup. Secrets are redacted from diagnostics and generated bundles.
 
 Next: [Context API](context-api.md), [Deployment](deployment-diagnostics.md), [backup/restore](../runbooks/backup-restore.md).
+
+`consistency` is an option of a Structured CRUD read (`findMany`, `findOne`, `count`, `exists`), not a server operation definition field. Default is strong. Example: `table.findMany({limit: 50, consistency: 'eventual'})`. Use primary/strong within write transactions. Complete options and return values: [database API](api-reference-database.md).

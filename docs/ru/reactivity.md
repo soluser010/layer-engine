@@ -4,10 +4,12 @@ description: Реактивные примитивы Layer, batching, computed/e
 audience: beginner
 order: 80
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Signals, stores и частичный DOM
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-render.md)
 
 ## Цель
 
@@ -50,6 +52,8 @@ get() участвует в dependency tracking. peek() читает значе�
 - layerComputedCreate вычисляет read-only значение лениво и кэширует его до изменения зависимости.
 - layerEffectCreate предназначен для внешнего side effect; callback может вернуть cleanup.
 - layerBatch группирует несколько записей в один reactive commit.
+
+Фрагмент внутри компонента; импортируйте `layerComputedCreate` и `layerBatch` из `@solcorp/layer`. `priceSignal` и `quantitySignal` — ранее созданные числовые signals.
 
 ```js
 const totalSignal = layerComputedCreate(function totalCalculate(){
@@ -94,3 +98,9 @@ Compiler знает каждую динамическую точку заран�
 Duplicate repeat key, non-array source, несовместимый template shape и запись в read-only computed завершаются явной ошибкой. Ошибка рендера ограничивается ErrorBoundary; stack/cause не попадает в SSR HTML.
 
 Далее: [компоненты](components.md), [синтаксис](authoring-layer-js.md).
+
+## Параметры реактивных примитивов
+
+`layerSignalCreate(initialValue, {equal})` и `layerComputedCreate(compute, {equal})` допускают собственную функцию сравнения `(previous, next) => boolean`; default — `Object.is`. true означает отсутствие изменения. Для signal доступны get/peek/set/update, для computed — чтение и dispose согласно [сигнатурам](api-reference-render.md). У обычного signal нет публичного subscribe; наблюдение оформляется effect, который читает signal.get(). Не путайте это с subscribe у runtime controllers.
+
+`layerEffectCreate(callback)` возвращает disposer; callback может вернуть cleanup. `layerBatch(callback)` группирует синхронные записи; async callback не превращает несколько await в одну транзакцию DOM. Store наблюдает поля первого уровня, не глубокие мутации. Для ожидания reactive commit используйте `layerCommitWait` из `@solcorp/layer-render`.

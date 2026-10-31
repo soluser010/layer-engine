@@ -4,10 +4,12 @@ description: Web Share, Share Target, text, links and files in Layer PWA.
 audience: beginner
 order: 183
 status: documented
-updated: 2026-10-26
+updated: 2026-10-31
 ---
 
 # Sharing — sending and receiving data
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-pwa.md)
 
 ## Goal
 

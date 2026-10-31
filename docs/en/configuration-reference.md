@@ -4,10 +4,12 @@ description: Strict configuration fields, defaults, disabled modes and applying 
 audience: advanced
 order: 252
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Complete configuration reference
+
+[Capability map](capabilities.md)
 
 `layer.config.js` exports one ESM object. Unknown fields are rejected. The table is generated from current `layerConfigValidate`: default means an omitted-field value; “enabled-block example” is a valid example, **not a feature enabled by default**. Array item fields use `[]`. No real secrets are read; REFERENCE_SECRET is a demonstration ENV-reference name.
 

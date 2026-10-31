@@ -4,10 +4,12 @@ description: Как измерить ёмкость собственного п�
 audience: advanced
 order: 220
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Производительность приложения
+
+[Карта возможностей](capabilities.md)
 
 ## Цель
 

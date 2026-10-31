@@ -4,10 +4,12 @@ description: Reading Layer CLI, runtime, protocol, and browser errors and safely
 audience: beginner
 order: 230
 status: documented
-updated: 2026-10-06
+updated: 2026-10-31
 ---
 
 # Errors and diagnostics
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-protocol.md)
 
 ## Goal
 

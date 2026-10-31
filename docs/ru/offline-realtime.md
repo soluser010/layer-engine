@@ -4,10 +4,12 @@ description: Durable commands, conflicts, cursor replay и POST Fetch Stream.
 audience: intermediate
 order: 170
 status: documented
-updated: 2026-10-20
+updated: 2026-10-31
 ---
 
 # Offline, outbox и realtime без WebSocket
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-runtime.md)
 
 ## Медленные подписчики и ограничение памяти
 

@@ -4,10 +4,12 @@ description: Создание первого приложения, dev server и
 audience: beginner
 order: 30
 status: documented
-updated: 2026-10-29
+updated: 2026-10-31
 ---
 
 # Быстрый старт
+
+[Карта возможностей](capabilities.md)
 
 ## Цель
 

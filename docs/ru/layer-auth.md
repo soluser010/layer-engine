@@ -4,10 +4,12 @@ description: Headless identities, sessions, MFA, OAuth 2.1 и OIDC.
 audience: intermediate
 order: 150
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Layer Auth
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-auth.md)
 
 ## Цель
 

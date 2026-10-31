@@ -4,10 +4,12 @@ description: Schemas, migrations, transactions, watch and local storage cleanup.
 audience: intermediate
 order: 171
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # IndexedDB for application data
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-storage.md)
 
 Keep drafts and local data separate from the server source of truth. A managed application can export `storageSchema` from `src/app.js`; runtime opens it in its user namespace. Use `layerStorageOpen` below for an independent store. Do not create a second engine outbox unnecessarily.
 

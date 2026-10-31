@@ -4,10 +4,12 @@ description: Композиция компонентов и явный пото�
 audience: beginner
 order: 90
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Компоненты, props, events, slots и context
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-layer.md)
 
 ## Цель
 
@@ -17,6 +19,14 @@ updated: 2026-09-24
 
 ```js
 import {html, layerComponentCreate} from '@solcorp/layer';
+
+export const properties = {
+    message: {type: 'object', required: true}
+};
+
+export const events = {
+    'message.remove': {id: 'string'}
+};
 
 export default layerComponentCreate(function MessageCard( properties, context ){
     //Creating the component event from server-validated message identity
@@ -59,3 +69,11 @@ export default layerComponentCreate(function MessageCard( properties, context ){
 Необработанная ошибка ограничивается error boundary. Unsafe HTML принимается только отдельным API с проверенным `TrustedHTML`.
 
 Далее: [синтаксис `.layer.js`](authoring-layer-js.md), [Context API](context-api.md).
+
+## Контракты компонента
+
+`layerComponentCreate(render)` принимает синхронную функцию `(properties, context)`, возвращающую `html` template. Async render не является способом загрузки API. `export const properties` описывает props; `required: true` требует значение, `default` задаёт fallback. `export const events` объявляет имена разрешённых emit. Пример ожидает message с id/text; вложенную бизнес-структуру проверяет приложение.
+
+Lifecycle: `onMount(callback)`, `onHydrate(callback)`, `onUpdate(callback)`, `onDestroy(callback)`. Регистрируйте создание/освобождение внешнего ресурса парой. Signals сами не освобождают произвольный DOM observer или таймер. Для инфраструктурных зависимостей `provide(name, value)` и `consume(name)` используют дерево компонентов, а не глобальную переменную.
+
+Полный список context: [Context API](context-api.md). Возвращаемые формы, props/events/slots для manual host: [точные контракты renderer](api-reference-render.md).

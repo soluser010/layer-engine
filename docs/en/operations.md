@@ -4,10 +4,12 @@ description: src/operations.js, server handlers, generated facade, permissions, 
 audience: intermediate
 order: 110
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Operations: complete and simplified approaches
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-server.md)
 
 ## Goal
 
@@ -101,6 +103,7 @@ After registering application and system operations, call registry.seal(). list(
 After layer build, the dotted profile.public.read name becomes profilePublicReadQueryCreate. JSON Schema produces input/output declarations and IntelliSense.
 
 ```js
+import {html, layerComponentCreate} from '@solcorp/layer';
 import {profilePublicReadQueryCreate} from '#layer/operations';
 
 export default layerComponentCreate(function ProfilePage( properties, context ){

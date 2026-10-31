@@ -4,10 +4,12 @@ description: Схемы, миграции, транзакции, watch и очи
 audience: intermediate
 order: 171
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # IndexedDB для данных приложения
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-storage.md)
 
 Храните черновики и локальные данные отдельно от серверного источника истины. В штатном приложении можно экспортировать `storageSchema` из `src/app.js`; runtime открывает её в своём пользовательском namespace. Для самостоятельного хранилища используйте `layerStorageOpen`, как ниже. Не открывайте вторую копию engine outbox без необходимости.
 

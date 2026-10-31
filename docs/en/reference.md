@@ -4,10 +4,12 @@ description: Concise command, configuration block, and error reference.
 audience: all
 order: 250
 status: documented
-updated: 2026-10-06
+updated: 2026-10-31
 ---
 
 # Configuration, CLI, and error reference
+
+[Capability map](capabilities.md)
 
 ## Goal
 

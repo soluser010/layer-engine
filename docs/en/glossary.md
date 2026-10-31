@@ -4,10 +4,12 @@ description: Short definitions of the main Layer-Engine terms.
 audience: beginner
 order: 260
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Glossary
+
+[Capability map](capabilities.md)
 
 - **Application API** — recommended component and window.layer methods used by application developers.
 - **Capability** — a browser feature with explicit supported/availability/permission/reason instead of a fake polyfill.

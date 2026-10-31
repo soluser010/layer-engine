@@ -4,10 +4,12 @@ description: Каталоги исходников, public assets, server code �
 audience: beginner
 order: 40
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Структура проекта
+
+[Карта возможностей](capabilities.md)
 
 ## Цель
 

@@ -4,10 +4,12 @@ description: PGlite, PostgreSQL, Structured CRUD, Redis и multi-process runtime
 audience: advanced
 order: 140
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Базы данных, Redis и workers
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-database.md)
 
 Layer-Engine поддерживает embedded-режим для небольшого однопроцессного приложения и внешний PostgreSQL для прикладных таблиц, реплик и нескольких workers. Redis необязателен: он ускоряет операции, но не хранит единственную копию сессии, команды, события или прикладных данных.
 
@@ -264,3 +266,5 @@ if ( acquired === true ){
 - Поддержка 100 000 активных пользователей не объявляется гарантией до production-like load gate.
 
 См. также [production deployment](../runbooks/production-deployment.md), [backup/restore](../runbooks/backup-restore.md) и [DDoS/capacity](../runbooks/ddos-and-capacity.md).
+
+`consistency` — option конкретного Structured CRUD чтения (`findMany`, `findOne`, `count`, `exists`), не поле server operation definition. Default — strong. Пример: `table.findMany({limit: 50, consistency: 'eventual'})`. В транзакции записи используйте primary/strong. Полные options и return values: [database API](api-reference-database.md).

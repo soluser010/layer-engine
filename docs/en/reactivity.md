@@ -4,10 +4,12 @@ description: Layer reactive primitives, batching, computed/effect, and updates l
 audience: beginner
 order: 80
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Signals, stores, and partial DOM
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-render.md)
 
 ## Goal
 
@@ -50,6 +52,8 @@ get() participates in dependency tracking. peek() reads without a dependency. se
 - layerComputedCreate creates a lazy read-only value and caches it until a dependency changes.
 - layerEffectCreate is for an external side effect; its callback may return cleanup logic.
 - layerBatch groups several writes into one reactive commit.
+
+In-component fragment: import `layerComputedCreate` and `layerBatch` from `@solcorp/layer`. `priceSignal` and `quantitySignal` are previously created numeric signals.
 
 ```js
 const totalSignal = layerComputedCreate(function totalCalculate(){
@@ -94,3 +98,9 @@ An exception in a computed value, DOM binding, effect or cleanup does not block 
 A duplicate repeat key, non-array source, incompatible template shape, or write to a read-only computed value fails explicitly. ErrorBoundary contains render errors; stack/cause never enters SSR HTML.
 
 Next: [Components](components.md), [Syntax](authoring-layer-js.md).
+
+## Reactive primitive options
+
+`layerSignalCreate(initialValue, {equal})` and `layerComputedCreate(compute, {equal})` accept a custom `(previous, next) => boolean` comparator; the default is `Object.is`. true means unchanged. Signals expose get/peek/set/update; computed values expose reading and disposal as shown in [signatures](api-reference-render.md). Ordinary signals have no public subscribe; observe them using an effect that reads signal.get(). Do not confuse this with subscribe on runtime controllers.
+
+`layerEffectCreate(callback)` returns a disposer; the callback may return cleanup. `layerBatch(callback)` groups synchronous writes; an async callback does not turn several awaits into a DOM transaction. Stores observe top-level fields, not deep mutations. Use `layerCommitWait` from `@solcorp/layer-render` to await a reactive commit.

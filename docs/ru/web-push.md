@@ -4,10 +4,12 @@ description: VAPID, устройства пользователя, transactional
 audience: intermediate
 order: 185
 status: documented
-updated: 2026-10-06
+updated: 2026-10-31
 ---
 
 # Серверный Web Push
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-notifications.md)
 
 ## Цель
 

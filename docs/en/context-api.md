@@ -4,16 +4,53 @@ description: High-level query, command, event, and lifecycle handles.
 audience: intermediate
 order: 120
 status: documented
-updated: 2026-09-30
+updated: 2026-10-31
 ---
 
 # Component Context API
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-runtime.md)
 
 Viewport, input policies, scroll anchors, lifecycle-owned `context.viewport`, and `context.keyboard` (show/hide/state/subscribe/capability): [application shell](viewport.md).
 
 `context.api` is the high-level client API for `*.layer.js`. A component does not create protocol envelopes or call `fetch('/api')` directly. The application runtime owns transport, the IndexedDB query cache, and the transactional outbox; each component bundle adapts runtime snapshots into local read-only signals.
 
 Low-level `window.layer.query(operation, payload, options)` and `window.layer.command(operation, payload, options)` remain available for infrastructure and compatibility. Components should use the object-based `context.api` contract.
+
+
+## Complete option set
+
+| Call / field | Required / default | Contract |
+| --- | --- | --- |
+| `query.operation` | Required | Dotted operation name |
+| `query.payload` | Required | Plain object or synchronous function returning an object; read for each request cycle |
+| `query.cache` | `{}` | All policies, key and age: [caching](caching.md) |
+| `query.offline.fallback` | `cache` | `cache` / `reject` |
+| `query.timeoutMs` | Transport default | Integer 100–120000 ms; does not extend server timeout |
+| `command.operation` | Required | Command name |
+| `command.offline.strategy` | `outbox` | `outbox` / `reject`; reject is not commandOnline and does not promise absence of durable writes |
+| `command.conflictDomain` | Derived from operation | String 1–240; conflict grouping |
+| `command.optimistic.apply` | Absent | `(payload, queryCache)` → token / Promise; after durable enqueue |
+| `command.optimistic.rollback` | Absent | `(error, queryCache, token)` → void / Promise |
+| `execute(payload, options)` | Payload required, options `{}` | options: `baseRevision`, `conflictDomain`, `optimisticPatch`; exact types in the reference |
+
+Unknown query/command definition fields fail with TypeError. Handle signals are read-only; `data.get()` reads a value, `data` in html binds reactively. `refresh()` starts a cycle with the current payload; `settled()` waits for completion; `cancel()` does not roll back a completed server write. `dispose()` releases a handle; reuse is prohibited.
+
+## Component context inventory
+
+| Field | Purpose |
+| --- | --- |
+| `environment` | Rendering environment |
+| `slots`, `emit` | Component composition and events |
+| `provide`, `consume` | Explicit dependencies; consume reads a provider |
+| `api`, `command`, `events` | Application API and event subscription provider |
+| `route` | `{route, params, preload}` of the current navigation |
+| `navigate` | Navigation through the application router |
+| `storage`, `capabilities`, `logger` | Connected host services |
+| `viewport`, `keyboard`, `links` | Lifecycle-owned browser APIs |
+| `onMount`, `onHydrate`, `onUpdate`, `onDestroy` | Lifecycle callback registration |
+
+Do not assume browser providers exist during SSR or in manual hosts. Check nullable APIs and use lifecycle hooks rather than unconditional calls during render. `context.route.preload` is the application runner result, not automatically loaded query-handle data.
 
 ## Query
 

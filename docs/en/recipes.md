@@ -4,10 +4,12 @@ description: Short verified patterns for common Layer application tasks.
 audience: beginner
 order: 240
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Practical recipes
+
+[Capability map](capabilities.md)
 
 ## New SSR page
 

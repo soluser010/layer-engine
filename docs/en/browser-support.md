@@ -4,10 +4,12 @@ description: Browser matrix and capability fallbacks, including Safari policy.
 audience: all
 order: 210
 status: documented
-updated: 2026-10-27
+updated: 2026-10-31
 ---
 
 # Browser support
+
+[Capability map](capabilities.md)
 
 ## Goal
 

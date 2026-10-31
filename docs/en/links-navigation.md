@@ -4,10 +4,12 @@ description: PWA navigation, a bounded external viewer and platform association 
 audience: all
 order: 185
 status: documented
-updated: 2026-10-16
+updated: 2026-10-31
 ---
 
 # Links, incoming launches and viewer
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-runtime.md)
 
 ## Goal
 

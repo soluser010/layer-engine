@@ -4,10 +4,12 @@ description: Наблюдаемое обновление ресурсов, manif
 audience: all
 order: 183
 status: documented
-updated: 2026-10-16
+updated: 2026-10-31
 ---
 
 # Обновления приложения
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-pwa.md)
 
 ## Цель
 

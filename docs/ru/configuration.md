@@ -4,10 +4,12 @@ description: Строгий layer.config.js, безопасные режимы �
 audience: beginner
 order: 50
 status: documented
-updated: 2026-10-13
+updated: 2026-10-31
 ---
 
 # Конфигурация приложения
+
+[Карта возможностей](capabilities.md)
 
 ## CSS: целевые браузеры
 

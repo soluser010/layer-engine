@@ -4,10 +4,12 @@ description: Channel authorization, journal, outbox, delivery and recovery.
 audience: advanced
 order: 174
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Server events from transaction to tab
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-events.md)
 
 Deliver only committed changes, isolated by tenant. This is a serverEntry integration of existing primitives; browser-side Redis publication cannot replace it.
 

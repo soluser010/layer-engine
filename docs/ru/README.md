@@ -4,10 +4,12 @@ description: Полное русскоязычное руководство по
 audience: all
 order: 0
 status: documented
-updated: 2026-10-29
+updated: 2026-10-31
 ---
 
 # Документация Layer‑Engine
+
+[Карта возможностей](capabilities.md)
 
 Layer‑Engine — JavaScript-фреймворк S.O.L CORP для безопасных offline-capable PWA, интерактивных приложений, социальных сетей и мессенджеров. Автор и правообладатель: **S.O.L CORP**. Официальный сайт: [solcorp.ru](https://solcorp.ru).
 
@@ -37,7 +39,7 @@ Layer‑Engine — JavaScript-фреймворк S.O.L CORP для безопа�
 7. [Разработка на *.layer.js](authoring-layer-js.md)
 8. [Signals, stores и частичный DOM](reactivity.md)
 9. [Компоненты, props, events, slots и context](components.md)
-10. [Маршрутизация, layouts, SSR и hydration](routing-ssr.md)
+10. [Маршрутизация — обзор и режимы](routing.md)
     - [Viewport, клавиатура и оболочка приложения](viewport.md)
 
 ### API и сервер
@@ -84,3 +86,25 @@ Layer‑Engine — JavaScript-фреймворк S.O.L CORP для безопа�
 - [Права и данные сессий](auth-advanced.md)
 - [Каталог публичных API](api-catalog.md)
 - [Полный справочник конфигурации](configuration-reference.md)
+
+## Сценарии и полные параметры
+
+- [Пререндер при сборке и hydration](routing-ssr.md)
+- [Клиентский рендер страницы](routing-csr.md)
+- [Все настройки страницы](page-configuration.md)
+- [Кэширование — выбор механизма](caching.md)
+- [Все настройки серверной операции](operations-reference.md)
+- [Справочник сигнатур — @solcorp/layer-auth](api-reference-auth.md)
+- [Справочник сигнатур — @solcorp/layer-database](api-reference-database.md)
+- [Справочник сигнатур — @solcorp/layer-events](api-reference-events.md)
+- [Справочник сигнатур — @solcorp/layer](api-reference-layer.md)
+- [Справочник сигнатур — @solcorp/layer-notifications](api-reference-notifications.md)
+- [Справочник сигнатур — @solcorp/layer-plugin-sdk](api-reference-plugin-sdk.md)
+- [Справочник сигнатур — @solcorp/layer-protocol](api-reference-protocol.md)
+- [Справочник сигнатур — @solcorp/layer-pwa](api-reference-pwa.md)
+- [Справочник сигнатур — @solcorp/layer-render](api-reference-render.md)
+- [Справочник сигнатур — @solcorp/layer-router](api-reference-router.md)
+- [Справочник сигнатур — @solcorp/layer-runtime](api-reference-runtime.md)
+- [Справочник сигнатур — @solcorp/layer-security](api-reference-security.md)
+- [Справочник сигнатур — @solcorp/layer-server](api-reference-server.md)
+- [Справочник сигнатур — @solcorp/layer-storage](api-reference-storage.md)

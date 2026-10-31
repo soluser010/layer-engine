@@ -4,10 +4,12 @@ description: Component composition and explicit data flow.
 audience: beginner
 order: 90
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Components, props, events, slots, and context
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-layer.md)
 
 ## Goal
 
@@ -17,6 +19,14 @@ Build a component with explicit input, an event, and an infrastructure dependenc
 
 ```js
 import {html, layerComponentCreate} from '@solcorp/layer';
+
+export const properties = {
+    message: {type: 'object', required: true}
+};
+
+export const events = {
+    'message.remove': {id: 'string'}
+};
 
 export default layerComponentCreate(function MessageCard( properties, context ){
     //Creating the component event from server-validated message identity
@@ -59,3 +69,11 @@ The component does not read hidden singleton state. DOM listeners and signal bin
 An unhandled component error is contained by an error boundary. Unsafe HTML requires a separate API and verified `TrustedHTML`.
 
 Next: [`.layer.js` authoring](authoring-layer-js.md), [Context API](context-api.md).
+
+## Component contracts
+
+`layerComponentCreate(render)` takes a synchronous `(properties, context)` function returning an `html` template. Async render is not an API loading mechanism. `export const properties` describes props; `required: true` requires a value, `default` provides a fallback. `export const events` declares allowed emit names. The example expects message with id/text; the application validates its nested business structure.
+
+Lifecycle: `onMount(callback)`, `onHydrate(callback)`, `onUpdate(callback)`, `onDestroy(callback)`. Pair external resource creation with cleanup. Signals do not dispose arbitrary DOM observers or timers. Infrastructure `provide(name, value)` and `consume(name)` use the component tree rather than a global variable.
+
+Complete context inventory: [Context API](context-api.md). Return shapes, props/events/slots for manual hosts: [exact renderer contracts](api-reference-render.md).

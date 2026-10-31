@@ -4,10 +4,12 @@ description: Установка фреймворка, команды Layer CLI �
 audience: beginner
 order: 20
 status: documented
-updated: 2026-10-29
+updated: 2026-10-31
 ---
 
 # Установка и CLI
+
+[Карта возможностей](capabilities.md)
 
 ## Цель
 

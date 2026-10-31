@@ -4,10 +4,12 @@ description: Прикладная schema, изоляция владельцев,
 audience: intermediate
 order: 145
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Structured CRUD и ревизии
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-database.md)
 
 Цель — работать с прикладными таблицами через `context.database` в серверной операции. Нужен внешний PostgreSQL; встроенный PGlite хранит системные данные. Подключение и синхронизация schema описаны в [database runtime](database-runtime.md).
 
@@ -135,3 +137,5 @@ const result = await context.database.sql`SELECT ${Number( payload.value )}::int
 `DATABASE_QUERY_INVALID` — неверный фильтр/поле/тип; `DATABASE_TABLE_NOT_FOUND` — имя вне schema; `APPLICATION_DATABASE_REQUIRED` — прикладные таблицы без внешнего PostgreSQL. Ошибка драйвера не должна раскрывать SQL/credentials клиенту. Strong reads идут на primary; `consistency: 'eventual'` явно разрешает здоровую replica с допустимым lag. Результат команды сразу перечитывайте strong.
 
 Далее: [серверные события](server-events.md), [offline и конфликты](offline-realtime.md).
+
+`consistency` — option конкретного Structured CRUD чтения (`findMany`, `findOne`, `count`, `exists`), не поле server operation definition. Default — strong. Пример: `table.findMany({limit: 50, consistency: 'eventual'})`. В транзакции записи используйте primary/strong. Полные options и return values: [database API](api-reference-database.md).

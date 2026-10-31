@@ -4,10 +4,12 @@ description: Навигация PWA, безопасный внешний viewer 
 audience: all
 order: 185
 status: documented
-updated: 2026-10-16
+updated: 2026-10-31
 ---
 
 # Ссылки, входящие запуски и viewer
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-runtime.md)
 
 ## Цель
 

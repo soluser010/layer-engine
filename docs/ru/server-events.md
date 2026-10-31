@@ -4,10 +4,12 @@ description: Авторизация каналов, журнал, outbox, дос
 audience: advanced
 order: 174
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Серверные события от транзакции до вкладки
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-events.md)
 
 Цель — доставлять только подтверждённые изменения, изолированные по tenant. Это serverEntry-интеграция существующих primitives; её нельзя заменить публикацией в Redis из браузера.
 

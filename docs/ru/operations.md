@@ -4,10 +4,12 @@ description: src/operations.js, server handlers, generated facade, permissions, 
 audience: intermediate
 order: 110
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Операции: полный и упрощённый подход
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-server.md)
 
 ## Цель
 
@@ -101,6 +103,7 @@ export function applicationOperationsRegister( operationRegistryData, servicesDa
 После layer build dotted name profile.public.read становится profilePublicReadQueryCreate. JSON Schema формирует input/output declarations и IntelliSense.
 
 ```js
+import {html, layerComponentCreate} from '@solcorp/layer';
 import {profilePublicReadQueryCreate} from '#layer/operations';
 
 export default layerComponentCreate(function ProfilePage( properties, context ){

@@ -4,10 +4,12 @@ description: Краткие определения основных термин
 audience: beginner
 order: 260
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Глоссарий
+
+[Карта возможностей](capabilities.md)
 
 - **Application API** — рекомендуемые методы компонента и window.layer, которыми пользуется разработчик приложения.
 - **Capability** — браузерная возможность с явными supported/availability/permission/reason вместо фиктивного polyfill.

@@ -4,10 +4,12 @@ description: API компонентов, хранилища и серверны�
 audience: advanced
 order: 255
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Каталог публичных API
+
+[Карта возможностей](capabilities.md)
 
 Начинайте с `@solcorp/layer` и [Context API](context-api.md), а не с ручного создания всех перечисленных объектов. Таблица перечисляет функции компонентов и серверных интеграций; внутренние инструменты сборки в неё не входят. Constants, types и nested methods описаны в связанных статьях/generated declarations; отсутствие отдельного примера на каждый низкоуровневый helper не означает отсутствующую функцию.
 

@@ -4,10 +4,12 @@ description: Source directories, public assets, server code, and generated dist.
 audience: beginner
 order: 40
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Project Structure
+
+[Capability map](capabilities.md)
 
 ## Goal
 

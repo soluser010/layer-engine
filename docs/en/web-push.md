@@ -4,10 +4,12 @@ description: VAPID, user devices, transactional SQL delivery and Redis wakeups.
 audience: intermediate
 order: 185
 status: documented
-updated: 2026-10-06
+updated: 2026-10-31
 ---
 
 # Server Web Push
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-notifications.md)
 
 ## Goal
 

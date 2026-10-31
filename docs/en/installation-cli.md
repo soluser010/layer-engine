@@ -4,10 +4,12 @@ description: Installing the framework, using application CLI commands and config
 audience: beginner
 order: 20
 status: documented
-updated: 2026-10-29
+updated: 2026-10-31
 ---
 
 # Installation and CLI
+
+[Capability map](capabilities.md)
 
 ## Goal
 

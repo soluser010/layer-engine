@@ -4,10 +4,12 @@ description: Application permissions and safe account administration beyond sign
 audience: advanced
 order: 155
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Permissions, session data and account lifecycle
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-auth.md)
 
 See [Layer Auth](layer-auth.md) for configuration and sign-in. This chapter assumes managed Auth created through `context.auth.create` in serverEntry. Normal operation context always contains security; the auth extension exists only when Auth runtime is connected.
 

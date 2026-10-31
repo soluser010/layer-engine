@@ -1,54 +1,68 @@
 ---
-title: Routing, layouts, SSR, and hydration
-description: File routes, metadata, layouts, and first-render modes.
+title: Build-time prerender and hydration
+description: Build-time prerender and hydration.
 audience: intermediate
 order: 100
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
-# Routing, layouts, SSR, and hydration
+# Build-time prerender and hydration
 
-## Goal
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-router.md)
 
-Create a file route with metadata, a layout, and a predictable render mode.
+## Purpose
 
-## Example
+Create public HTML for a static route before client JavaScript loads. Alternatives: [routing](routing.md); complete contract: [page options](page-configuration.md).
+
+## Complete example
+
+Create `src/pages/about.layer.js`:
 
 ```js
-import {layerPageCreate} from '@solcorp/layer';
+import {html, layerComponentCreate, layerPageCreate} from '@solcorp/layer';
 
 export const page = layerPageCreate({
-    layout: 'application',
     render: 'ssr',
-    auth: 'session',
-    preload: ['chat.rooms.list'],
+    auth: 'none',
     offline: 'shell',
-    cache: 'private',
     metadata: {
-        title: 'Messages'
+        title: 'About the application'
     }
+});
+
+export default layerComponentCreate(function AboutPage(){
+    //Rendering public content without browser or private server dependencies
+    return html`
+        <main>
+            <h1>About the application</h1>
+            <a href="/">Home</a>
+        </main>
+    `;
+
 });
 ```
 
-`src/pages/chats/[roomId].layer.js` creates the dynamic `/chats/:roomId` route.
+Run `npm run build`. Page HTML appears in `dist/about/index.html`. A direct visit to `/about` receives that document; the client attaches bindings to compatible markup. Incompatible markers may trigger a controlled remount.
 
-## Expected result
+## What runs and when
 
-The server returns HTML with hydration markers. The client binds existing nodes and updates only dependent bindings; it does not rebuild the complete DOM.
+| Stage | Behavior |
+| --- | --- |
+| Build | Synchronous renderer runs without a user session or browser APIs |
+| HTTP request | Host serves prepared HTML; this mode does not enable request-time SSR |
+| Hydration | Browser connects interactivity to existing nodes |
+| Signal change | Dependent DOM bindings update |
+| SPA navigation | Router installs the target page instead of downloading a new document |
 
-## Explanation
+Routes containing `:parameter` or a wildcard are skipped by this pass. `/chats/[roomId]` does not promise prerendered HTML for every roomId; it uses the shell and client rendering. There is no dynamic URL enumeration option for prerender here.
 
-The layout owns the outer shell and the page owns the route region. If a marker is incompatible, the runtime performs controlled recovery and records a safe diagnostic.
+A layout with `data-layer-layout-outlet` participates in static rendering. Browser lifecycle, API transport and IndexedDB cannot supply user data at build time. `preload` belongs to client navigation and does not turn the build into a personalized server request.
 
-## Common errors
+## Security and failures
 
-- A browser-only side effect in SSR component setup.
-- An unstable key in a repeated list.
-- Expecting API data during build-time SSR; transport is deliberately unavailable there.
+`auth: 'session'` does not protect a published HTML file. Load private values through protected operations after session checks. `cache: 'private'` is not data protection: see [caching](caching.md).
 
-## Failure contract
+Component errors or a missing unique layout outlet fail the build with `CLI_BUILD_SSR_FAILED`. Do not rely on random values, current time or browser dimensions producing identical build and hydration markup.
 
-A guard may return redirect/forbidden before render. A hydration mismatch does not execute server HTML as code and does not expose a stack trace to the user.
-
-Next: [Operations and Context API](context-api.md), [Offline and realtime](offline-realtime.md).
+Next: [CSR](routing-csr.md), [complete page configuration](page-configuration.md).

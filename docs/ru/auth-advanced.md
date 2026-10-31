@@ -4,10 +4,12 @@ description: Прикладные permissions и безопасное управ
 audience: advanced
 order: 155
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Права, данные сессии и lifecycle аккаунта
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-auth.md)
 
 Настройка и вход описаны в [Layer Auth](layer-auth.md). Здесь используется managed Auth, подключённый через `context.auth.create` в serverEntry. Обычный operation context всегда содержит security; auth extension появляется только при подключении Auth runtime.
 

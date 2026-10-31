@@ -4,10 +4,12 @@ description: Назначение, архитектурные принципы �
 audience: beginner
 order: 10
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Что такое Layer‑Engine
+
+[Карта возможностей](capabilities.md)
 
 ## Цель
 

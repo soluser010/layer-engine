@@ -4,10 +4,12 @@ description: Badging, уведомления, фоновая синхрониз�
 audience: intermediate
 order: 185
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Дополнительные PWA API
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-pwa.md)
 
 Используйте `window.layer.pwa` после запуска браузерного runtime. Capability показывает наличие API, но не гарантирует разрешение ОС или успех последующего вызова. В SSR browser side effects не выполняются.
 

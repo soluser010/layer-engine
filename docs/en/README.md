@@ -4,10 +4,12 @@ description: Complete English guide to developing, testing, and deploying Layer-
 audience: all
 order: 0
 status: documented
-updated: 2026-10-29
+updated: 2026-10-31
 ---
 
 # Layer‑Engine documentation
+
+[Capability map](capabilities.md)
 
 Layer‑Engine is an S.O.L CORP JavaScript framework for secure, offline-capable PWAs, interactive applications, social networks, and messengers. Author and copyright holder: **S.O.L CORP**. Official website: [solcorp.ru](https://solcorp.ru).
 
@@ -37,7 +39,7 @@ Each article separates the smallest working path from the recommended production
 7. [Authoring *.layer.js](authoring-layer-js.md)
 8. [Signals, stores, and partial DOM](reactivity.md)
 9. [Components, props, events, slots, and context](components.md)
-10. [Routing, layouts, SSR, and hydration](routing-ssr.md)
+10. [Routing, layouts, SSR, and hydration](routing.md)
     - [Viewport, keyboard, and application shell](viewport.md)
 
 ### API and server
@@ -84,3 +86,25 @@ Use the handbook matching your installed Layer-Engine version. Run `npx layer gu
 - [Permissions and session data](auth-advanced.md)
 - [Public API catalog](api-catalog.md)
 - [Complete configuration reference](configuration-reference.md)
+
+## Workflows and complete options
+
+- [Build-time prerender and hydration](routing-ssr.md)
+- [Client-side page rendering](routing-csr.md)
+- [Complete page configuration](page-configuration.md)
+- [Caching — choosing a mechanism](caching.md)
+- [Complete server operation options](operations-reference.md)
+- [Signature reference — @solcorp/layer-auth](api-reference-auth.md)
+- [Signature reference — @solcorp/layer-database](api-reference-database.md)
+- [Signature reference — @solcorp/layer-events](api-reference-events.md)
+- [Signature reference — @solcorp/layer](api-reference-layer.md)
+- [Signature reference — @solcorp/layer-notifications](api-reference-notifications.md)
+- [Signature reference — @solcorp/layer-plugin-sdk](api-reference-plugin-sdk.md)
+- [Signature reference — @solcorp/layer-protocol](api-reference-protocol.md)
+- [Signature reference — @solcorp/layer-pwa](api-reference-pwa.md)
+- [Signature reference — @solcorp/layer-render](api-reference-render.md)
+- [Signature reference — @solcorp/layer-router](api-reference-router.md)
+- [Signature reference — @solcorp/layer-runtime](api-reference-runtime.md)
+- [Signature reference — @solcorp/layer-security](api-reference-security.md)
+- [Signature reference — @solcorp/layer-server](api-reference-server.md)
+- [Signature reference — @solcorp/layer-storage](api-reference-storage.md)

@@ -4,10 +4,12 @@ description: Observable resource updates, a manifest-branded card and safe Servi
 audience: all
 order: 183
 status: documented
-updated: 2026-10-16
+updated: 2026-10-31
 ---
 
 # Application updates
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-pwa.md)
 
 ## Goal
 

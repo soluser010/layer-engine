@@ -4,10 +4,12 @@ description: Creating a first application, dev server, and reactive page.
 audience: beginner
 order: 30
 status: documented
-updated: 2026-10-29
+updated: 2026-10-31
 ---
 
 # Getting Started
+
+[Capability map](capabilities.md)
 
 ## Goal
 

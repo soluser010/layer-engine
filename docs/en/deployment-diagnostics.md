@@ -4,10 +4,12 @@ description: Portable dist, Caddy HTTPS, supervisor, and startup diagnostics.
 audience: advanced
 order: 190
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Build, deployment, and diagnostics
+
+[Capability map](capabilities.md)
 
 ## Security baseline and upstream connections
 

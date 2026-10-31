@@ -40,9 +40,11 @@ nav input {
     padding: 8px;
 }
 
+/* Wrapping long API names while code blocks retain their own horizontal scrolling */
 main {
     min-width: 0;
     padding: 24px;
+    overflow-wrap: anywhere;
 }
 
 pre {

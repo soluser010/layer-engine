@@ -4,16 +4,53 @@ description: Высокоуровневые query, command, events и lifecycle 
 audience: intermediate
 order: 120
 status: documented
-updated: 2026-09-30
+updated: 2026-10-31
 ---
 
 # Context API компонентов
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-runtime.md)
 
 Viewport, input policies, scroll anchors, lifecycle-owned `context.viewport` и `context.keyboard` (show/hide/state/subscribe/capability): [оболочка приложения](viewport.md).
 
 `context.api` — высокоуровневый клиентский API для `*.layer.js`. Компонент не создаёт protocol envelope и не вызывает `fetch('/api')` вручную. Application runtime владеет транспортом, IndexedDB query cache и transactional outbox; component bundle преобразует snapshots runtime в локальные read-only signals.
 
 Низкоуровневые `window.layer.query(operation, payload, options)` и `window.layer.command(operation, payload, options)` сохраняются для инфраструктуры и совместимости. В компонентах следует использовать объектный контракт `context.api`.
+
+
+## Полный набор options
+
+| Вызов / поле | Обязательность / default | Контракт |
+| --- | --- | --- |
+| `query.operation` | Обязательно | Dotted operation name |
+| `query.payload` | Обязательно | Plain object либо синхронная функция, возвращающая объект; читается при цикле запроса |
+| `query.cache` | `{}` | Все policies, ключ и возраст: [кэширование](caching.md) |
+| `query.offline.fallback` | `cache` | `cache` / `reject` |
+| `query.timeoutMs` | Transport default | Целое 100–120000 ms; не увеличивает server timeout |
+| `command.operation` | Обязательно | Имя command |
+| `command.offline.strategy` | `outbox` | `outbox` / `reject`; reject не равно commandOnline и не обещает отсутствие durable записи |
+| `command.conflictDomain` | Выводится из операции | Строка 1–240; группировка конфликтов |
+| `command.optimistic.apply` | Не задан | `(payload, queryCache)` → token / Promise; после durable enqueue |
+| `command.optimistic.rollback` | Не задан | `(error, queryCache, token)` → void / Promise |
+| `execute(payload, options)` | Payload обязателен, options `{}` | options: `baseRevision`, `conflictDomain`, `optimisticPatch`; точные типы в справочнике |
+
+Неизвестные поля query/command definitions отклоняются с TypeError. Публичные сигналы handle read-only; `data.get()` читает значение, `data` внутри html связывается реактивно. `refresh()` запускает новый цикл с актуальным payload; `settled()` ждёт его завершения; `cancel()` не откатывает уже выполненную серверную запись. `dispose()` освобождает handle; повторное использование запрещено.
+
+## Что есть в component context
+
+| Поле | Назначение |
+| --- | --- |
+| `environment` | Среда рендера |
+| `slots`, `emit` | Композиция и события компонента |
+| `provide`, `consume` | Явные зависимости; consume читает provider |
+| `api`, `command`, `events` | Прикладной API и event subscription provider |
+| `route` | `{route, params, preload}` текущей навигации |
+| `navigate` | Переход через application router |
+| `storage`, `capabilities`, `logger` | Подключённые сервисы host |
+| `viewport`, `keyboard`, `links` | Lifecycle-owned browser API |
+| `onMount`, `onHydrate`, `onUpdate`, `onDestroy` | Регистрация lifecycle callbacks |
+
+В SSR и manual host нельзя предполагать наличие browser provider. Проверяйте nullable API и используйте lifecycle, а не безусловный вызов во время render. `context.route.preload` — результат runner приложения, а не автоматически загруженные данные query handle.
 
 ## Query
 

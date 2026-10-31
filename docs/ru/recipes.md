@@ -4,10 +4,12 @@ description: Короткие проверяемые шаблоны для ти�
 audience: beginner
 order: 240
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Практические рецепты
+
+[Карта возможностей](capabilities.md)
 
 ## Новая SSR-страница
 

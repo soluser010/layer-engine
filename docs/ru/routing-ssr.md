@@ -1,54 +1,68 @@
 ---
-title: Маршрутизация, layouts, SSR и hydration
-description: Файловые routes, metadata, layouts и режимы первого рендера.
+title: Пререндер при сборке и hydration
+description: Пререндер при сборке и hydration.
 audience: intermediate
 order: 100
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
-# Маршрутизация, layouts, SSR и hydration
+# Пререндер при сборке и hydration
 
-## Цель
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-router.md)
 
-Создать файловый маршрут с metadata, layout и предсказуемым режимом рендера.
+## Назначение
 
-## Пример
+Создать публичный HTML статического маршрута до загрузки клиентского JavaScript. Обзор альтернатив: [маршрутизация](routing.md); полный контракт: [настройки страницы](page-configuration.md).
+
+## Полный пример
+
+Создайте `src/pages/about.layer.js`:
 
 ```js
-import {layerPageCreate} from '@solcorp/layer';
+import {html, layerComponentCreate, layerPageCreate} from '@solcorp/layer';
 
 export const page = layerPageCreate({
-    layout: 'application',
     render: 'ssr',
-    auth: 'session',
-    preload: ['chat.rooms.list'],
+    auth: 'none',
     offline: 'shell',
-    cache: 'private',
     metadata: {
-        title: 'Сообщения'
+        title: 'About the application'
     }
+});
+
+export default layerComponentCreate(function AboutPage(){
+    //Rendering public content without browser or private server dependencies
+    return html`
+        <main>
+            <h1>About the application</h1>
+            <a href="/">Home</a>
+        </main>
+    `;
+
 });
 ```
 
-Файл `src/pages/chats/[roomId].layer.js` создаёт динамический маршрут `/chats/:roomId`.
+Выполните `npm run build`. В `dist/about/index.html` появится HTML страницы. При прямом открытии `/about` браузер получает этот документ; клиент подключает bindings к совместимой разметке. При несовместимых markers допускается контролируемый повторный mount.
 
-## Ожидаемый результат
+## Что выполняется и когда
 
-Сервер возвращает HTML с hydration markers. Клиент связывает существующие узлы и обновляет только зависимые bindings; полный DOM не перестраивается.
+| Этап | Поведение |
+| --- | --- |
+| Build | Синхронный renderer выполняется без пользовательской сессии и браузерных API |
+| HTTP-запрос | Хост выдаёт готовый HTML; этот режим сам не запускает request-time SSR |
+| Hydration | Браузер подключает интерактивность к готовым узлам |
+| Изменение signal | Меняются зависимые DOM bindings |
+| SPA-переход | Router устанавливает целевую страницу, а не скачивает её как новый документ |
 
-## Объяснение
+Маршруты с `:parameter` или wildcard не генерируются этим проходом. Для `/chats/[roomId]` не обещается предварительный HTML каждого roomId; используется оболочка и клиентский рендер. Список динамических URL для prerender здесь не настраивается.
 
-Layout владеет внешней оболочкой, страница — route region. При несовместимом marker runtime выполняет контролируемое восстановление и пишет безопасную диагностику.
+Layout с `data-layer-layout-outlet` участвует в статическом рендере. Browser lifecycle, API transport и IndexedDB нельзя использовать для получения пользовательских данных при build. `preload` принадлежит клиентской навигации и не превращает сборку в персонализированный серверный запрос.
 
-## Типовые ошибки
+## Безопасность и ошибки
 
-- Browser-only side effect в setup SSR-компонента.
-- Нестабильный key в repeat-списке.
-- Ожидание API-данных в build-time SSR: transport там намеренно недоступен.
+`auth: 'session'` не закрывает опубликованный HTML-файл. Приватные значения загружайте защищёнными операциями после проверки сессии. `cache: 'private'` не является защитой данных: см. [кэширование](caching.md).
 
-## Failure contract
+Ошибка компонента/отсутствие единственного layout outlet завершают build с `CLI_BUILD_SSR_FAILED`. Не используйте случайное значение, текущее время или браузерный размер как обязательную одинаковую разметку build и hydration.
 
-Guard может вернуть redirect/forbidden до рендера. Hydration mismatch не исполняет серверный HTML как код и не раскрывает stack пользователю.
-
-Далее: [operations и Context API](context-api.md), [offline и realtime](offline-realtime.md).
+Далее: [CSR](routing-csr.md), [полная конфигурация страницы](page-configuration.md).

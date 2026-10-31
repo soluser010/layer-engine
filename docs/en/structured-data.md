@@ -4,10 +4,12 @@ description: Application schemas, ownership isolation, atomic edits and failures
 audience: intermediate
 order: 145
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Structured CRUD and revisions
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-database.md)
 
 Use `context.database` inside server operations for application tables. External PostgreSQL is required; embedded PGlite stores system data. See [database runtime](database-runtime.md) for connections and schema synchronization.
 
@@ -135,3 +137,5 @@ Interpolations are values, not identifiers or SQL fragments. Raw SQL does not ad
 `DATABASE_QUERY_INVALID` means an invalid filter/field/type; `DATABASE_TABLE_NOT_FOUND` means an undeclared table; `APPLICATION_DATABASE_REQUIRED` means application tables without external PostgreSQL. Never expose driver SQL or credentials to clients. Strong reads use primary; `consistency: 'eventual'` explicitly permits a healthy replica within the lag limit. Read command results back with strong consistency.
 
 Next: [server events](server-events.md), [offline conflicts](offline-realtime.md).
+
+`consistency` is an option of a Structured CRUD read (`findMany`, `findOne`, `count`, `exists`), not a server operation definition field. Default is strong. Example: `table.findMany({limit: 50, consistency: 'eventual'})`. Use primary/strong within write transactions. Complete options and return values: [database API](api-reference-database.md).

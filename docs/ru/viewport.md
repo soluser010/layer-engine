@@ -4,10 +4,12 @@ description: Нативно-подобное PWA поведение, поиск,
 audience: all
 order: 105
 status: documented
-updated: 2026-10-27
+updated: 2026-10-31
 ---
 
 # Viewport, клавиатура и оболочка приложения
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-runtime.md)
 
 ## Цель
 

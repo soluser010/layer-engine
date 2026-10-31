@@ -4,10 +4,12 @@ description: Как читать CLI, runtime, protocol и browser ошибки 
 audience: beginner
 order: 230
 status: documented
-updated: 2026-10-06
+updated: 2026-10-31
 ---
 
 # Ошибки и диагностика
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-protocol.md)
 
 ## Цель
 

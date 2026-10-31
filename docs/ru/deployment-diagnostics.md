@@ -4,10 +4,12 @@ description: Переносимый dist, Caddy HTTPS, supervisor и диагн�
 audience: advanced
 order: 190
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Build, deployment и diagnostics
+
+[Карта возможностей](capabilities.md)
 
 ## Security baseline и соединения upstream
 

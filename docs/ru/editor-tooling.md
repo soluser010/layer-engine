@@ -4,10 +4,12 @@ description: Установка Layer VS Code Extension, embedded HTML/CSS Intel
 audience: beginner
 order: 60
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # VS Code, IntelliSense и live reload
+
+[Карта возможностей](capabilities.md)
 
 ## Цель
 

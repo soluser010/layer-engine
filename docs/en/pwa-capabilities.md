@@ -4,10 +4,12 @@ description: Badging, notifications, background sync, persistent storage and pro
 audience: intermediate
 order: 185
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Additional PWA APIs
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-pwa.md)
 
 Use `window.layer.pwa` after browser runtime startup. A capability reports API availability, not OS permission or guaranteed success. Do not perform browser side effects during SSR.
 

@@ -4,10 +4,12 @@ description: Component syntax, generated operations, CSS matrix, and live reload
 audience: intermediate
 order: 70
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Authoring `*.layer.js`
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-layer.md)
 
 ## CSS build pipeline
 

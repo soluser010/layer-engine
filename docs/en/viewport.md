@@ -4,10 +4,12 @@ description: Native-like PWA behavior, search, composer, scroll anchors, and con
 audience: all
 order: 105
 status: documented
-updated: 2026-10-27
+updated: 2026-10-31
 ---
 
 # Viewport, keyboard, and application shell
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-runtime.md)
 
 ## Goal
 

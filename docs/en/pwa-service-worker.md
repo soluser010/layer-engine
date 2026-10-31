@@ -4,10 +4,12 @@ description: Capabilities, offline cache, background sync, and safe updates.
 audience: intermediate
 order: 180
 status: documented
-updated: 2026-09-28
+updated: 2026-10-31
 ---
 
 # PWA, Service Worker, and updates
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-pwa.md)
 
 Card, progress, buildId and multi-window saving: [application updates](application-updates.md).
 

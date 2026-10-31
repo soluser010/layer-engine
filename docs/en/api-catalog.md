@@ -4,10 +4,12 @@ description: Application components, storage and server integration APIs.
 audience: advanced
 order: 255
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Public API catalog
+
+[Capability map](capabilities.md)
 
 Start with `@solcorp/layer` and [Context API](context-api.md), not manual construction of every object listed below. This table lists component and server integration functions; internal build tools are excluded. Constants, types and nested methods are documented in linked guides/generated declarations. A missing standalone example for a low-level helper does not imply missing implementation.
 

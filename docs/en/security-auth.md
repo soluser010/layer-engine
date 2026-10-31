@@ -4,10 +4,12 @@ description: Identity, permissions, CSRF, rate limits, and trust boundaries.
 audience: intermediate
 order: 160
 status: documented
-updated: 2026-10-07
+updated: 2026-10-31
 ---
 
 # Security and authentication primitives
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-security.md)
 
 ## Goal
 

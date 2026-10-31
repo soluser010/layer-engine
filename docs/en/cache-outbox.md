@@ -4,10 +4,12 @@ description: Optimistic UI, queue inspection and explicit conflict resolution.
 audience: advanced
 order: 172
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Local cache and command queue
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-runtime.md)
 
 Use [Context API](context-api.md) in components. This chapter covers local state, a separate layer from server Redis caching.
 

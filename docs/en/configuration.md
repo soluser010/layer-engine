@@ -4,10 +4,12 @@ description: Strict layer.config.js, safe disable modes, infrastructure, and pro
 audience: beginner
 order: 50
 status: documented
-updated: 2026-10-13
+updated: 2026-10-31
 ---
 
 # Application configuration
+
+[Capability map](capabilities.md)
 
 ## CSS browser targets
 

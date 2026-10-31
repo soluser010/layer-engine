@@ -4,10 +4,12 @@ description: Purpose, architecture principles, and boundaries of the new Layer-E
 audience: beginner
 order: 10
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # What Layer‑Engine is
+
+[Capability map](capabilities.md)
 
 ## Goal
 

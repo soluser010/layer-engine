@@ -4,10 +4,12 @@ description: Store, ErrorBoundary, manual hosts and trusted plugin boundaries.
 audience: advanced
 order: 265
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Reactive errors and runtime extensions
+
+[Capability map](capabilities.md) · [Complete signatures and types](api-reference-render.md)
 
 Use this chapter for custom hosts or complex lifecycles. Ordinary applications start with components and Context API rather than constructing runtime manually.
 

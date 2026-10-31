@@ -4,10 +4,12 @@ description: Web Share, Share Target, текст, ссылки и файлы в 
 audience: beginner
 order: 183
 status: documented
-updated: 2026-10-26
+updated: 2026-10-31
 ---
 
 # Поделиться — отправка и приём данных
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-pwa.md)
 
 ## Цель
 

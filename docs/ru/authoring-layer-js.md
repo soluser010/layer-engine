@@ -4,10 +4,12 @@ description: Синтаксис компонентов, generated operations, CS
 audience: intermediate
 order: 70
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # Разработка на `*.layer.js`
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-layer.md)
 
 ## CSS build pipeline
 

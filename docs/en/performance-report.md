@@ -4,10 +4,12 @@ description: Measure your application's capacity and choose workers, limits and 
 audience: advanced
 order: 220
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Application performance
+
+[Capability map](capabilities.md)
 
 ## Goal
 

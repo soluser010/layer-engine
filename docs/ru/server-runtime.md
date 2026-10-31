@@ -4,10 +4,12 @@ description: Контракт full-stack server entry, operation registry, priva
 audience: intermediate
 order: 130
 status: documented
-updated: 2026-10-20
+updated: 2026-10-31
 ---
 
 # Server runtime и serverEntry
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-server.md)
 
 ## Цель
 

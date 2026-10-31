@@ -4,10 +4,12 @@ description: Installing the Layer VS Code Extension, embedded HTML/CSS IntelliSe
 audience: beginner
 order: 60
 status: documented
-updated: 2026-09-24
+updated: 2026-10-31
 ---
 
 # VS Code, IntelliSense, and live reload
+
+[Capability map](capabilities.md)
 
 ## Goal
 

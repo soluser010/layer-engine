@@ -4,10 +4,12 @@ description: Store, ErrorBoundary, manual host и границы доверен�
 audience: advanced
 order: 265
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Реактивные ошибки и расширение runtime
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-render.md)
 
 Эта глава нужна при нестандартном host или сложном жизненном цикле. Обычное приложение начинает с компонентов и Context API, а не с ручного создания runtime.
 

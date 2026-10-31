@@ -4,10 +4,12 @@ description: Browser matrix и capability fallbacks, включая Safari polic
 audience: all
 order: 210
 status: documented
-updated: 2026-10-27
+updated: 2026-10-31
 ---
 
 # Поддержка браузеров
+
+[Карта возможностей](capabilities.md)
 
 ## Цель
 

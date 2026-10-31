@@ -4,10 +4,12 @@ description: Unit, protocol, renderer, browser, security, integration и load-п
 audience: intermediate
 order: 200
 status: documented
-updated: 2026-10-27
+updated: 2026-10-31
 ---
 
 # Тестирование приложений
+
+[Карта возможностей](capabilities.md)
 
 ## Цель
 

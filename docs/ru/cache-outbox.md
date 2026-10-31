@@ -4,10 +4,12 @@ description: Оптимистичный интерфейс, просмотр о�
 audience: advanced
 order: 172
 status: documented
-updated: 2026-10-28
+updated: 2026-10-31
 ---
 
 # Локальный cache и очередь команд
+
+[Карта возможностей](capabilities.md) · [Полные сигнатуры и типы](api-reference-runtime.md)
 
 В компонентах используйте [Context API](context-api.md). Ниже уточняется управление локальными данными; это отдельный слой от серверного Redis cache.
 
