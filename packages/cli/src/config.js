@@ -36,6 +36,7 @@ const configurationFields = Object.freeze([
     'runtime',
     'security',
     'sourceDirectory',
+    'startup',
     'updates'
 ]);
 const deploymentDependencyNamePattern = /^(?:@[a-z0-9][a-z0-9._-]*\/[a-z0-9][a-z0-9._-]*|[a-z0-9][a-z0-9._-]*)$/;
@@ -624,6 +625,25 @@ export function layerConfigValidate(configData) {
         throw linksError;
 
     }
+    //Validating initial-install presentation independently from update discovery
+    const startupInput = configData.startup;
+    let installationScreen = true;
+    if ( startupInput !== undefined ){
+        if ( startupInput === null || typeof startupInput !== 'object' || Array.isArray( startupInput ) ||
+            ![Object.prototype, null].includes( Object.getPrototypeOf( startupInput ) ) ||
+            Object.keys( startupInput ).some(function( fieldName ){
+                //Rejecting misspelled startup policies instead of silently enabling a cover
+                return fieldName !== 'installationScreen';
+
+            }) || (Object.hasOwn( startupInput, 'installationScreen' ) && typeof /** @type {Record<string, unknown>} */ (startupInput).installationScreen !== 'boolean') ){
+            throw new LayerCliError( 'CLI_CONFIG_INVALID', 'startup.installationScreen must be a boolean.', {
+                path: 'startup.installationScreen', solution: 'Use startup: {installationScreen: true} or false to disable the screen.'
+            });
+
+        }
+        installationScreen = /** @type {{installationScreen?: boolean}} */ (startupInput).installationScreen ?? true;
+
+    }
     let effectiveSecurity = securityConfiguration;
     if (linksConfiguration.external.allowedOrigins.length > 0) {
         //Adding only iframe permissions; unrelated resource directives stay unchanged
@@ -656,6 +676,7 @@ export function layerConfigValidate(configData) {
         security: effectiveSecurity,
         links: linksConfiguration,
         updates: updatesConfiguration,
+        startup: Object.freeze({installationScreen}),
         development: Object.freeze({
             host: String(developmentHost),
             port: Number(developmentPort),

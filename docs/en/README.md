@@ -9,6 +9,8 @@ updated: 2026-10-31
 
 # Layer‑Engine documentation
 
+[Release history](updates/README.md) · [0.1.2](updates/0.1.2.md) · [0.1.1](updates/0.1.1.md) · [0.1.0](updates/0.1.0.md)
+
 [Capability map](capabilities.md)
 
 Layer‑Engine is an S.O.L CORP JavaScript framework for secure, offline-capable PWAs, interactive applications, social networks, and messengers. Author and copyright holder: **S.O.L CORP**. Official website: [solcorp.ru](https://solcorp.ru).

@@ -12,7 +12,22 @@ try {
         assert.equal( pageData.status, 200 );
         assert.ok( (await pageData.text()).includes( 'Layer' ) );
         const indexData = await fetch( guideData.origin + '/' + languageData + '/search.json' );
-        assert.ok( (await indexData.json()).length >= 41 );
+        /** @type {{url: string}[]} */
+        const articleItemsData = await indexData.json();
+        assert.ok( articleItemsData.length >= 41 );
+
+        //Checking that nested release notes ship in the real npm archive and retain local links
+        const historyPathData = '/' + languageData + '/updates/0.1.2.html';
+        assert.ok( articleItemsData.some( function( articleData ){
+            //Finding the release article in the same offline search index as the handbook
+            return articleData.url === historyPathData;
+
+        }) );
+        const historyResponseData = await fetch( guideData.origin + historyPathData );
+        assert.equal( historyResponseData.status, 200 );
+        const historyHtmlData = await historyResponseData.text();
+        assert.ok( historyHtmlData.includes( 'href="/' + languageData + '/updates/README.html"' ) );
+        assert.ok( historyHtmlData.includes( 'href="/' + languageData + '/application-updates.html"' ) );
 
     }
 

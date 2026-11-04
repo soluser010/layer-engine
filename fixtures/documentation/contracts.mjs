@@ -144,7 +144,7 @@ function configurationTableCreate( profiles, locale ){
     const authFields = fieldsFlatten( profiles.authDefaults, 'auth' );
     const allFields = fieldsFlatten( profiles.example );
     const rows = [labels.configHeading, '| --- | --- | --- |'];
-    const optionalArticles = /** @type {Record<string, string>} */ ({auth: 'layer-auth.md', notifications: 'web-push.md', links: 'links-navigation.md', updates: 'application-updates.md', css: 'configuration.md'});
+    const optionalArticles = /** @type {Record<string, string>} */ ({auth: 'layer-auth.md', notifications: 'web-push.md', links: 'links-navigation.md', updates: 'application-updates.md', startup: 'application-updates.md', css: 'configuration.md'});
 
     //Documenting normalized public fields from the same strict validator used by application builds
     for ( const [field, value] of allFields ){

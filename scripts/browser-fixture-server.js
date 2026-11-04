@@ -72,6 +72,8 @@ await writeFile(
 const browserApplicationConfiguration = layerConfigValidate({
     //Exercising actual CSS lowering rather than only parsing modern CSS in modern browsers
     ...await layerConfigLoad(browserApplicationProject),
+    //Keeping the early-link fixture interactive; dedicated startup fixtures exercise the default cover
+    startup: {installationScreen: false},
     css: {targets: {chrome: '100', safari: '15.4', firefox: '100'}},
     links: {external: {mode: 'viewer', allowedOrigins: ['http://localhost:' + serverPort]}}
 });

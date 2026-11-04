@@ -29,6 +29,17 @@ test('updates config is strict and new projects document independent UI disablin
     });
     await layerProjectCreate({targetDirectory: temporaryRoot, projectName: 'updates-config'});
     const configSource = await readFile(path.join(temporaryRoot, 'layer.config.js'), 'utf8');
+    assert.match(configSource, /startup: \{/u);
+    assert.equal(layerConfigValidate({appName: 'example'}).startup.installationScreen, true);
+    assert.equal(layerConfigValidate({appName: 'example', startup: {installationScreen: false}}).startup.installationScreen, false);
+    for (const startup of [null, [], false, {unknown: true}, {installationScreen: 'yes'}, {installationScreen: undefined}]) {
+        //Rejecting accidental startup configuration instead of silently hiding a UI
+        assert.throws(function(){
+            layerConfigValidate({appName: 'example', startup});
+
+        }, {code: 'CLI_CONFIG_INVALID'});
+
+    }
     assert.match(configSource, /updates: \{/u);
     assert.match(configSource, /ui: false/u);
 
@@ -70,10 +81,24 @@ test('build identity is deterministic, changes without appVersion and verifies f
         const browser = await readFile(path.join(temporaryRoot, 'dist/_layer/application.mjs'), 'utf8');
         assert.equal(browser.includes('__LAYER_UPDATE_BUILD_ID__'), false);
         assert.ok(browser.includes(descriptor.buildId));
+        const startup = await readFile(path.join(temporaryRoot, 'dist/_layer/startup.js'), 'utf8');
+        assert.ok(startup.includes(descriptor.buildId));
+        assert.ok(build.integrity['_layer/startup.js']);
+        assert.ok(build.integrity['_layer/startup-screen.css']);
+        for (const documentFile of ['index.html', '_layer/shell.html']) {
+            //Checking real generated documents, not a standalone template string
+            const document = await readFile(path.join(temporaryRoot, 'dist', documentFile), 'utf8');
+            assert.ok(document.indexOf('/_layer/startup.js') < document.indexOf('/_layer/application.mjs'));
+            assert.ok(document.includes('/_layer/startup-screen.css'));
+
+        }
         descriptors.push(descriptor);
 
     }
     assert.equal(descriptors[0].buildId, descriptors[1].buildId);
     assert.notEqual(descriptors[1].buildId, descriptors[2].buildId);
+    await layerProjectBuild({rootDirectory: temporaryRoot, config: {...config, startup: {installationScreen: false}}});
+    const disabledShell = await readFile(path.join(temporaryRoot, 'dist/index.html'), 'utf8');
+    assert.equal(disabledShell.includes('/_layer/startup.js'), false);
 
 });

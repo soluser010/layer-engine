@@ -1,0 +1,66 @@
+/* Covering every app-owned region before its first interactive render */
+html[data-layer-startup],
+html[data-layer-startup] body {
+    background: var(--layer-startup-background, white);
+    overflow: hidden;
+}
+
+html[data-layer-startup] body > :not([data-layer-startup-screen]) {
+    visibility: hidden;
+}
+
+[data-layer-startup-screen] {
+    display: grid;
+    place-items: center;
+    position: fixed;
+    z-index: 2147483647;
+    inset: 0;
+    height: 100%;
+    height: 100dvh;
+    padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+    box-sizing: border-box;
+    text-align: center;
+    font: inherit;
+    overflow: auto;
+    overscroll-behavior: none;
+}
+
+[data-layer-startup-screen] > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+[data-layer-startup-screen] [hidden] {
+    display: none;
+}
+
+[data-layer-startup-icon] {
+    display: grid;
+    place-items: center;
+    position: relative;
+    width: min(156px, 60vw);
+    height: min(156px, 60vw);
+    font-size: 48px;
+    font-weight: 600;
+}
+
+[data-layer-startup-icon] img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+[data-layer-startup-screen] output {
+    font: inherit;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+[data-layer-startup-screen] button {
+    min-height: 44px;
+    padding: 8px 24px;
+    font: inherit;
+}

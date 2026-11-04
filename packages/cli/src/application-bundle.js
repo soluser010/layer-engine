@@ -118,6 +118,7 @@ const routeAssetById = new Map(routeAssets.map((routeData) => [routeData.id, rou
 const linksConfiguration = ${serializedLinks};
 const applicationScope = ${serializedScope};
 const navigationBootstrap = globalThis[Symbol.for('layer.navigation.bootstrap')] ?? null;
+const startupBootstrap = globalThis[Symbol.for('layer.startup.bootstrap')] ?? null;
 const layoutAssetByName = new Map(layoutAssets.map((layoutData) => [layoutData.name, layoutData]));
 const routeManifest = layerRouteManifestCreate(routeAssets.map((routeData) => ({
     file: routeData.file,
@@ -1120,6 +1121,7 @@ const application = Object.freeze({
         applicationLinks.dispose();
         navigationBootstrap?.dispose();
         updateCard?.dispose();
+        startupBootstrap?.dispose();
         updateCoordinator?.dispose();
         pwaCapabilities.launch.dispose();
         applicationApi.dispose();
@@ -1180,15 +1182,22 @@ window.addEventListener('online', onlineChangeHandle);
 window.addEventListener('pagehide', pageHideHandle);
 
 async function applicationStart() {
+    //Classifying the existing registration before this runtime can create a new worker
+    await startupBootstrap?.inspection;
     let offlineContext = null;
     let registrationData = null;
 
+    if (applicationModule.serviceWorker === false) {
+        startupBootstrap?.connect(null);
+    }
     if (applicationModule.serviceWorker !== false) {
         try {
-            registrationData = await layerServiceWorkerRegister();
+            registrationData = await layerServiceWorkerRegister({scope: ${serializedScope}});
+            startupBootstrap?.connect(registrationData);
             updateCoordinatorConnect(registrationData);
 
         } catch (registrationError) {
+            startupBootstrap?.connect(null);
             applicationModule.onError?.(registrationError);
         }
     }
@@ -1218,6 +1227,9 @@ async function applicationStart() {
 
     });
 
+    //Completing the initial route and startup hooks before exposing the application
+    startupBootstrap?.ready();
+
     if (registrationData !== null) {
         try {
             if (offlineContext !== null) {
@@ -1244,6 +1256,7 @@ async function applicationStart() {
 void applicationStart().catch(function(startupError){
     //Releasing a queued URL if application startup fails instead of keeping a dead navigation queue
     navigationBootstrap?.fail();
+    startupBootstrap?.fail();
     try {
         applicationModule.onError?.(startupError);
 

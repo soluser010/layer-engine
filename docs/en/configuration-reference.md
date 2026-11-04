@@ -33,6 +33,7 @@ updated: 2026-10-31
 | security.csp.sources | {} keeps base policy; additional sources are resource-directive specific | Dev/prod headers; rebuild/restart; do not disable CSP to fix embedding |
 | security.permissionsPolicy | camera/microphone/geolocation/payment: [] denies, ['self'] permits own origin | Headers; rebuild/restart; does not grant user permission |
 | links | external.mode:'platform' disables viewer; allowedOrigins:[] permits no iframe; empty associations generate no documents | Build/browser; rebuild and SW update |
+| startup.installationScreen | true enables the first-install screen; false disables only its UI, not SW | Dev/prod; rebuild/restart. Independent of updates; [details](application-updates.md) |
 | updates | enabled:false disables Layer checks; ui:false only hides the card | Browser; rebuild; native SW lifecycle remains |
 
 Literal passwords are limited to permitted local development; production secrets use `{env: 'NAME'}`. PostgreSQL password:null is loopback-only; remote plaintext is forbidden. Redis username/password may be null locally. TLS modes: verify-full checks CA/name, require uses TLS without full verification, disable is loopback-only. Prefer verify-full in production.
@@ -187,6 +188,7 @@ Config changes are not hot-applied: restart dev after editing; rebuild and redep
 | `updates.enabled` | default: `true` | [updates](application-updates.md) |
 | `updates.ui` | default: `true` | [updates](application-updates.md) |
 | `updates.checkIntervalMs` | default: `300000` | [updates](application-updates.md) |
+| `startup.installationScreen` | default: `true` | [startup](application-updates.md) |
 | `development.host` | default: `"127.0.0.1"` | [development](configuration.md) |
 | `development.port` | default: `5173` | [development](configuration.md) |
 | `development.https.keyFile` | enabled-block example: `"certificates/key.pem"` | [development](configuration.md) |

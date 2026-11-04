@@ -33,6 +33,7 @@ updated: 2026-10-31
 | security.csp.sources | {} — базовая политика; дополнительные sources строго по resource directive | Dev/prod headers; rebuild/restart. Не отключайте CSP для исправления embed |
 | security.permissionsPolicy | camera/microphone/geolocation/payment: [] запрет, ['self'] свой origin | Headers; rebuild/restart. Политика не выдаёт user permission автоматически |
 | links | external.mode:'platform' отключает viewer; allowedOrigins:[] не разрешает iframe; пустые associations не генерируют документы | Build/browser; rebuild, обновление SW |
+| startup.installationScreen | true — первоначальный экран; false отключает только UI, не SW | Dev/prod; rebuild/restart. Независим от updates; [подробности](application-updates.md) |
 | updates | enabled:false отключает Layer checks, ui:false только карточку | Browser; rebuild. Нативный lifecycle SW остаётся |
 
 Строковый пароль допустим только в разрешённой локальной разработке; production secrets — `{env: 'NAME'}`. PostgreSQL password:null разрешён только loopback; remote plaintext запрещён. Redis username/password могут быть null для локального сервиса. TLS mode: verify-full (проверка CA/имени), require (TLS без полной проверки), disable только loopback. Для production выбирайте verify-full.
@@ -187,6 +188,7 @@ updated: 2026-10-31
 | `updates.enabled` | default: `true` | [updates](application-updates.md) |
 | `updates.ui` | default: `true` | [updates](application-updates.md) |
 | `updates.checkIntervalMs` | default: `300000` | [updates](application-updates.md) |
+| `startup.installationScreen` | default: `true` | [startup](application-updates.md) |
 | `development.host` | default: `"127.0.0.1"` | [development](configuration.md) |
 | `development.port` | default: `5173` | [development](configuration.md) |
 | `development.https.keyFile` | пример включённого блока: `"certificates/key.pem"` | [development](configuration.md) |

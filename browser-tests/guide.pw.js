@@ -6,7 +6,7 @@ test( 'installed guide provides local search, highlighted examples and both lang
     //Using the same package listener exposed by layer guide without network dependencies
     const guideData = await layerGuideServe({lang: 'ru'});
     //Matching the guide inventory to application articles instead of a frozen article count
-    const articleFilesData = await readdir( new URL( '../docs/ru/', import.meta.url ) );
+    const articleFilesData = await readdir( new URL( '../docs/ru/', import.meta.url ), {recursive: true} );
     const articleCountData = articleFilesData.filter(function( filenameData ){
         //Counting published Markdown articles only
         return filenameData.endsWith( '.md' );
@@ -59,6 +59,15 @@ test( 'installed guide provides local search, highlighted examples and both lang
             return document.documentElement.scrollWidth <= window.innerWidth;
 
         }) ).toBe( true );
+        //Following nested release-history links while all external requests remain blocked
+        await page.goto( guideData.origin + '/ru/updates/README.html' );
+        await expect( page.locator( '#articles li' ) ).toHaveCount( articleCountData );
+        await page.locator( 'main a[href="/ru/updates/0.1.2.html"]' ).click();
+        await expect( page.getByRole( 'heading', {level: 1}) ).toContainText( '0.1.2' );
+        await expect( page.locator( '#articles li' ) ).toHaveCount( articleCountData );
+        await page.locator( 'main a[href="/ru/application-updates.html"]' ).click();
+        await expect( page ).toHaveURL( guideData.origin + '/ru/application-updates.html' );
+        await expect( page.locator( '#articles li' ) ).toHaveCount( articleCountData );
         expect( errorsData ).toEqual( [] );
 
     } finally {

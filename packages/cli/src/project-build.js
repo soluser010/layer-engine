@@ -37,6 +37,7 @@ import {layerOperationFacadeCreate} from './operation-facade.js';
 import {layerDeploymentBundleCreate} from './deployment-bundle.js';
 import {layerServiceWorkerBundleCreate} from './service-worker-bundle.js';
 import {layerNavigationBootstrapCreate} from './navigation-bootstrap.js';
+import {layerStartupBootstrapCreate} from './startup-bootstrap.js';
 import {layerStaticSsrDocumentsCreate} from './ssr-document.js';
 import {layerEnvironmentRequestPathCheck} from './private-artifacts.js';
 import {layerCssBuild, layerPublicCssBuild} from './css-build.js';
@@ -402,7 +403,7 @@ function webAppManifestSourceValidate(manifestSource, manifestFile, scopeExtensi
 /**
  * @param {string} publicDirectory
  */
-async function applicationShellCreate(publicDirectory) {
+async function applicationShellCreate(publicDirectory, installationScreen = true) {
     const shellFile = path.join(publicDirectory, 'index.html');
     let shellSource;
 
@@ -418,6 +419,13 @@ async function applicationShellCreate(publicDirectory) {
 
     if (!/\sdata-layer-root(?:\s|=|>)/.test(shellSource)) {
         throw new LayerCliError('CLI_BUILD_SHELL_INVALID', 'The application shell requires one data-layer-root element.');
+
+    }
+
+    //Loading the first-install cover before application modules while keeping strict external resources
+    if ( installationScreen ){
+        const startupResources = '<link rel="stylesheet" href="/_layer/startup-screen.css"><script src="/_layer/startup.js"></script>';
+        shellSource = shellSource.replace( /<head(?:\s[^>]*)?>/iu, '$&\n    ' + startupResources );
 
     }
 
@@ -918,7 +926,7 @@ declare module '*.global.layer.css' {
 
     }
 
-    const shellSource = await applicationShellCreate(publicDirectory);
+    const shellSource = await applicationShellCreate(publicDirectory, configData.startup.installationScreen);
     const webAppManifestFile = path.join(publicDirectory, 'manifest.webmanifest');
     let webAppManifestSource;
 
@@ -1042,6 +1050,11 @@ declare module '*.global.layer.css' {
 
             })
         }) + ');\n',
+        '_layer/startup.js': '(' + layerStartupBootstrapCreate.toString() + ')(window,' + JSON.stringify({
+            enabled: configData.startup.installationScreen, scope: validatedWebAppManifest.manifest.scope,
+            appKey: updateAppKey, buildId: LAYER_UPDATE_BUILD_PLACEHOLDER, manifest: validatedWebAppManifest.manifest
+        }) + ');\n',
+        '_layer/startup-screen.css': await readFile(new URL('./startup-screen.css', import.meta.url), 'utf8'),
         '_layer/viewport.css': await readFile(new URL('./viewport-shell.css', import.meta.url), 'utf8'),
         '_layer/links-viewer.css': await readFile(new URL('./links-viewer.css', import.meta.url), 'utf8'),
         '_layer/update-card.css': await readFile(new URL('./update-card.css', import.meta.url), 'utf8'),

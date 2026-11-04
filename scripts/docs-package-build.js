@@ -50,7 +50,11 @@ for ( const languageData of ['ru', 'en'] ){
     await mkdir( outputDirectoryData, {recursive: true} );
     const contentDirectoryData = path.join( packageDirectoryData, 'content', languageData );
     await mkdir( contentDirectoryData, {recursive: true} );
-    const filesData = (await readdir( sourceDirectoryData )).filter( function( nameData ){
+    const filesData = (await readdir( sourceDirectoryData, {recursive: true} )).map( function( nameData ){
+        //Normalizing nested article paths for portable links and search results
+        return nameData.replaceAll( '\\', '/' );
+
+    }).filter( function( nameData ){
         //Selecting application documentation rather than private operational reports
         return nameData.endsWith( '.md' );
 
@@ -69,8 +73,8 @@ for ( const languageData of ['ru', 'en'] ){
         }) ){
             const hrefData = String( tokenData.attrGet( 'href' ) ?? '' );
             if ( hrefData && !/^(?:[a-z]+:|#|\/)/iu.test( hrefData ) ){
-                const destinationData = path.posix.normalize( languageData + '/' + hrefData );
-                if ( /^(ru|en)\/[^/]+\.md(?:#.*)?$/u.test( destinationData ) ){
+                const destinationData = path.posix.normalize( path.posix.dirname( languageData + '/' + nameData ) + '/' + hrefData );
+                if ( /^(ru|en)\/(?:[^/]+\/)*[^/]+\.md(?:#.*)?$/u.test( destinationData ) ){
                     tokenData.attrSet( 'href', '/' + destinationData.replace( '.md', '.html' ) );
 
                 } else {
@@ -83,6 +87,9 @@ for ( const languageData of ['ru', 'en'] ){
             }
 
         }
+        //Creating nested output directories before writing version-history articles
+        await mkdir( path.dirname( path.join( contentDirectoryData, nameData ) ), {recursive: true} );
+        await mkdir( path.dirname( path.join( outputDirectoryData, nameData ) ), {recursive: true} );
         await writeFile( path.join( contentDirectoryData, nameData ), contentData, 'utf8' );
         headingsData.clear();
         const htmlData = markdownData.renderer.render( tokensData, markdownData.options, {} );

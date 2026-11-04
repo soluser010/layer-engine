@@ -60,3 +60,5 @@ At build time, files under `public/assets` enter the required precache with SHA-
 An unavailable capability returns an explicit status/reason rather than a fake polyfill. A failed update preserves the active working version. Logout purges user-scoped IndexedDB/cache/subscription state.
 
 Next: [Browser support](browser-support.md), [Offline and realtime](offline-realtime.md).
+
+Initial preparation displays an icon and percentage screen; see [application updates](application-updates.md) for `startup.installationScreen` and failure behavior. This is separate from the platform PWA installation prompt.

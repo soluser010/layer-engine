@@ -37,7 +37,13 @@ export const layerUpdateCardCreate = function( options ){
     const text = document.createElement('div');
     text.setAttribute('data-layer-update-text', '');
     const description = document.createElement('p');
-    description.textContent = manifest.description ?? '';
+    //Limiting visible description by Unicode code points without changing manifest metadata
+    const descriptionCharacters = Array.from( manifest.description ?? '' );
+    description.textContent = descriptionCharacters.join( '' );
+    if ( descriptionCharacters.length > 47 ){
+        description.textContent = descriptionCharacters.slice( 0, 47 ).join( '' ).trimEnd() + '...';
+
+    }
     description.hidden = !description.textContent;
     const status = document.createElement('p');
     status.setAttribute('role', 'status');

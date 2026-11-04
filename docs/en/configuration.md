@@ -40,6 +40,8 @@ See [CSS build processing](authoring-layer-js.md#css-build-pipeline) for orderin
 
 ## Goal
 
+The default-on `startup.installationScreen` controls initial preparation independently of `updates`: see [application updates](application-updates.md).
+
 Built-in updates configuration and manifest branding: [application updates](application-updates.md).
 
 Choose the smallest application mode, enable only required subsystems, and understand configuration diagnostics.

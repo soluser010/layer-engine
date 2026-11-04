@@ -25,3 +25,20 @@ A change is ready when its success and failure contracts are tested, generated d
 ## Maintainer source synchronization
 
 The public GitHub repository has independent history. Private GitVerse history must never be merged or pushed into it. Maintainers transfer reviewed source snapshots between separate checkouts. Application projects under `apps/` are not framework contributions.
+
+
+## Development dependency security overrides
+
+The workspace pins `minimatch` to `11.0.1` through `overrides` for
+[GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249).
+ESLint, `@eslint/config-array` and `@vscode/vsce` still declare version 10 ranges.
+The override is intentional and requires lint, IDE tests and real VSIX packaging
+checks when changing these tools. Remove it only after all parent dependencies
+resolve patched versions without the override and the full audit passes.
+Do not use `npm audit fix --force` or lower the audit threshold to bypass this issue.
+
+The VSIX packaging tool is a root workspace development dependency so the root override also governs its dependency tree. Run `npm run ide:package` from the workspace after `npm ci`; it is not a published application dependency.
+
+## Developer-facing release history
+
+For each release, add matching `docs/ru/updates/<version>.md` and `docs/en/updates/<version>.md` pages. Explain user-visible changes, developer actions, compatibility, and any failure or fallback behavior in plain language. Preserve earlier pages and link the new release from both history indexes and handbook contents. Refresh the single current-version block near the beginning of the root and npm package READMEs. Until npm publication is confirmed, explicitly describe a version as prepared rather than published. Keep internal test logs and infrastructure details outside application guides.

@@ -1,6 +1,6 @@
 {
     "name": "@solcorp/layer-runtime",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Browser protocol and realtime runtime for Layer-Engine",
     "license": "Apache-2.0",
     "repository": {
@@ -31,7 +31,7 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@solcorp/layer-protocol": "0.1.1"
+        "@solcorp/layer-protocol": "0.1.2"
     },
     "publishConfig": {
         "access": "public"

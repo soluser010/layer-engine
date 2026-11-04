@@ -69,6 +69,9 @@
             "ui": true,
             "checkIntervalMs": 300000
         },
+        "startup": {
+            "installationScreen": true
+        },
         "development": {
             "host": "127.0.0.1",
             "port": 5173,
@@ -396,6 +399,9 @@
             "enabled": true,
             "ui": true,
             "checkIntervalMs": 300000
+        },
+        "startup": {
+            "installationScreen": true
         },
         "development": {
             "host": "127.0.0.1",

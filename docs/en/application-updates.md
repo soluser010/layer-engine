@@ -4,7 +4,7 @@ description: Observable resource updates, a manifest-branded card and safe Servi
 audience: all
 order: 183
 status: documented
-updated: 2026-10-31
+updated: 2026-11-01
 ---
 
 # Application updates
@@ -45,7 +45,7 @@ unsubscribe();
 
 ## Expected result
 
-Version checks and discovery stay invisible. First offline-cache preparation is invisible too. The card appears while a new build downloads, counts fully verified and cached files, and then offers Update/Later. The application remains usable until the user applies it.
+Version checks and discovery stay invisible. Initial preparation uses the separate fullscreen indicator described below. The card appears while a new build downloads, counts fully verified and cached files, and then offers Update/Later. The application remains usable until the user applies it.
 
 Later hides that build until a new full document launch, including reload. SPA navigation and returning from the background do not reset the choice. Reopen manually with window.layer.pwa.update.show().
 
@@ -57,9 +57,34 @@ AppVersion is the human-readable version. BuildId is derived from public resourc
 
 Resources pass SHA-256 verification before readiness and activation. Installing a candidate never deletes the working cache. The previous complete build and live-client caches are retained; sessions, IndexedDB, outbox and drafts are not purged. Progress counts prepared files, not transferred bytes. The worker-script download never receives an invented percentage.
 
-The card reads name, short_name, description, icons, background_color and theme_color from the validated manifest. Its icon is 76 px; maximum width is 420 px, with a 16 px lower gap and safe-area/viewport handling. Buttons fill the bottom row; hover darkens by 5%. Labels use RU for ru, otherwise EN, and inherit the app font. The card lives outside the route mount-root, preserving CSR/hydration and navigation ownership.
+The card reads name, short_name, description, icons, background_color and theme_color from the validated manifest. The card displays the first 47 Unicode code points of description; longer text has trailing whitespace removed from that prefix and `...` appended. The complete manifest remains unchanged. Its icon is 76 px; maximum width is 420 px, with a 16 px lower gap and safe-area/viewport handling. Buttons fill the bottom row; hover darkens by 5%. Labels use RU for ru, otherwise EN, and inherit the app font. The card lives outside the route mount-root, preserving CSR/hydration and navigation ownership.
 
 Public CSS variables: --layer-update-background, --layer-update-accent, --layer-update-text, --layer-update-button-text, --layer-update-radius, --layer-update-shadow. Define them on the app root or card. The application is responsible for contrast when overriding defaults.
+
+## Initial application preparation
+
+On the first visit, Layer covers the interface with an opaque screen using `manifest.background_color`. The center contains a same-origin app icon up to 156 × 156 CSS px and a percentage; initials replace a missing or failed icon. An invalid or missing color falls back to white. Text uses a contrasting color. Normal preparation displays no title, description or buttons.
+
+```js
+export default {
+    appName: 'example-app',
+    startup: {
+        installationScreen: true
+    }
+};
+```
+
+`startup.installationScreen` is a boolean defaulting to `true`. `false` disables only the screen: Service Worker registration, resource verification and caching continue. It applies in both `layer dev` and `layer build`, independently of `updates.enabled` and `updates.ui`; rebuild and restart dev after configuration changes. Active dev live reload keeps the initial screen enabled while update-card behavior follows the existing dev policy.
+
+The screen applies only when the application's exact scope registration has no active worker. An active worker excludes this screen even if the current document is uncontrolled or an update is waiting. Removing the registration starts this scenario again. Registration inspection shows only the background, without flashing a percentage.
+
+The percentage is the floored share of **verified and cached files**, not downloaded bytes: `18 / 24` means `75%`. Before counters arrive it shows `0%`. It stays at or below `99%` until the cache, naturally activated worker, first route and `src/app.js` `onReady` hook are ready. It then briefly shows `100%` and closes on the next frame without a reload or another mount. Even a ready interface remains inaccessible underneath until initial installation completes.
+
+The early script and stylesheet precede the main runtime, including static SSR documents. A large application-module download therefore does not prevent the background, icon and `0%` from appearing. If the app exports `serviceWorker = false` or SW is unavailable, Layer waits only for interface readiness. Set `startup.installationScreen: false` to disable this visual barrier entirely.
+
+Registration failure, a corrupt resource, quota exhaustion or 60 seconds without installation progress releases an already ready interface. This does not certify offline readiness and never displays `100%`. Progress or a phase change resets the installation timer; time spent in a hidden tab does not count. If the app itself fails to start within 60 seconds of active waiting, or `onReady` throws, the screen shows a short error and Retry. Retry reloads the current pathname/query/hash without exposing technical details.
+
+The screen does not modify sessions, IndexedDB, outbox or drafts. It has no separate public control API. This is **app resource preparation**, not a request to install the PWA on the device: the platform dialog and `layer.pwa.install.prompt()` remain separate user actions.
 
 ## API and saving data
 

@@ -2,6 +2,12 @@
 
 Part of **[Layer-Engine](https://www.npmjs.com/package/@solcorp/layer)**, the JavaScript framework for PWA applications. This module provides validated server operations and the Node HTTP runtime.
 
+## What's new in 0.1.2
+
+Layer-Engine now shows a branded first-install PWA screen with verified file progress, limits update-card descriptions to 47 characters, and includes RU/EN release history. A vulnerable development-tool dependency is fixed.
+
+This package is part of the coordinated 0.1.2 release, prepared for publication. [Changes and upgrade steps](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/0.1.2.md) · [History](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/README.md) · [Что нового (RU)](https://github.com/soluser010/layer-engine/blob/main/docs/ru/updates/0.1.2.md).
+
 Install the complete framework with `npm install @solcorp/layer`. See the [quick start](https://github.com/soluser010/layer-engine#quick-start), [server guide (EN)](https://github.com/soluser010/layer-engine/blob/main/docs/en/server-runtime.md) and [руководство по серверу (RU)](https://github.com/soluser010/layer-engine/blob/main/docs/ru/server-runtime.md). [Source](https://github.com/soluser010/layer-engine/tree/main/packages/server).
 
 The server package provides a sealed operation registry, bounded operation executor, safe diagnostics, and Node HTTP lifecycle. The runtime exposes only `GET /health/live`, `GET /health/ready`, and the unified `POST /api` application endpoint.

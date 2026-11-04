@@ -118,6 +118,10 @@ function projectConfigurationSourceCreate( projectName ){
 
     // Only listed external origins can open in the built-in iframe viewer.
     // Disable only the default card with ui: false; native Service Worker registration remains enabled.
+    //Showing the first offline installation before opening the app; false disables only this screen
+    startup: {
+        installationScreen: true
+    },
     updates: {
         enabled: true,
         ui: true,

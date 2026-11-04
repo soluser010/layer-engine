@@ -2,6 +2,12 @@
 
 **Part of [Layer-Engine](https://www.npmjs.com/package/@solcorp/layer), a JavaScript framework for full PWA applications.** IndexedDB transactions, query caching and offline commands.
 
+## What's new in 0.1.2
+
+Layer-Engine now shows a branded first-install PWA screen with verified file progress, limits update-card descriptions to 47 characters, and includes RU/EN release history. A vulnerable development-tool dependency is fixed.
+
+This package is part of the coordinated 0.1.2 release, prepared for publication. [Changes and upgrade steps](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/0.1.2.md) · [History](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/README.md) · [Что нового (RU)](https://github.com/soluser010/layer-engine/blob/main/docs/ru/updates/0.1.2.md).
+
 Start with `npm install @solcorp/layer`; this module is installed automatically. You do not need to assemble the framework package by package.
 
 [Quick start](https://github.com/soluser010/layer-engine/blob/main/README.md#quick-start) · [API guide EN](https://github.com/soluser010/layer-engine/blob/main/docs/en/indexeddb.md) · [Документация RU](https://github.com/soluser010/layer-engine/blob/main/docs/ru/indexeddb.md) · [Source](https://github.com/soluser010/layer-engine/tree/main/packages/storage)

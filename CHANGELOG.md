@@ -1,6 +1,15 @@
 # Changelog
 
-## 0.1.1 — prepared, not published
+## 0.1.2 — prepared, not published
+
+- Default first-install PWA screen with an early external bootstrap, manifest branding, verified file progress, foreground-only timeout and safe retry; configure it independently with `startup.installationScreen` in dev and production.
+- Update-card descriptions now display at most 47 Unicode code points followed by `...` when truncated, preserving the complete manifest.
+- Pin development-tool minimatch to 11.0.1 to fix GHSA-g3hv-75wg-m249; retain the moderate audit threshold and verify ESLint and VSIX packaging compatibility.
+- Pin GitHub CI to Ubuntu 24.04 and setup-node v6.0.0 by commit SHA, retaining Node.js 24.22.1 for the framework.
+- Add RU/EN release-history folders, offline nested-article navigation, and a current-version summary in the framework and npm package READMEs.
+- Synchronize all 18 framework packages and their internal dependencies to `0.1.2`; update RU/EN documentation and the public API baseline.
+
+## 0.1.1
 
 - Add the automatically installed `@solcorp/layer-docs` package: versioned RU/EN articles, offline HTML, search, code highlighting and `layer guide [--lang ru|en] [--open]`.
 - Explain the complete installation, first component, portable deployment and automatic HTTPS in the main README; identify every npm module as part of Layer-Engine.
@@ -38,6 +47,7 @@ All notable changes follow Keep a Changelog structure. Versions follow Semantic 
 ## [Unreleased]
 
 ### Added
+
 
 - Real isolated tarball consumers cover every publishable package and export, strict declaration resolution, LICENSE payloads, and global/project-local CLI create/build/dev. CLI resolves its declared authoring dependency and derives generated versions from installed package metadata.
 

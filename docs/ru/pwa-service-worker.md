@@ -60,3 +60,5 @@ const installHandle = async function(){
 Недоступная capability возвращает явный status/reason, а не фиктивный polyfill. Неудачное обновление сохраняет активную рабочую версию. Logout очищает user-scoped IndexedDB/cache/subscription state.
 
 Далее: [browser support](browser-support.md), [offline и realtime](offline-realtime.md).
+
+Первоначальная подготовка показывает экран с иконкой и процентом; настройка `startup.installationScreen` и поведение при ошибках описаны в [обновлениях приложения](application-updates.md). Это не системное предложение установить PWA.
