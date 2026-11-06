@@ -43,7 +43,7 @@ function cleanupHandlersRollback( domContext, cleanupStartIndex ){
 
 /**
  * @typedef {{nodes: Node[], dispose: () => void}} LayerDomInstance
- * @typedef {{diagnostics: ReturnType<typeof layerRenderDiagnosticsCreate>, document: Document, cleanupHandlers: (() => void)[], refs: Map<string, Set<Element>>, regions: Map<string, {element: Element, revision: number}>}} LayerDomContext
+ * @typedef {{diagnostics: ReturnType<typeof layerRenderDiagnosticsCreate>, document: Document, warmupNodes?: Map<string, Element> | undefined, cleanupHandlers: (() => void)[], refs: Map<string, Set<Element>>, regions: Map<string, {element: Element, revision: number}>}} LayerDomContext
  * @typedef {{scope: Record<string, unknown>, valueReaders: ReturnType<typeof computed>[], valueSignals: ReturnType<typeof signal>[]}} LayerStructuralTemplateState
  */
 
@@ -1767,8 +1767,20 @@ function planMount(planData, parentNode, beforeNode, renderScope, domContext, mo
 
     }
 
-    const elementNode = domContext.document.createElement(String(planData.tag));
     const nodeIdentifier = String(planData.nodeId);
+    const preparedNode = domContext.warmupNodes?.get(nodeIdentifier);
+    let elementNode;
+    if (preparedNode !== undefined && preparedNode.localName === planData.tag && preparedNode.attributes.length === 0 &&
+        preparedNode.ownerDocument === domContext.document && preparedNode.parentNode === null) {
+        //Detach skeleton children before mounting their validated bindings in compiler order.
+        preparedNode.replaceChildren();
+        elementNode = preparedNode;
+
+    } else {
+        elementNode = domContext.document.createElement(String(planData.tag));
+
+    }
+    domContext.warmupNodes?.delete(nodeIdentifier);
     const cleanupHandlers = [];
 
     elementNode.setAttribute('data-layer-node', nodeIdentifier);
@@ -2644,7 +2656,7 @@ function rootChildrenRemove(rootNode, diagnostics) {
  * @param {{scopeId: string, template: Record<string, unknown>[]}} componentData
  * @param {Element | DocumentFragment} rootNode
  * @param {Record<string, unknown>} renderScope
- * @param {{diagnostics?: ReturnType<typeof layerRenderDiagnosticsCreate>}} [renderOptions]
+ * @param {{diagnostics?: ReturnType<typeof layerRenderDiagnosticsCreate>, warmupNodes?: Map<string, Element> | undefined}} [renderOptions]
  */
 export function layerComponentMount(componentData, rootNode, renderScope, renderOptions = {}) {
     //Requiring an empty owner boundary for the first client-side render.
@@ -2657,6 +2669,7 @@ export function layerComponentMount(componentData, rootNode, renderScope, render
     const documentData = rootNode.ownerDocument ?? /** @type {Document} */ (/** @type {unknown} */ (rootNode));
     const domContext = /** @type {LayerDomContext} */ ({
         diagnostics,
+        warmupNodes: renderOptions.warmupNodes,
         document: documentData,
         cleanupHandlers: [],
         refs: new Map(),
@@ -2709,7 +2722,7 @@ export function layerComponentMount(componentData, rootNode, renderScope, render
  * @param {{scopeId: string, template: Record<string, unknown>[]}} componentData
  * @param {Element | DocumentFragment} rootNode
  * @param {Record<string, unknown>} renderScope
- * @param {{diagnostics?: ReturnType<typeof layerRenderDiagnosticsCreate>}} [renderOptions]
+ * @param {{diagnostics?: ReturnType<typeof layerRenderDiagnosticsCreate>, warmupNodes?: Map<string, Element> | undefined}} [renderOptions]
  */
 export function layerComponentHydrate(componentData, rootNode, renderScope, renderOptions = {}) {
     const diagnostics = renderOptions.diagnostics ?? layerRenderDiagnosticsCreate();

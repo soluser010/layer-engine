@@ -136,6 +136,7 @@ export declare function layerComponentHydrate(componentData: {
     template: Record<string, unknown>[];
 }, rootNode: Element | DocumentFragment, renderScope: Record<string, unknown>, renderOptions?: {
     diagnostics?: ReturnType<typeof layerRenderDiagnosticsCreate>;
+    warmupNodes?: Map<string, Element> | undefined;
 }): Readonly<{
     recovered: boolean;
     diagnostics: Readonly<{
@@ -180,7 +181,7 @@ export declare function layerComponentInstanceHydrate(definitionData: ReturnType
 
         get(contextKey: string): any;
 
-        derive(childValues?: Record<string, unknown>): Readonly< any>;
+        derive(childValues?: Record<string, unknown>): Readonly</*elided*/ any>;
     }>;
     diagnostics: Readonly<{
 
@@ -212,8 +213,12 @@ export declare function layerComponentInstanceHydrate(definitionData: ReturnType
         }>;
     }>;
     slots: any;
+    activate(): void;
+    deactivate(): void;
 
-    update(nextProps: Record<string, unknown>): Promise<void>;
+    update(nextProps: Record<string, unknown>, updateOptions?: {
+        replace?: boolean;
+    }): Promise<void>;
     settled(): Promise<void>;
     dispose(): void;
 }>;
@@ -229,7 +234,7 @@ export declare function layerComponentInstanceMount(definitionData: ReturnType<t
 
         get(contextKey: string): any;
 
-        derive(childValues?: Record<string, unknown>): Readonly< any>;
+        derive(childValues?: Record<string, unknown>): Readonly</*elided*/ any>;
     }>;
     diagnostics: Readonly<{
 
@@ -261,8 +266,12 @@ export declare function layerComponentInstanceMount(definitionData: ReturnType<t
         }>;
     }>;
     slots: any;
+    activate(): void;
+    deactivate(): void;
 
-    update(nextProps: Record<string, unknown>): Promise<void>;
+    update(nextProps: Record<string, unknown>, updateOptions?: {
+        replace?: boolean;
+    }): Promise<void>;
     settled(): Promise<void>;
     dispose(): void;
 }>;
@@ -297,6 +306,7 @@ export declare function layerComponentMount(componentData: {
     template: Record<string, unknown>[];
 }, rootNode: Element | DocumentFragment, renderScope: Record<string, unknown>, renderOptions?: {
     diagnostics?: ReturnType<typeof layerRenderDiagnosticsCreate>;
+    warmupNodes?: Map<string, Element> | undefined;
 }): Readonly<{
     recovered: false;
     diagnostics: Readonly<{

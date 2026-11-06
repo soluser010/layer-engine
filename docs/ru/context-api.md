@@ -48,7 +48,7 @@ Viewport, input policies, scroll anchors, lifecycle-owned `context.viewport` и 
 | `navigate` | Переход через application router |
 | `storage`, `capabilities`, `logger` | Подключённые сервисы host |
 | `viewport`, `keyboard`, `links` | Lifecycle-owned browser API |
-| `onMount`, `onHydrate`, `onUpdate`, `onDestroy` | Регистрация lifecycle callbacks |
+| `onMount`, `onHydrate`, `onUpdate`, `onActivate`, `onDeactivate`, `onDestroy` | Регистрация lifecycle callbacks |
 
 В SSR и manual host нельзя предполагать наличие browser provider. Проверяйте nullable API и используйте lifecycle, а не безусловный вызов во время render. `context.route.preload` — результат runner приложения, а не автоматически загруженные данные query handle.
 

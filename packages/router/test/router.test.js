@@ -344,3 +344,24 @@ test('router returns explicit navigation boundaries and rejects missing integrat
         return /** @type {any} */ (errorData).code === 'ROUTE_PRELOAD_UNAVAILABLE';
     });
 });
+
+test('experimental preparation defers history and rejects superseded commits', async () => {
+    const writes = /** @type {string[]} */ ([]);
+    const router = layerRouterCreate({
+        manifest: routeManifestFixtureCreate(),
+        history: {pushState: () => writes.push('push'), replaceState: () => writes.push('replace')}
+    });
+    const first = await router.prepare('/');
+    const second = await router.prepare('/?tab=2');
+    assert.equal(router.currentGet(), null);
+    assert.equal(first.commit?.().status, 'superseded');
+    assert.equal(second.commit?.().status, 'ready');
+    second.commit?.();
+    assert.deepEqual(writes, ['push']);
+    for (const warmup of ['auto', 'on-demand', 'off']) {
+        const routes = layerRouteManifestCreate([{file: 'src/pages/index.layer.js', route: {warmup}}]);
+        assert.equal(routes[0]?.warmup, warmup);
+    }
+    assert.throws(() => layerRouteManifestCreate([{file: 'src/pages/index.layer.js', route: {warmup: 'always'}}]),
+        LayerRouterError);
+});

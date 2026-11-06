@@ -12,6 +12,9 @@ export const layerUpdateBrowserFixtureCreate = async function(){
     const projectRoot = await mkdtemp(path.join(os.tmpdir(), 'layer-update-browser-'));
     await layerProjectCreate({targetDirectory: projectRoot, projectName: 'update-fixture'});
     await writeFile(path.join(projectRoot, 'src/app.js'), await readFile('browser-tests/fixtures/update-app.js', 'utf8'));
+    await writeFile(path.join(projectRoot, 'src/pages/offline-styles.layer.js'), await readFile('browser-tests/fixtures/offline-styles.layer.js', 'utf8'));
+    await mkdir(path.join(projectRoot, 'src/layouts'), {recursive: true});
+    await writeFile(path.join(projectRoot, 'src/layouts/offline.layer.js'), await readFile('browser-tests/fixtures/offline-layout.layer.js', 'utf8'));
     const manifest = JSON.parse(await readFile(path.join(projectRoot, 'public/manifest.webmanifest'), 'utf8'));
     Object.assign(manifest, {name: 'Тест обновлений', short_name: 'Тест', lang: 'ru',
         description: 'Карточка приложения', theme_color: '#2454b8', background_color: '#ffffff'});

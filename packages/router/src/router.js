@@ -30,13 +30,14 @@ export function layerRouterCreate(routerOptions) {
      * @param {string} pathnameData
      * @param {{replace?: boolean, history?: boolean, scrollX?: number, scrollY?: number}} [navigationOptions]
      */
-    async function navigate(pathnameData, navigationOptions = {}) {
+    async function prepare(pathnameData, navigationOptions = {}) {
         const navigationIdentifier = ++navigationSequence;
         const routeMatch = layerRouteMatch(routerOptions.manifest, pathnameData);
 
         function supersededResultCreate() {
             //Returning an inert result that cannot replace the latest route.
             return Object.freeze({
+                commit: undefined,
                 status: 'superseded',
                 pathname: pathnameData,
                 route: routeMatch?.route ?? null,
@@ -54,6 +55,7 @@ export function layerRouterCreate(routerOptions) {
         //Returning a stable not-found boundary without leaking matcher details.
         if (routeMatch === null) {
             return Object.freeze({
+                commit: undefined,
                 status: 'not-found',
                 pathname: pathnameData
             });
@@ -64,6 +66,7 @@ export function layerRouterCreate(routerOptions) {
 
         if (!onlineStatus && routeMatch.route.offline === 'deny') {
             return Object.freeze({
+                commit: undefined,
                 status: 'offline',
                 route: routeMatch.route,
                 params: routeMatch.params
@@ -94,6 +97,7 @@ export function layerRouterCreate(routerOptions) {
 
         if (routeMatch.route.auth === 'session' && identityData.authenticated !== true) {
             return Object.freeze({
+                commit: undefined,
                 status: 'auth-required',
                 route: routeMatch.route,
                 params: routeMatch.params
@@ -109,6 +113,7 @@ export function layerRouterCreate(routerOptions) {
 
         if (missingPermission !== undefined) {
             return Object.freeze({
+                commit: undefined,
                 status: 'forbidden',
                 route: routeMatch.route,
                 params: routeMatch.params,
@@ -146,6 +151,7 @@ export function layerRouterCreate(routerOptions) {
                 }
 
                 return Object.freeze({
+                    commit: undefined,
                     status: boundaryStatus,
                     route: routeMatch.route,
                     params: routeMatch.params
@@ -204,21 +210,7 @@ export function layerRouterCreate(routerOptions) {
             scrollY
         });
 
-        //Recording only route identity and scroll metadata in browser history.
-        if (routerOptions.history !== undefined && navigationOptions.history !== false) {
-            if (navigationOptions.replace === true) {
-                routerOptions.history.replaceState(historyState, '', pathnameData);
-
-            } else {
-                routerOptions.history.pushState(historyState, '', pathnameData);
-
-            }
-
-        }
-
-        currentRouteMatch = routeMatch;
-
-        return Object.freeze({
+        const result = Object.freeze({
             status: 'ready',
             route: routeMatch.route,
             params: routeMatch.params,
@@ -226,6 +218,33 @@ export function layerRouterCreate(routerOptions) {
             preserveLayout,
             historyState
         });
+        let committed = false;
+        const commit = function() {
+            //Rejecting stale preparations before touching history or route ownership.
+            if (supersededCheck()) {
+                return supersededResultCreate();
+            }
+            if (!committed && routerOptions.history !== undefined && navigationOptions.history !== false) {
+                const method = navigationOptions.replace === true ? 'replaceState' : 'pushState';
+                routerOptions.history[method](historyState, '', pathnameData);
+            }
+            currentRouteMatch = routeMatch;
+            committed = true;
+            return result;
+        };
+        return Object.freeze({...result, commit, identity: identityData});
+
+    }
+
+    /** @param {string} pathnameData @param {{replace?: boolean, history?: boolean, scrollX?: number, scrollY?: number}} [navigationOptions] */
+    async function navigate( pathnameData, navigationOptions ){
+        //Keeping the immediate commit contract for manual router hosts
+        const prepared = await prepare(pathnameData, navigationOptions);
+        const {commit, ...boundary} = prepared;
+        if (commit !== undefined) {
+            return commit();
+        }
+        return Object.freeze(boundary);
 
     }
 
@@ -235,6 +254,7 @@ export function layerRouterCreate(routerOptions) {
             return layerRouteMatch(routerOptions.manifest, pathnameData);
 
         },
+        prepare,
         navigate,
         currentGet() {
             //Returning the last successfully committed route match.

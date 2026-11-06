@@ -1,6 +1,6 @@
 {
     "name": "layer-engine",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "private": true,
     "description": "Layer-Engine workspace",
     "license": "Apache-2.0",

@@ -1,6 +1,6 @@
 {
     "name": "@solcorp/layer-compiler",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "description": "Safe .layer.js AST and render-plan compiler for Layer-Engine",
     "license": "Apache-2.0",
     "repository": {

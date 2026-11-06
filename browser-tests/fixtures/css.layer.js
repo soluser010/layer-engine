@@ -1,4 +1,5 @@
 import {css, html, layerComponentCreate, layerPageCreate} from '@solcorp/layer';
+import './triangle.global.layer.css';
 
 export const page = layerPageCreate({render: 'csr', auth: 'none'});
 export const styles = css`

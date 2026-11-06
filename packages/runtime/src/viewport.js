@@ -454,7 +454,7 @@ export const layerViewportCreate = function( viewportOptions ){
     };
 
     //Function for creating a lifecycle-owned imperative client
-    const createOwner = function(){
+    const createOwner = function(/** @type {{onActivated: Function, onDeactivated: Function} | null} */ lifecycle = null){
         //Keeping owned registrations separate from application-wide browser listeners
         if ( disposedStatus ){
             throw new TypeError( 'Viewport controller is disposed.' );
@@ -462,15 +462,32 @@ export const layerViewportCreate = function( viewportOptions ){
         }
 
         let ownerDisposed = false;
+        let suspended = false;
+        const visibilityActions = new Set(/** @type {((visible: boolean) => void)[]} */ ([]));
         const ownerCleanups = new Set( /** @type {(() => void)[]} */ ([]) );
         const ownerAssert = function(){
             //Rejecting late calls after either lifecycle has ended
+            if (suspended) {
+                throw new TypeError('Viewport owner is suspended.');
+            }
             if ( ownerDisposed || disposedStatus ){
                 throw new TypeError( 'Viewport owner is disposed.' );
 
             }
 
         };
+        const visibilitySet = function(/** @type {boolean} */ visible) {
+            if (ownerDisposed || suspended === !visible) {
+                return;
+            }
+            suspended = !visible;
+            for (const change of visibilityActions) {
+                change(visible);
+            }
+            refresh();
+        };
+        lifecycle?.onActivated(() => visibilitySet(true));
+        lifecycle?.onDeactivated(() => visibilitySet(false));
         const ownerApi = Object.freeze({
             /** Returns an immutable cached snapshot; does not synchronously measure DOM. */
             getState: function(){
@@ -493,9 +510,18 @@ export const layerViewportCreate = function( viewportOptions ){
                     stateListener( viewportState );
 
                 };
+                const visibilityChange = function(/** @type {boolean} */ visible) {
+                    if (visible) {
+                        subscriptions.add(ownedListener);
+                    } else {
+                        subscriptions.delete(ownedListener);
+                    }
+                };
+                visibilityActions.add(visibilityChange);
                 subscriptions.add( ownedListener );
                 const unsubscribe = function(){
                     //Releasing this callback before forgetting its owner cleanup
+                    visibilityActions.delete(visibilityChange);
                     subscriptions.delete( ownedListener );
                     ownerCleanups.delete( unsubscribe );
 
@@ -524,6 +550,14 @@ export const layerViewportCreate = function( viewportOptions ){
 
                 }
 
+                const visibilityChange = function(/** @type {boolean} */ visible) {
+                    if (visible && !registrations.has(name)) {
+                        registrations.set(name, elementNode);
+                    } else if (!visible && registrations.get(name) === elementNode) {
+                        registrations.delete(name);
+                    }
+                };
+                visibilityActions.add(visibilityChange);
                 registrations.set( name, elementNode );
                 let attributeName = 'data-layer-viewport';
                 if ( kind === 'scroll' ){
@@ -546,7 +580,8 @@ export const layerViewportCreate = function( viewportOptions ){
                     }
 
                     registrationActive = false;
-                    registrations.delete( name );
+                    visibilityActions.delete(visibilityChange);
+                    visibilityChange(false);
                     propertiesRestore( elementNode );
                     if ( attributeValue === null ){
                         elementNode.removeAttribute( attributeName );

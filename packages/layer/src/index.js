@@ -202,6 +202,7 @@ function operationContractAssert(contractData, operationNames) {
  * @property {readonly string[]} [permissions] Dotted permissions required after authentication. Default: `[]`.
  * @property {readonly string[]} [preload] Dotted query operation names loaded before rendering. Default: `[]`.
  * @property {string | null} [guard] Dotted server-owned route guard name, or `null`. Default: `null`.
+ * @property {'auto'|'on-demand'|'off'} [warmup] Experimental screen preparation and instance retention policy. Default: auto.
  * @property {LayerPageOfflineMode} [offline] `deny`, application `shell`, cached `snapshot`, or fully `local`. Default: `deny`.
  * @property {LayerPageCacheMode} [cache] Browser/proxy cache policy. Default: `private`.
  * @property {LayerPageMetadata} [metadata] Bounded title, SEO, sharing, language, and theme metadata. Default: `{}`.

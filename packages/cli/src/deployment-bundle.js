@@ -22,6 +22,9 @@ const notificationsPackageEntryFile = fileURLToPath( import.meta.resolve( '@solc
 const databasePackageEntryFile = fileURLToPath( import.meta.resolve( '@solcorp/layer-database' ) );
 const eventsPackageEntryFile = fileURLToPath( import.meta.resolve( '@solcorp/layer-events' ) );
 const securityPackageEntryFile = fileURLToPath( import.meta.resolve( '@solcorp/layer-security' ) );
+const protocolPackageEntryFile = fileURLToPath( import.meta.resolve( '@solcorp/layer-protocol' ) );
+const serverPackageEntryFile = fileURLToPath( import.meta.resolve( '@solcorp/layer-server' ) );
+const serverSystemEntryFile = fileURLToPath( import.meta.resolve( '@solcorp/layer-server/system' ) );
 const pglitePackageDirectory = path.dirname( fileURLToPath( import.meta.resolve( '@electric-sql/pglite' ) ) );
 const deploymentRuntimeDependencies = Object.freeze({
     tar: '7.5.22',
@@ -572,12 +575,16 @@ export async function layerServerCreate(contextData) {
         external: [
             ...serverExternalDependenciesData
         ],
+        //Share the protocol error class and the server's process-local system operation markers with the application.
         alias: {
             '@solcorp/layer-auth/server': authPackageEntryFile,
             '@solcorp/layer-notifications': notificationsPackageEntryFile,
             '@solcorp/layer-database': databasePackageEntryFile,
             '@solcorp/layer-events': eventsPackageEntryFile,
-            '@solcorp/layer-security': securityPackageEntryFile
+            '@solcorp/layer-security': securityPackageEntryFile,
+            '@solcorp/layer-protocol': protocolPackageEntryFile,
+            '@solcorp/layer-server': serverPackageEntryFile,
+            '@solcorp/layer-server/system': serverSystemEntryFile
         },
         logLevel: 'silent',
         outfile: 'application.mjs'

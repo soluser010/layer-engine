@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {mkdir, mkdtemp, readFile, rm, writeFile} from 'node:fs/promises';
+import {cp, mkdir, mkdtemp, readFile, rm, symlink, writeFile} from 'node:fs/promises';
 import {createServer} from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import test from 'node:test';
+import {layerDeploymentBundleCreate} from '../src/deployment-bundle.js';
 import {
     LayerCliError,
     layerCliErrorDiagnosticCreate,
@@ -129,6 +130,12 @@ test('CLI config validates strict project and development contracts', () => {
         }
     });
 
+    assert.equal(configData.navigation.warmup.enabled, true);
+    const navigation = {warmup: {enabled: false}};
+    assert.equal(layerConfigValidate({appName: 'messenger', navigation}).navigation.warmup.enabled, false);
+    for (const invalid of [null, [], {extra: true}, {warmup: {online: false}}, {warmup: {enabled: 'off'}}]) {
+        assert.throws(() => layerConfigValidate({appName: 'messenger', navigation: invalid}), /navigation/u);
+    }
     assert.equal(configData.sourceDirectory, 'src');
     assert.equal(configData.outputDirectory, 'dist');
     assert.equal(configData.development.port, 5200);
@@ -663,6 +670,80 @@ test('CLI build bundles an explicit server entry and preserves dist after atomic
         config: configData
     }), (errorData) => /** @type {any} */ (errorData).code === 'CLI_BUILD_SERVER_ENTRY_INVALID');
     assert.equal(await readFile(serverBundleFile, 'utf8'), serverBundleSourceData);
+});
+
+test('a separately installed CLI bundles managed auth and the application HTTP server with one protocol', async function( testContext ){
+    const {temporaryRoot, projectDirectory} = await temporaryProjectCreate();
+    testContext.after( async () => rm( temporaryRoot, {recursive: true, force: true} ) );
+    const frameworkDirectory = path.resolve( import.meta.dirname, '../../..' );
+    const packageDirectory = path.join( projectDirectory, 'node_modules/@solcorp' );
+
+    //Install separate physical copies where an application resolves its own imports.
+    await symlink( path.join( frameworkDirectory, 'node_modules' ), path.join( temporaryRoot, 'node_modules' ), 'junction' );
+    for ( const packageName of ['server', 'protocol'] ){
+        const sourceDirectory = path.join( frameworkDirectory, 'packages', packageName );
+        const targetDirectory = path.join( packageDirectory, 'layer-' + packageName );
+        await mkdir( targetDirectory, {recursive: true} );
+        await cp( path.join( sourceDirectory, 'src' ), path.join( targetDirectory, 'src' ), {recursive: true} );
+        await cp( path.join( sourceDirectory, 'package.json' ), path.join( targetDirectory, 'package.json' ) );
+    }
+    await cp(
+        path.join( frameworkDirectory, 'fixtures/deployment/split-install-server.mjs' ),
+        path.join( projectDirectory, 'src/server/index.js' )
+    );
+
+    //Boot the generated bundle with its own temporary database and a loopback listener.
+    const config = layerConfigValidate({
+        appName: 'messenger',
+        deployment: {serverEntry: 'server/index.js'},
+        auth: {enabled: true}
+    });
+    const artifacts = await layerDeploymentBundleCreate({
+        rootDirectory: projectDirectory,
+        sourceDirectory: path.join( projectDirectory, 'src' ),
+        config,
+        dryRun: true
+    });
+    const serverDirectory = path.join( projectDirectory, 'dist/_layer/server' );
+    await mkdir( serverDirectory, {recursive: true} );
+    for ( const [filePath, fileContents] of Object.entries( artifacts ) ){
+        if ( filePath.startsWith( '_layer/server/' ) ){
+            await writeFile( path.join( projectDirectory, 'dist', filePath ), fileContents );
+        }
+    }
+
+    const serverModule = await import( pathToFileURL( path.join( serverDirectory, 'application.mjs' ) ).href );
+    const serverPort = await localPortFind();
+    const serverOrigin = `http://127.0.0.1:${serverPort}`;
+    const serverRuntime = await serverModule.layerServerCreate({
+        rootDirectory: projectDirectory,
+        stateDirectory: path.join( temporaryRoot, 'state' ),
+        origin: serverOrigin,
+        environment: 'development'
+    });
+    try {
+        await serverRuntime.start({host: '127.0.0.1', port: serverPort});
+
+        //Verify the HTTP contract across package boundaries, including the untrusted-error case.
+        for ( const [operation, origin, status, code] of /** @type {const} */ ([
+            ['auth.state.get', serverOrigin, 401, 'AUTH_REQUIRED'],
+            ['auth.state.get', 'https://other.example', 403, 'CSRF_INVALID'],
+            ['test.denied', serverOrigin, 403, 'PERMISSION_DENIED'],
+            ['test.unexpected', serverOrigin, 500, 'INTERNAL_ERROR']
+        ]) ){
+            const response = await fetch( serverOrigin + '/api', {
+                method: 'POST',
+                headers: {'content-type': 'application/json', origin},
+                body: JSON.stringify({protocol: 1, requestId: crypto.randomUUID(), type: 'query', operation, payload: {}})
+            });
+            const envelope = await response.json();
+            assert.equal( response.status, status, operation + ' returned ' + envelope.error?.code );
+            assert.equal( envelope.error.code, code );
+            assert.doesNotMatch( JSON.stringify( envelope ), /private diagnostic/ );
+        }
+    } finally {
+        await serverRuntime.stop();
+    }
 });
 
 test('doctor and inspect CLI expose safe machine-readable results', async (testContext) => {

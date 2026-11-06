@@ -7,6 +7,7 @@ const routeConfigurationFields = Object.freeze([
     'layout',
     'metadata',
     'offline',
+    'warmup',
     'permissions',
     'preload',
     'render'
@@ -63,6 +64,7 @@ const routeMetadataUrlFields = Object.freeze([
  * @property {readonly string[]} permissions
  * @property {readonly string[]} preload
  * @property {string | null} guard
+ * @property {'auto' | 'on-demand' | 'off'} warmup
  * @property {LayerRouteOffline} offline
  * @property {LayerRouteCache} cache
  * @property {Readonly<Record<string, string>>} metadata
@@ -228,6 +230,11 @@ function routeConfigurationNormalize(routeData, inheritedLayout) {
 
     const renderData = routeRecord.render ?? 'ssr';
     const authData = routeRecord.auth ?? 'session';
+    const warmup = routeRecord.warmup === undefined ? 'auto' : routeRecord.warmup;
+    if ( warmup !== 'auto' && warmup !== 'on-demand' && warmup !== 'off' ){
+        throw routeManifestErrorCreate('Invalid route warmup policy.', {field: 'warmup'});
+
+    }
     const offlineData = routeRecord.offline ?? 'deny';
     const cacheData = routeRecord.cache ?? 'private';
     const layoutData = routeRecord.layout ?? inheritedLayout ?? null;
@@ -256,6 +263,7 @@ function routeConfigurationNormalize(routeData, inheritedLayout) {
         layout: /** @type {string | null} */ (layoutData),
         auth: /** @type {LayerRouteAuth} */ (authData),
         permissions: dottedNameListNormalize(routeRecord.permissions, 'permissions'),
+        warmup,
         preload: dottedNameListNormalize(routeRecord.preload, 'preload'),
         guard: /** @type {string | null} */ (guardData),
         offline: /** @type {LayerRouteOffline} */ (offlineData),

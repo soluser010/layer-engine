@@ -188,6 +188,7 @@ Config changes are not hot-applied: restart dev after editing; rebuild and redep
 | `updates.enabled` | default: `true` | [updates](application-updates.md) |
 | `updates.ui` | default: `true` | [updates](application-updates.md) |
 | `updates.checkIntervalMs` | default: `300000` | [updates](application-updates.md) |
+| `navigation.warmup.enabled` | default: `true` | [navigation](configuration.md) |
 | `startup.installationScreen` | default: `true` | [startup](application-updates.md) |
 | `development.host` | default: `"127.0.0.1"` | [development](configuration.md) |
 | `development.port` | default: `5173` | [development](configuration.md) |

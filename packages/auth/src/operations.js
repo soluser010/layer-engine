@@ -107,7 +107,7 @@ const authOperationErrorPass = function( errorData ){
 
 /**
  * @param {unknown} contextData
- * @returns {{security: {sessionId: string | null, userId: string | null, permissions?: readonly string[], assurance?: readonly string[]}, response?: {authSessionSet: Function, authSessionClear: Function}}}
+ * @returns {{security: {sessionId: string | null, userId: string | null, tenantId?: string | null, permissions?: readonly string[], assurance?: readonly string[]}, response?: {authSessionSet: Function, authSessionClear: Function}}}
  */
 //Function for checking the trusted Auth operation context
 const authOperationContextGet = function( contextData ){
@@ -236,6 +236,7 @@ export function layerAuthOperationDefinitionsCreate( operationOptions ){
             required: ['assurance', 'authenticated', 'permissions', 'session', 'user'],
             properties: {
                 authenticated: {const: true},
+                tenantId: {type: 'string', maxLength: 128},
                 user: {
                     type: 'object',
                     additionalProperties: false,
@@ -287,6 +288,7 @@ export function layerAuthOperationDefinitionsCreate( operationOptions ){
             //Returning only identity state required by the headless browser facade
             return Object.freeze({
                 authenticated: true,
+                ...(typeof authContextData.security.tenantId === 'string' ? {tenantId: authContextData.security.tenantId} : {}),
                 user: Object.freeze({id: String( currentSessionData.userId )}),
                 session: Object.freeze({id: String( currentSessionData.sessionId )}),
                 permissions: Object.freeze( permissionsData ),

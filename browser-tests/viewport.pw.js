@@ -82,7 +82,7 @@ test( 'app viewport preserves search, resizes composer and releases component ow
     });
     expect( shellHeight ).toBe( initialHeight );
 
-    //Navigating away must dispose the old component owner without stopping the app controller
+    //Keeping a saved screen from controlling the active document viewport
     const disposedOwner = await page.evaluate(async function(){
         const previousOwner = window.layerViewportFixture.viewport;
         await window.layer.navigate( '/second/' );
@@ -92,7 +92,7 @@ test( 'app viewport preserves search, resizes composer and releases component ow
 
         } catch( ownerError ){
             //Verifying the expected lifecycle failure without hiding an unrelated error
-            return String( ownerError ).includes( 'disposed' );
+            return String( ownerError ).includes( 'suspended' );
 
         }
 

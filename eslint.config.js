@@ -12,6 +12,10 @@ export default [
     },
     eslint.configs.recommended,
     {
+        files: ['packages/cli/src/browser/*.mjs'],
+        languageOptions: {globals: globals.browser}
+    },
+    {
         files: [
             '**/*.js'
         ],

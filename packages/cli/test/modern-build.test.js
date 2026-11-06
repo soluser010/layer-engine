@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {
     mkdir,
     mkdtemp,
@@ -34,13 +35,19 @@ test('builds generated operations and the complete external CSS matrix', async f
     const styleDirectory = path.join(projectDirectory, 'src', 'styles');
 
     await mkdir(styleDirectory, {recursive: true});
-    await writeFile(path.join(styleDirectory, 'icon.svg'), '<svg xmlns="http://www.w3.org/2000/svg"/>\n', 'utf8');
+    const iconSource = '<svg xmlns="http://www.w3.org/2000/svg"><!-- __LAYER_UPDATE_BUILD_ID__ --></svg>\n';
+    const fontBytes = await readFile(new URL('../../../browser-tests/fixtures/triangle.woff2', import.meta.url));
+    await writeFile(path.join(styleDirectory, 'icon.svg'), iconSource, 'utf8');
+    await writeFile(path.join(styleDirectory, 'triangle.woff2'), fontBytes);
     await writeFile(path.join(styleDirectory, 'page.layer.module.css'), `
 .panel {
     background-image: url('./icon.svg');
 }
 `, 'utf8');
-    await writeFile(path.join(styleDirectory, 'page.global.layer.css'), '.application-shell { display: block; }\n', 'utf8');
+    await writeFile(path.join(styleDirectory, 'page.global.layer.css'), `
+@font-face { font-family: Triangle; src: url('./triangle.woff2') format('woff2'); }
+.application-shell { display: block; font-family: Triangle; }
+`, 'utf8');
     await writeFile(path.join(projectDirectory, 'src', 'operations.js'), `
 import {layerOperationContractsCreate} from '@solcorp/layer';
 
@@ -104,14 +111,13 @@ export default layerComponentCreate(function ModernPage(_properties, context) {
     assert.match(routeModule, /panel__/);
     assert.match(routeStyle, /panel__[a-f0-9]{8}\[data-layer-scope=/);
     assert.match(routeStyle, /\.application-shell/);
-    assert.match(routeStyle, /\/_layer\/assets\/[a-f0-9]{24}\.svg/);
     assert.match(operationDeclaration, /messageListQueryCreate/);
     assert.match(operationDeclaration, /readonly \(string\)\[\]/);
     assert.equal(styleManifest.routes[0].style, routeData.style);
 
     //Checking that the app shell is external, integrity-covered and available offline
     const shellSource = await readFile(path.join(projectDirectory, 'dist', 'index.html'), 'utf8');
-    const versionManifest = /** @type {{assets: {url: string, required: boolean}[]}} */ (JSON.parse(
+    const versionManifest = /** @type {{assets: {url: string, required: boolean, hash: string}[]}} */ (JSON.parse(
         await readFile(path.join(projectDirectory, 'dist', '_layer', 'version.json'), 'utf8')
     ));
     assert.match(shellSource, /href="\/_layer\/viewport.css"/u);
@@ -127,6 +133,16 @@ export default layerComponentCreate(function ModernPage(_properties, context) {
         return assetData.url === '/_layer/viewport.css' && assetData.required === true;
 
     }));
-    assert.equal(assetNames.length, 1);
+    //Check source bytes against the CSS URL, on-disk artifact and both integrity manifests.
+    for ( const [extension, sourceBytes] of /** @type {const} */ ([['svg', Buffer.from(iconSource)], ['woff2', fontBytes]]) ){
+        const digest = createHash('sha256').update(sourceBytes).digest();
+        const assetPath = '_layer/assets/' + digest.toString('hex') + '.' + extension;
+        assert.ok(routeStyle.includes('/' + assetPath));
+        assert.deepEqual(await readFile(path.join(projectDirectory, 'dist', assetPath)), sourceBytes);
+        assert.equal(buildResult.integrity[assetPath], 'sha256-' + digest.toString('hex'));
+        assert.equal(versionManifest.assets.find(asset => asset.url === '/' + assetPath)?.hash, 'sha256-' + digest.toString('base64'));
+
+    }
+    assert.equal(assetNames.length, 2);
     assert.equal(buildResult.operations[0]?.name, 'message.list');
 });

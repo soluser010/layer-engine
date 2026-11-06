@@ -119,6 +119,7 @@ function projectConfigurationSourceCreate( projectName ){
     // Only listed external origins can open in the built-in iframe viewer.
     // Disable only the default card with ui: false; native Service Worker registration remains enabled.
     //Showing the first offline installation before opening the app; false disables only this screen
+    navigation: {warmup: {enabled: true}},
     startup: {
         installationScreen: true
     },
@@ -464,7 +465,7 @@ function projectTemplateCreate(projectName) {
             display: 'standalone',
             launch_handler: {client_mode: 'focus-existing'}
         }, null, 4)}\n`,
-        'public/icon.svg': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#111827"/><path d="M128 128h96v208h160v48H128z" fill="#f9fafb"/><path d="M272 128h112v48H320v64h56v48h-56v48h64v48H272z" fill="#38bdf8"/></svg>\n',
+        'public/icon.svg': '<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" role="img" aria-labelledby="title description">\n<title id="title">Layer-Engine — layers, color</title>\n<desc id="description">Three rounded offset layers form the Layer-Engine L symbol. Transparent background; vector paths only.</desc>\n<path fill="#B59BDB" d="M 98 130 C 65 140 32 163 28 195 C 23 221 37 253 53 282 L 119 392 C 135 419 158 437 188 437 C 207 437 221 432 239 430 L 341 420 C 357 418 369 408 367 400 C 365 396 357 394 345 393 L 193 375 C 160 371 145 351 135 322 L 125 290 C 114 258 105 200 120 165 C 116 151 108 137 98 130 Z"/>\n<path fill="#613C97" d="M 165 76 C 125 87 91 121 91 160 C 91 178 96 206 102 238 L 114 302 C 122 338 149 352 191 357 L 361 377 C 382 380 399 365 398 354 C 397 344 387 340 369 337 L 226 319 C 178 313 159 283 159 241 L 158 130 C 158 110 159 90 165 76 Z"/>\n<path fill="#6E46AA" d="M 179 87 C 179 51 208 28 237 28 C 267 28 287 51 287 86 L 287 178 C 287 204 292 216 321 220 L 403 229 C 432 233 451 250 451 274 C 451 301 431 324 403 322 L 245 303 C 203 298 179 276 179 237 Z"/>\n</svg>\n',
         'public/index.html': `<!doctype html>\n<html lang="en">\n<head>\n    <meta charset="utf-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-visual">\n    <link rel="icon" href="/icon.svg" type="image/svg+xml">\n    <link rel="manifest" href="/manifest.webmanifest">\n    <title>${projectName}</title>\n</head>\n<body>\n    <div id="layer-app" data-layer-root></div>\n</body>\n</html>\n`,
         'README.md': `# ${projectName}\n\nCreated with Layer-Engine.\n\n## Development\n\n\`\`\`text\nnpm run dev\n\`\`\`\n\n## Production bundle\n\nSet \`deployment.domain\` in \`layer.config.js\` or provide \`LAYER_DOMAIN\` on the server. Build and deploy only \`dist\`:\n\n\`\`\`text\nnpm run build\ncd dist\nnpm run check\nnpm start\n\`\`\`\n\nThe target requires Node.js 24 and npm 11. Keep \`npm start\` under an external service supervisor.\n`
     });

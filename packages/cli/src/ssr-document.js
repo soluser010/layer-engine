@@ -476,7 +476,7 @@ function layoutPageCompose(layoutHtml, pageHtml) {
  * @param {string} ssrOptions.shellSource
  * @param {readonly Readonly<Record<string, unknown>>[]} ssrOptions.routes
  * @param {readonly Readonly<Record<string, unknown>>[]} ssrOptions.layouts
- * @param {Readonly<Record<string, string>>} ssrOptions.componentArtifacts
+ * @param {Readonly<Record<string, string | Uint8Array>>} ssrOptions.componentArtifacts
  */
 export async function layerStaticSsrDocumentsCreate(ssrOptions) {
     const shellDocument = shellDocumentParse(ssrOptions.shellSource);

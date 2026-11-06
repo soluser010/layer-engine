@@ -46,9 +46,10 @@ function sourceFileBoundaryCheck(sourceDirectory, absoluteFile) {
  * @param {boolean} authEnabled
  * @param {Readonly<Record<string, unknown>>} webAppManifest
  * @param {Readonly<Record<string, any>>} linksConfiguration
+ * @param {boolean} warmupEnabled
  * @param {Readonly<Record<string, any>>} updatesConfiguration
  */
-function applicationModuleSourceCreate(routeRecords, layoutRecords, appName, appVersion, authEnabled, webAppManifest, linksConfiguration, updatesConfiguration) {
+function applicationModuleSourceCreate(routeRecords, layoutRecords, appName, appVersion, authEnabled, webAppManifest, linksConfiguration, updatesConfiguration, warmupEnabled) {
     //Serializing only the validated public route records into the browser bootstrap.
     const serializedRoutes = JSON.stringify(routeRecords);
     const serializedLayouts = JSON.stringify(layoutRecords);
@@ -94,6 +95,7 @@ import {
 } from '@solcorp/layer-storage';
 import {layerAuthBrowserCreate} from '@solcorp/layer-auth/browser';
 import * as applicationModule from 'layer-application-entry';
+import {beforeOpen, screenNavigationCreate} from 'layer-screen-navigation';
 
 const applicationIdentifier = ${applicationIdentifier};
 const applicationVersion = ${applicationVersion};
@@ -109,6 +111,7 @@ if (location.search.endsWith(updateReloadMarker)) {
 
 }
 const applicationWebManifest = ${JSON.stringify(webAppManifest)};
+const warmupEnabled = ${JSON.stringify(warmupEnabled)};
 const updatesConfiguration = ${JSON.stringify(updatesConfiguration)};
 const layerAuthEnabled = ${JSON.stringify(authEnabled)};
 const shareTargetEnabled = ${JSON.stringify(shareTargetStatus)};
@@ -127,6 +130,7 @@ const routeManifest = layerRouteManifestCreate(routeAssets.map((routeData) => ({
         layout: routeData.layout,
         auth: routeData.auth,
         permissions: routeData.permissions,
+        warmup: routeData.warmup,
         preload: routeData.preload,
         guard: routeData.guard,
         offline: routeData.offline,
@@ -156,6 +160,7 @@ let disposedStatus = false;
 let offlineContextPromise = null;
 let offlineContextCurrent = null;
 let navigationSequence = 0;
+let ordinaryTransition = null;
 let updateCoordinator = null;
 let updateCard = null;
 let updateState = Object.freeze({
@@ -604,6 +609,9 @@ async function storageReady() {
 }
 
 async function storagePurge() {
+    screens?.notifyLogout();
+    navigationSequence++;
+    screens?.clear();
     //Removing the browser device endpoint on logout; server credential revocation is authoritative
     if (applicationModule.serviceWorker !== false && navigator.serviceWorker !== undefined && globalThis.Notification?.permission === 'granted') {
         let pushCleanupTimer;
@@ -764,7 +772,7 @@ function activeRenderDispose() {
     activeLayoutStyleNode = null;
 }
 
-function componentContextCreate(navigationData) {
+function componentContextCreate(navigationData, state = {data: navigationData}, screenOwner = null) {
     const declaredContext = applicationModule.context ?? {};
 
     if (typeof declaredContext !== 'object' || declaredContext === null || Array.isArray(declaredContext)) {
@@ -779,15 +787,17 @@ function componentContextCreate(navigationData) {
         'layer.viewport': applicationViewport,
         'layer.links': applicationLinks,
         'layer.navigate': navigate,
+        'layer.screenOwner': screenOwner,
+        'layer.routeSubscribe': state.subscribe,
         'layer.route': Object.freeze({
-            route: navigationData.route,
-            params: navigationData.params,
-            preload: navigationData.preload
+            get route() { return state.data.route; },
+            get params() { return state.data.params; },
+            get preload() { return state.data.preload; }
         })
     };
 }
 
-async function routeRender(navigationData, navigationIdentifier) {
+async function routeRender(navigationData, navigationIdentifier, url, controller) {
     if (navigationIdentifier !== navigationSequence) {
         return navigationSupersededResultCreate(navigationData);
     }
@@ -858,6 +868,11 @@ async function routeRender(navigationData, navigationIdentifier) {
         return navigationSupersededResultCreate(navigationData);
     }
 
+    await beforeOpen(applicationModule.onBeforeScreenOpen, {
+        route: navigationData.route, params: navigationData.params, preload: navigationData.preload,
+        props, url: new URL(url, location.href).href, restored: false
+    }, controller);
+    controller.signal.throwIfAborted();
     const instanceOptions = {
         context: componentContextCreate(navigationData),
         props,
@@ -972,6 +987,14 @@ function navigationSupersededResultCreate(navigationData) {
     });
 }
 
+const screens = warmupEnabled ? screenNavigationCreate({
+    root: rootNode, router, scope: applicationScope, buildId: applicationBuildId,
+    applicationId: applicationIdentifier, managedAuth: layerAuthEnabled, navigate, identityGet: routeIdentityGet, invalidate() { navigationSequence++; },
+    application: applicationModule, viewport: applicationViewport,
+    contextCreate: componentContextCreate, metadataApply: routeMetadataApply,
+    assetGet: id => routeAssetById.get(id), layoutGet: name => layoutAssetByName.get(name)
+}) : null;
+
 //Creating the shared link policy after router construction but before any component mounts
 const applicationLinks = layerLinksCreate({
     root: rootNode,
@@ -1000,38 +1023,53 @@ async function navigate(pathnameData, navigationOptions = {}) {
     }
 
     const navigationIdentifier = ++navigationSequence;
+    const started = performance.now();
+    const finishRequest = screens?.request(pathnameData);
+    ordinaryTransition?.abort();
+    const transition = screens?.begin() ?? (ordinaryTransition = new AbortController());
     //Closing a modal before an explicit application navigation changes its page lifetime
     applicationLinks.closeViewer();
 
     try {
-        const navigationData = await router.navigate(pathnameData, navigationOptions);
+        const navigationData = screens ? await router.prepare(pathnameData, navigationOptions) : await router.navigate(pathnameData, navigationOptions);
 
         if (navigationData.status === 'superseded' || navigationIdentifier !== navigationSequence) {
+            screens?.cancelCount();
             return navigationSupersededResultCreate(navigationData);
         }
 
         if (navigationData.status !== 'ready') {
+            screens?.clear();
             activeRenderDispose();
             boundaryRender(navigationData);
 
             return navigationData;
         }
 
-        return routeRender(navigationData, navigationIdentifier);
+        if (screens) {
+            return await screens.render(navigationData, pathnameData, transition, started);
+        }
+        return await routeRender(navigationData, navigationIdentifier, pathnameData, transition);
 
     } catch (navigationError) {
         if (navigationIdentifier !== navigationSequence) {
+            screens?.cancelCount();
             return Object.freeze({
                 status: 'superseded',
                 pathname: pathnameData
             });
         }
 
+        if (navigationOptions.history === false) {
+            screens?.restoreUrl();
+        }
         if (typeof applicationModule.onError === 'function') {
             applicationModule.onError(navigationError);
         }
 
         throw navigationError;
+    } finally {
+        finishRequest?.();
     }
 }
 
@@ -1091,7 +1129,7 @@ function documentClickHandle(eventData) {
 }
 
 function historyChangeHandle() {
-    void navigate(location.pathname + location.search + location.hash, {replace: true, history: false});
+    void navigate(location.pathname + location.search + location.hash, {replace: true, history: false}).catch(() => {});
 }
 
 const application = Object.freeze({
@@ -1110,12 +1148,16 @@ const application = Object.freeze({
     storageReady,
     storagePurge,
     currentGet: router.currentGet,
+    navigationDiagnostics: () => screens?.snapshot() ?? Object.freeze({enabled: false}),
     dispose() {
         if (disposedStatus) {
             return false;
         }
 
         disposedStatus = true;
+        navigationSequence++;
+        screens?.dispose();
+        ordinaryTransition?.abort();
         activeRenderDispose();
         applicationViewport.dispose();
         applicationLinks.dispose();
@@ -1194,7 +1236,9 @@ async function applicationStart() {
         try {
             registrationData = await layerServiceWorkerRegister({scope: ${serializedScope}});
             startupBootstrap?.connect(registrationData);
-            updateCoordinatorConnect(registrationData);
+            if (registrationData) {
+                updateCoordinatorConnect(registrationData);
+            }
 
         } catch (registrationError) {
             startupBootstrap?.connect(null);
@@ -1229,6 +1273,9 @@ async function applicationStart() {
 
     //Completing the initial route and startup hooks before exposing the application
     startupBootstrap?.ready();
+    if (!disposedStatus) {
+        screens?.start();
+    }
 
     if (registrationData !== null) {
         try {
@@ -1284,6 +1331,7 @@ void applicationStart().catch(function(startupError){
  * @param {Readonly<Record<string, unknown>>} bundleOptions.webAppManifest
  * @param {Readonly<Record<string, any>>} [bundleOptions.links]
  * @param {Readonly<Record<string, any>>} [bundleOptions.updates]
+ * @param {boolean} [bundleOptions.warmupEnabled]
  * @param {string} bundleOptions.outputFile
  */
 export async function layerApplicationBundleCreate(bundleOptions) {
@@ -1329,6 +1377,10 @@ export async function layerApplicationBundleCreate(bundleOptions) {
             plugins: [{
                 name: 'layer-application',
                 setup(buildApi) {
+                    buildApi.onResolve({filter: /^layer-screen-navigation$/, namespace: 'layer-application'}, function screenResolve() {
+                        //Bundling the browser-owned navigation lifecycle with the application.
+                        return {namespace: 'file', path: fileURLToPath(new URL('./browser/screen-navigation.mjs', import.meta.url))};
+                    });
                     //Connecting virtual engine entries and guarded developer source imports.
                     buildApi.onResolve({filter: /^layer-application$/}, function applicationResolve() {
                         //Selecting the generated browser bootstrap as the build root.
@@ -1408,7 +1460,8 @@ export async function layerApplicationBundleCreate(bundleOptions) {
                                 bundleOptions.authEnabled,
                                 bundleOptions.webAppManifest,
                                 bundleOptions.links ?? {external: {mode: 'viewer', allowedOrigins: []}, scopeExtensions: []},
-                                bundleOptions.updates ?? {enabled: false, ui: false, checkIntervalMs: 300000}
+                                bundleOptions.updates ?? {enabled: false, ui: false, checkIntervalMs: 300000},
+                                bundleOptions.warmupEnabled !== false
                             ),
                             loader: 'js'
                         };

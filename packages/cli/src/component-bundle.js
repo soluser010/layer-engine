@@ -264,11 +264,12 @@ function __layerObservableStateCreate(runtimeHandle, fieldNames, ownedStateDispo
         readonlyByField[fieldName] = __layerReadonlySignalCreate(fieldSignal);
     }
 
-    const subscriptionDispose = runtimeHandle.subscribe(function(snapshotData) {
+    const snapshotApply = function(snapshotData) {
         for (const fieldName of fieldNames) {
             signalByField[fieldName].set(snapshotData[fieldName]);
         }
-    });
+    };
+    let subscriptionDispose = runtimeHandle.subscribe(snapshotApply);
     let disposedStatus = false;
 
     const stateDispose = function() {
@@ -278,12 +279,21 @@ function __layerObservableStateCreate(runtimeHandle, fieldNames, ownedStateDispo
 
         disposedStatus = true;
         ownedStateDisposers.delete(stateDispose);
-        subscriptionDispose();
+        subscriptionDispose?.();
         runtimeHandle.dispose();
 
         return true;
     };
 
+    stateDispose.visibility = function(visible) {
+        if (!visible) {
+            subscriptionDispose?.();
+            subscriptionDispose = null;
+        } else if (!subscriptionDispose && !disposedStatus) {
+            snapshotApply(runtimeHandle.snapshot());
+            subscriptionDispose = runtimeHandle.subscribe(snapshotApply);
+        }
+    };
     ownedStateDisposers.add(stateDispose);
 
     return Object.freeze({
@@ -339,7 +349,7 @@ function __layerCommandHandleCreate(runtimeHandle, ownedStateDisposers) {
     });
 }
 
-function __layerComponentApiCreate(applicationApi, disposeRegister) {
+function __layerComponentApiCreate(applicationApi, lifecycle) {
     if (!applicationApi || typeof applicationApi !== 'object') {
         return null;
     }
@@ -351,7 +361,9 @@ function __layerComponentApiCreate(applicationApi, disposeRegister) {
 
     const ownedStateDisposers = new Set();
 
-    disposeRegister(function componentApiDispose() {
+    lifecycle.onDeactivated(() => ownedStateDisposers.forEach(handle => handle.visibility(false)));
+    lifecycle.onActivated(() => ownedStateDisposers.forEach(handle => handle.visibility(true)));
+    lifecycle.onDisposed(function componentApiDispose() {
         for (const stateDispose of [...ownedStateDisposers]) {
             stateDispose();
         }
@@ -387,12 +399,23 @@ function __layerComponentViewportCreate(viewportController, setupContext){
     }
 
     //Acquiring a local owner so lazy chunks do not share signal dependency graphs
-    const viewportOwner = viewportController.createOwner();
+    const viewportOwner = viewportController.createOwner(setupContext);
     const viewportSignal = __layerSignalCreate(viewportOwner.getState());
-    viewportOwner.subscribe(function viewportStateApply(viewportState){
+    const viewportStateApply = function(viewportState){
         //Publishing only the geometry bindings observed by this component
         viewportSignal.set(viewportState);
 
+    };
+    let unsubscribe = viewportOwner.subscribe(viewportStateApply);
+    setupContext.onDeactivated(function viewportPause(){
+        unsubscribe?.();
+        unsubscribe = null;
+    });
+    setupContext.onActivated(function viewportResume(){
+        if (!unsubscribe) {
+            viewportStateApply(viewportOwner.getState());
+            unsubscribe = viewportOwner.subscribe(viewportStateApply);
+        }
     });
     setupContext.onDisposed(function viewportOwnerDispose(){
         //Releasing subscriptions and registrations with the component lifecycle
@@ -433,9 +456,63 @@ if (!__layerComponentDefinitionCheck(__layerAuthorDefinition)) {
 
 const __layerDefinitionProperties = __layerPropertyContractsCreate(__layerUserModule.properties);
 const __layerDefinitionEvents = __layerEventContractsCreate(__layerUserModule.events);
+function __layerComponentEventsCreate(events, lifecycle) {
+    if (!events || lifecycle.environment !== 'browser') {
+        return events;
+    }
+    const listeners = new Set();
+    let active = true;
+    const change = function(visible) {
+        active = visible;
+        for (const record of listeners) {
+            if (visible && !record.remove) {
+                record.remove = events.subscribe(record.channel, record.callback);
+            } else if (!visible) {
+                record.remove?.();
+                record.remove = null;
+            }
+        }
+    };
+    lifecycle.onActivated(() => change(true));
+    lifecycle.onDeactivated(() => change(false));
+    lifecycle.onDisposed(() => {
+        change(false);
+        listeners.clear();
+    });
+    return Object.freeze({...events, subscribe(channel, callback) {
+        const record = {channel, callback, remove: active ? events.subscribe(channel, callback) : null};
+        listeners.add(record);
+        return () => {
+            record.remove?.();
+            return listeners.delete(record);
+        };
+    }});
+}
+
+function __layerRouteContextCreate(setupContext){
+    //Bridge the runtime route into this component chunk's signal graph.
+    const route = setupContext.inject('layer.route');
+    const subscribe = setupContext.inject('layer.routeSubscribe');
+    if (typeof subscribe !== 'function') {
+        return route;
+    }
+    const snapshot = __layerSignalCreate(route);
+    const unsubscribe = subscribe(function routeRefresh(data){
+        //Re-evaluate computed bindings against the freshly authorized route data.
+        snapshot.set(data);
+
+    });
+    setupContext.onDisposed(unsubscribe);
+    return Object.freeze({
+        get route() { return snapshot.get().route; },
+        get params() { return snapshot.get().params; },
+        get preload() { return snapshot.get().preload; }
+    });
+}
+
 const __layerDefinitionSetup = function(setupContext) {
     const applicationApi = setupContext.inject('layer.api');
-    const componentApi = __layerComponentApiCreate(applicationApi, setupContext.onDisposed);
+    const componentApi = __layerComponentApiCreate(applicationApi, setupContext);
     const componentViewport = __layerComponentViewportCreate(setupContext.inject('layer.viewport'), setupContext);
     const componentContext = Object.freeze({
         environment: setupContext.environment,
@@ -450,13 +527,15 @@ const __layerDefinitionSetup = function(setupContext) {
         keyboard: componentViewport?.keyboard ?? null,
         links: __layerComponentLinksCreate(setupContext.inject('layer.links'), setupContext),
         command: setupContext.inject('layer.command'),
-        events: setupContext.inject('layer.events'),
+        events: __layerComponentEventsCreate(setupContext.inject('layer.events'), setupContext),
         navigate: setupContext.inject('layer.navigate'),
-        route: setupContext.inject('layer.route'),
+        route: __layerRouteContextCreate(setupContext),
         storage: setupContext.inject('layer.storage'),
         capabilities: setupContext.inject('layer.capabilities'),
         logger: setupContext.inject('layer.logger'),
         onMount: setupContext.onMounted,
+        onActivate: setupContext.onActivated,
+        onDeactivate: setupContext.onDeactivated,
         onHydrate: setupContext.onHydrated,
         onUpdate: setupContext.onUpdated,
         onDestroy: setupContext.onDisposed
@@ -875,7 +954,8 @@ export async function layerComponentBundleCreate(bundleOptions) {
 
                             }
 
-                            const assetName = `_layer/assets/${contentHashCreate(assetContent).slice(0, 24)}${safeExtension}`;
+                            //Full digests give repaired bytes a fresh URL even in existing immutable HTTP caches.
+                            const assetName = `_layer/assets/${contentHashCreate(assetContent)}${safeExtension}`;
 
                             assetArtifactMap.set(assetName, assetContent);
                             assetUrlMap[assetReference] = `/${assetName}`;

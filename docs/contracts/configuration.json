@@ -69,6 +69,11 @@
             "ui": true,
             "checkIntervalMs": 300000
         },
+        "navigation": {
+            "warmup": {
+                "enabled": true
+            }
+        },
         "startup": {
             "installationScreen": true
         },
@@ -399,6 +404,11 @@
             "enabled": true,
             "ui": true,
             "checkIntervalMs": 300000
+        },
+        "navigation": {
+            "warmup": {
+                "enabled": true
+            }
         },
         "startup": {
             "installationScreen": true

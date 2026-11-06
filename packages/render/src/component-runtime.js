@@ -655,7 +655,9 @@ function componentInstancePrepare(definitionData, instanceOptions, environmentNa
     const slots = slotCollectionNormalize(/** @type {Record<string, unknown>} */ (instanceOptions.slots ?? {}));
     const emitSet = new Set(definitionData.emits);
     const onEmit = instanceOptions.onEmit;
-    const lifecycleHooks = /** @type {Record<'disposed' | 'hydrated' | 'mounted' | 'updated', Function[]>} */ ({
+    const lifecycleHooks = /** @type {Record<'disposed' | 'hydrated' | 'mounted' | 'updated' | 'activated' | 'deactivated', Function[]>} */ ({
+        activated: [],
+        deactivated: [],
         disposed: [],
         hydrated: [],
         mounted: [],
@@ -668,7 +670,7 @@ function componentInstancePrepare(definitionData, instanceOptions, environmentNa
 
     }
 
-    /** @param {'disposed' | 'hydrated' | 'mounted' | 'updated'} hookName @param {unknown} hookHandler */
+    /** @param {'disposed' | 'hydrated' | 'mounted' | 'updated' | 'activated' | 'deactivated'} hookName @param {unknown} hookHandler */
     function lifecycleHookRegister(hookName, hookHandler) {
         //Keeping hook registration deterministic and setup-bound.
         if (!setupActive || typeof hookHandler !== 'function') {
@@ -731,6 +733,16 @@ function componentInstancePrepare(definitionData, instanceOptions, environmentNa
 
             return fallbackValue;
 
+        },
+        /** @param {unknown} hookHandler */
+        onActivated(hookHandler) {
+            //Registering work that resumes whenever this screen becomes visible.
+            lifecycleHookRegister('activated', hookHandler);
+        },
+        /** @param {unknown} hookHandler */
+        onDeactivated(hookHandler) {
+            //Registering work that pauses while this instance stays in memory.
+            lifecycleHookRegister('deactivated', hookHandler);
         },
         /** @param {unknown} hookHandler */
         onMounted(hookHandler) {
@@ -841,6 +853,8 @@ function componentInstanceMount(definitionData, rootNode, instanceOptions = {}, 
     const externalDiagnostics = /** @type {any} */ (
         instanceOptions.diagnostics ?? layerRenderDiagnosticsCreate()
     );
+    const screenOwner = preparedData.childContext.get('layer.screenOwner');
+    let firstActivation = true;
     let lifecycleActive = false;
     let disposedStatus = false;
     let updatedScheduled = false;
@@ -864,7 +878,7 @@ function componentInstanceMount(definitionData, rootNode, instanceOptions = {}, 
             await layerCommitWait();
             updatedScheduled = false;
 
-            if (!disposedStatus) {
+            if (!disposedStatus && lifecycleActive) {
                 lifecycleHooksRun(preparedData.lifecycleHooks.updated, controllerData);
 
             }
@@ -915,7 +929,7 @@ function componentInstanceMount(definitionData, rootNode, instanceOptions = {}, 
             /** @type {any} */ (definitionData.component),
             rootNode,
             preparedData.renderScope,
-            {diagnostics}
+            {diagnostics, warmupNodes: /** @type {Map<string, Element> | undefined} */ (instanceOptions.warmupNodes)}
         );
 
     }
@@ -927,15 +941,33 @@ function componentInstanceMount(definitionData, rootNode, instanceOptions = {}, 
         refs: renderController.refs,
         regions: renderController.regions,
         slots: preparedData.slots,
-        /** @param {Record<string, unknown>} nextProps */
-        async update(nextProps) {
+        activate() {
+            if (disposedStatus || lifecycleActive) {
+                return;
+            }
+            lifecycleActive = true;
+            if (firstActivation) {
+                firstActivation = false;
+                lifecycleHooksRun(hydrateStatus ? preparedData.lifecycleHooks.hydrated : preparedData.lifecycleHooks.mounted, controllerData);
+            }
+            lifecycleHooksRun(preparedData.lifecycleHooks.activated, controllerData);
+        },
+        deactivate() {
+            if (!lifecycleActive || disposedStatus) {
+                return;
+            }
+            lifecycleActive = false;
+            lifecycleHooksRun(preparedData.lifecycleHooks.deactivated, controllerData);
+        },
+        /** @param {Record<string, unknown>} nextProps @param {{replace?: boolean}} [updateOptions] */
+        async update(nextProps, updateOptions = {}) {
             if (disposedStatus) {
                 throw new TypeError('A disposed component cannot be updated.');
 
             }
 
             const nextValues = componentPropsResolve(definitionData, {
-                ...Object.fromEntries(Object.entries(preparedData.propsView)),
+                ...(updateOptions.replace ? {} : Object.fromEntries(Object.entries(preparedData.propsView))),
                 ...nextProps
             });
 
@@ -963,6 +995,7 @@ function componentInstanceMount(definitionData, rootNode, instanceOptions = {}, 
             }
 
             disposedStatus = true;
+            screenOwner?.delete(publicController);
             renderController.dispose();
             lifecycleHooksRun(preparedData.lifecycleHooks.disposed, controllerData);
 
@@ -971,16 +1004,11 @@ function componentInstanceMount(definitionData, rootNode, instanceOptions = {}, 
 
     const publicController = Object.freeze(controllerData);
 
-    lifecycleActive = true;
-
     try {
-        //Selecting the single browser entry lifecycle matching the render mode.
-        if (hydrateStatus) {
-            lifecycleHooksRun(preparedData.lifecycleHooks.hydrated, publicController);
-
+        if (screenOwner) {
+            screenOwner.add(publicController);
         } else {
-            lifecycleHooksRun(preparedData.lifecycleHooks.mounted, publicController);
-
+            publicController.activate();
         }
 
     } catch( lifecycleErrorData ){

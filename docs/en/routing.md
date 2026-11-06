@@ -84,3 +84,76 @@ export default layerComponentCreate(function ApplicationLayout(){
 
 });
 ```
+
+## Experimental screen warmup
+
+Choose the policy on the destination page first. [Choosing a page warmup policy](page-configuration.md#choosing-a-page-warmup-policy).
+
+An ordinary page only needs an internal link such as `<a href="/about/">About</a>`. After 250 ms of continuous visibility, Layer prepares CSS, the module and safe elements for the destination. A visible tab processes one background task at a time after startup. Setup, access checks and data requests run when the user navigates. The current screen stays interactive while the destination gets ready.
+
+**Where the styles come from.** When the Service Worker controls the page and the current build's offline cache contains the CSS, the browser reads the file from that cache. The tab prepares the page and layout stylesheets in advance while the current screen keeps its own styles. On click, the router reuses those same sheets. If the CSS is still loading, the router waits and switches the screen and its styles together. A cache miss may require a network request. Use preload or `onBeforeScreenOpen` for API data required to open a screen.
+
+Inside `ul`, `ol`, `select`, `option`, ARIA lists and nested areas that actually scroll vertically, navigation prepares the destination on demand. A short `overflow-y: auto` container whose contents fit still allows warmup. An explicit `target="_self"` keeps native browser navigation.
+
+For a chat, set `warmup: 'on-demand'` on the page. This example assigns the required first response to `props.messages` before showing the page. Register `chat.messages.list` on the server and declare the page's `messages` property. The hook also runs on return. If loading fails or the hook exceeds 15 seconds, the previous screen stays visible. Pass `signal` to cancel the request on superseding navigation.
+
+```js
+// src/pages/chats/[chatId].layer.js
+import {layerPageCreate} from '@solcorp/layer';
+
+export const page = layerPageCreate({
+    render: 'csr',
+    warmup: 'on-demand'
+});
+
+export const properties = {
+    messages: {type: 'array', required: true}
+};
+```
+
+```js
+// src/app.js
+export function props({route}){
+    //Supply the chat page with its declared input before loading messages.
+    if (route.path === '/chats/:chatId/') {
+        return {messages: []};
+    }
+    return {};
+}
+
+export async function onBeforeScreenOpen({route, params, props, signal}){
+    //Keep the current page interactive until the selected conversation is ready.
+    if (route.path === '/chats/:chatId/') {
+        const response = await window.layer.query('chat.messages.list', {chatId: params.chatId}, {signal});
+        props.messages = response.data;
+    }
+}
+```
+
+### What `onBeforeScreenOpen` receives
+
+Export this hook from `src/app.js` if a screen needs data before it opens. It also runs with `warmup: 'off'` and with global warmup disabled. It runs on actual navigation after route checks. Returning a promise delays display until it settles successfully.
+
+| Argument | How to use it |
+| --- | --- |
+| `route` | Route definition. Compare `route.path` with a pattern such as `/chats/:chatId/` to fetch messages only for chat routes. |
+| `params` | Route segment values. For `/chats/42/`, `params.chatId` is the string `'42'`. |
+| `url` | Full destination URL as a string. Read query parameters with `new URL(url).searchParams`. |
+| `props` | Component inputs. Assign results to a declared property on this object before display. |
+| `preload` | Results already fetched, keyed by operation name. Reuse a preload result when it contains the data you need. |
+| `restored` | `true` when an instance already exists for this destination. Background preparation alone leaves it `false`. |
+| `signal` | Pass it to the request. Another navigation cancels the wait, and the hook itself has a 15-second deadline. |
+
+Set `warmup: 'off'` in `layerPageCreate` for payments or one-time links. To turn off observation, background preparation and instance retention throughout an app, rebuild it with this configuration.
+
+```js
+// layer.config.js
+export default {
+    appName: 'messenger',
+    navigation: {warmup: {enabled: false}}
+};
+```
+
+On return, Layer checks access and reloads preload data and props. The tab retains its draft, DOM and scroll position. Keys account for identity, tenant, permissions, route and query. Pause custom timers, media and subscriptions in `context.onDeactivate`, resume in `context.onActivate`, and release them in `context.onDestroy`. The experiment keeps instances in tab RAM until the security context is cleared or the application closes, without a count limit. `window.layer.navigationDiagnostics()` reports `active`, `saved`, `prepared`, `unopened`, `queued`, `hits`, `backgroundHits`, `cancellations` and `clickToReadyMs`.
+
+With custom authentication, return stable `userId`, `tenantId` and `permissions` from `identityGet()`. Call `window.layer.storagePurge()` on logout. Managed authentication performs this cleanup automatically. Permissions are rechecked on navigation and when the tab returns to the foreground.

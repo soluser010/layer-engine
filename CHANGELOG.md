@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0
+
+- Experimental default-enabled screen warmup and retention; disable with navigation.warmup.enabled=false.
+- Prepared styles are reused and binary CSS/font assets preserved.
+- Updated English agent skill and RU/EN navigation guidance.
+
 ## 0.1.2 — prepared, not published
 
 - Default first-install PWA screen with an early external bootstrap, manifest branding, verified file progress, foreground-only timeout and safe retry; configure it independently with `startup.installationScreen` in dev and production.

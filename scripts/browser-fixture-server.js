@@ -3,6 +3,9 @@ import {
     statSync
 } from 'node:fs';
 import {
+    appendFile,
+    copyFile,
+    mkdir,
     mkdtemp,
     readFile,
     writeFile,
@@ -69,9 +72,31 @@ await writeFile(
     await readFile(path.join(serverRoot, 'browser-tests/fixtures/links.layer.js'), 'utf8'),
     'utf8'
 );
+await mkdir(path.join(browserApplicationProject, 'src/pages/chats'), {recursive: true});
+await writeFile(path.join(browserApplicationProject, 'src/pages/chats/[chat].layer.js'),
+    await readFile(path.join(serverRoot, 'browser-tests/fixtures/warm-chat.layer.js')));
+await mkdir(path.join(browserApplicationProject, 'src/layouts'), {recursive: true});
+await writeFile(path.join(browserApplicationProject, 'src/layouts/shared.layer.js'), [
+    "import {html, layerComponentCreate} from '@solcorp/layer';",
+    'export default layerComponentCreate(function SharedLayout(){',
+    '    return html`<main><header id="shared-header">Rooms</header><div data-layer-layout-outlet></div></main>`;',
+    '});'
+].join('\n'));
+for (const policy of ['on-demand', 'off']) {
+    const pageSource = (await readFile(path.join(serverRoot, 'browser-tests/fixtures/warm-chat.layer.js'), 'utf8'))
+        .replace("    auth: 'none',", "    auth: 'none', layout: 'shared', warmup: '" + policy + "',");
+    await writeFile(path.join(browserApplicationProject, 'src/pages/' + policy + '.layer.js'), pageSource);
+}
+await appendFile(path.join(browserApplicationProject, 'src/app.js'), [
+    'export function onBeforeScreenOpen(data) { return globalThis.screenBeforeOpen?.(data); }',
+    'export function identityGet() { return globalThis.screenIdentity ?? {authenticated: false}; }',
+    "export function storageNamespaceGet() { return globalThis.screenIdentity?.userId ?? 'anonymous'; }",
+    'export function preload(name, {params}) { return globalThis.screenPreload?.(params.chat) ?? params.chat; }'
+].join('\n'));
 const browserApplicationConfiguration = layerConfigValidate({
     //Exercising actual CSS lowering rather than only parsing modern CSS in modern browsers
     ...await layerConfigLoad(browserApplicationProject),
+    navigation: {warmup: {enabled: process.env.LAYER_BROWSER_WARMUP !== 'off'}},
     //Keeping the early-link fixture interactive; dedicated startup fixtures exercise the default cover
     startup: {installationScreen: false},
     css: {targets: {chrome: '100', safari: '15.4', firefox: '100'}},
@@ -82,6 +107,11 @@ await writeFile(
     await readFile(path.join(serverRoot, 'browser-tests/fixtures/css.layer.js'), 'utf8'),
     'utf8'
 );
+//Copy the CSS import and its binary dependency beside the fixture page.
+for ( const fileName of ['triangle.global.layer.css', 'triangle.woff2'] ){
+    await copyFile(path.join(serverRoot, 'browser-tests/fixtures', fileName), path.join(browserApplicationProject, 'src/pages', fileName));
+
+}
 await layerProjectBuild({
     rootDirectory: browserApplicationProject,
     config: browserApplicationConfiguration,
@@ -159,7 +189,8 @@ const contentTypes = Object.freeze({
     '.js': 'text/javascript; charset=utf-8',
     '.json': 'application/json; charset=utf-8',
     '.mjs': 'text/javascript; charset=utf-8',
-    '.webmanifest': 'application/manifest+json; charset=utf-8'
+    '.webmanifest': 'application/manifest+json; charset=utf-8',
+    '.woff2': 'font/woff2'
 });
 
 const updateFixture = await layerUpdateBrowserFixtureCreate();

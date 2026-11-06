@@ -37,6 +37,7 @@ const configurationFields = Object.freeze([
     'security',
     'sourceDirectory',
     'startup',
+    'navigation',
     'updates'
 ]);
 const deploymentDependencyNamePattern = /^(?:@[a-z0-9][a-z0-9._-]*\/[a-z0-9][a-z0-9._-]*|[a-z0-9][a-z0-9._-]*)$/;
@@ -625,6 +626,27 @@ export function layerConfigValidate(configData) {
         throw linksError;
 
     }
+    //Validating the experimental navigation policy without accepting unknown switches
+    const navigation = configData.navigation;
+    let warmupEnabled = true;
+    if ( navigation !== undefined ){
+        if ( !plainObjectCheck(navigation) || ![Object.prototype, null].includes(Object.getPrototypeOf(navigation)) || Object.keys(navigation).some(key => key !== 'warmup') ){
+            throw new LayerCliError('CLI_CONFIG_INVALID', 'Expected navigation: {warmup: {enabled: boolean}}.', {path: 'navigation'});
+
+        }
+        const warmup = navigation.warmup;
+        if ( warmup !== undefined ){
+            if ( !plainObjectCheck(warmup) || ![Object.prototype, null].includes(Object.getPrototypeOf(warmup)) || Object.keys(warmup).some(key => key !== 'enabled') ||
+                (Object.hasOwn(warmup, 'enabled') && typeof warmup.enabled !== 'boolean') ){
+                throw new LayerCliError('CLI_CONFIG_INVALID', 'Expected navigation.warmup.enabled to be boolean.', {path: 'navigation.warmup.enabled'});
+
+            }
+            warmupEnabled = warmup.enabled !== false;
+
+        }
+
+    }
+
     //Validating initial-install presentation independently from update discovery
     const startupInput = configData.startup;
     let installationScreen = true;
@@ -676,6 +698,7 @@ export function layerConfigValidate(configData) {
         security: effectiveSecurity,
         links: linksConfiguration,
         updates: updatesConfiguration,
+        navigation: Object.freeze({warmup: Object.freeze({enabled: warmupEnabled})}),
         startup: Object.freeze({installationScreen}),
         development: Object.freeze({
             host: String(developmentHost),

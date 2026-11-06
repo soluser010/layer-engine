@@ -9,6 +9,8 @@ updated: 2026-10-31
 
 # Документация Layer‑Engine
 
+[0.2.0 — Экспериментальный прогрев экранов](updates/0.2.0.md)
+
 [История обновлений](updates/README.md) · [0.1.2](updates/0.1.2.md) · [0.1.1](updates/0.1.1.md) · [0.1.0](updates/0.1.0.md)
 
 [Карта возможностей](capabilities.md)
@@ -42,6 +44,7 @@ Layer‑Engine — JavaScript-фреймворк S.O.L CORP для безопа�
 8. [Signals, stores и частичный DOM](reactivity.md)
 9. [Компоненты, props, events, slots и context](components.md)
 10. [Маршрутизация — обзор и режимы](routing.md)
+    - [Как выбрать режим прогрева страницы](page-configuration.md#как-выбрать-режим-прогрева-страницы)
     - [Viewport, клавиатура и оболочка приложения](viewport.md)
 
 ### API и сервер

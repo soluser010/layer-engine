@@ -48,7 +48,7 @@ Unknown query/command definition fields fail with TypeError. Handle signals are 
 | `navigate` | Navigation through the application router |
 | `storage`, `capabilities`, `logger` | Connected host services |
 | `viewport`, `keyboard`, `links` | Lifecycle-owned browser APIs |
-| `onMount`, `onHydrate`, `onUpdate`, `onDestroy` | Lifecycle callback registration |
+| `onMount`, `onHydrate`, `onUpdate`, `onActivate`, `onDeactivate`, `onDestroy` | Lifecycle callback registration |
 
 Do not assume browser providers exist during SSR or in manual hosts. Check nullable APIs and use lifecycle hooks rather than unconditional calls during render. `context.route.preload` is the application runner result, not automatically loaded query-handle data.
 

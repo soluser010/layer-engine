@@ -80,7 +80,7 @@ export {};
  */
 
 /**
- * @param {string | Buffer} contentData
+ * @param {string | Uint8Array} contentData
  */
 function contentHashCreate(contentData) {
     //Producing a stable integrity identifier from the exact artifact content.
@@ -89,7 +89,7 @@ function contentHashCreate(contentData) {
 }
 
 /**
- * @param {string | Buffer} contentData
+ * @param {string | Uint8Array} contentData
  */
 function contentIntegrityCreate(contentData) {
     //Producing browser-compatible Subresource Integrity data for the Service Worker.
@@ -746,8 +746,8 @@ declare module '*.global.layer.css' {
 }
 `;
 
-    const componentArtifacts = /** @type {Record<string, string>} */ ({});
-    const routeSources = /** @type {{file: string, route: Readonly<Record<string, unknown>>, component: string, style: string}[]} */ ([]);
+    const componentArtifacts = /** @type {Record<string, string | Uint8Array>} */ ({});
+    const routeSources = /** @type {{file: string, route: Readonly<Record<string, unknown>>, component: string, style: string, skeleton: string[][]}[]} */ ([]);
 
     for (const pageFile of pageFiles) {
         const componentSource = await readFile(pageFile, 'utf8');
@@ -797,7 +797,21 @@ declare module '*.global.layer.css' {
 
         //Collecting both the executable component module and its linked source map.
         Object.assign(componentArtifacts, bundleArtifacts);
+        const skeleton = /** @type {string[][]} */ ([]);
+        const visit = function(/** @type {Record<string, any>[]} */ nodes, parentId = '') {
+            for (const node of nodes) {
+                // Only inert native elements outside structural directives can be allocated before navigation.
+                if (node.kind === 'element' && /^(article|aside|b|button|div|em|footer|form|h[1-6]|header|label|li|main|nav|ol|p|section|small|span|strong|ul)$/u.test(node.tag)) {
+                    skeleton.push([node.nodeId, node.tag, parentId]);
+                    visit(node.children ?? [], node.nodeId);
+                }
+            }
+        };
+        if (configData.navigation.warmup.enabled && routeData.warmup !== 'off') {
+            visit(componentData.template);
+        }
         routeSources.push(Object.freeze({
+            skeleton,
             file: relativePageFile,
             route: routeData,
             component: componentFile,
@@ -808,7 +822,7 @@ declare module '*.global.layer.css' {
 
     const routeManifest = layerRouteManifestCreate(routeSources);
     const serializableRoutes = routeManifest.map(function routeSerialize(routeData) {
-        const routeSource = /** @type {{component: string, style: string}} */ (routeSources.find(function routeSourceFind(sourceData) {
+        const routeSource = /** @type {{component: string, style: string, skeleton: string[][]}} */ (routeSources.find(function routeSourceFind(sourceData) {
             //Connecting a validated route back to its compiled component artifact.
             return sourceData.file === routeData.file;
 
@@ -819,11 +833,13 @@ declare module '*.global.layer.css' {
             file: routeData.file,
             component: routeSource.component,
             style: routeSource.style,
+            skeleton: routeSource.skeleton,
             path: routeData.path,
             render: routeData.render,
             layout: routeData.layout,
             auth: routeData.auth,
             permissions: routeData.permissions,
+            warmup: routeData.warmup,
             preload: routeData.preload,
             guard: routeData.guard,
             offline: routeData.offline,
@@ -1020,6 +1036,7 @@ declare module '*.global.layer.css' {
         routes: serializableRoutes,
         layouts: serializableLayouts,
         webAppManifest: validatedWebAppManifest.manifest,
+        warmupEnabled: configData.navigation.warmup.enabled,
         updates: browserUpdates,
         links: {
             external: configData.links.external,
@@ -1037,7 +1054,7 @@ declare module '*.global.layer.css' {
         layouts: serializableLayouts,
         componentArtifacts
     });
-    const applicationArtifactsData = /** @type {Record<string, string>} */ ({
+    const applicationArtifactsData = /** @type {Record<string, string | Uint8Array>} */ ({
         ...componentArtifacts,
         ...applicationArtifacts,
         ...ssrDocumentArtifacts,
@@ -1092,9 +1109,9 @@ declare module '*.global.layer.css' {
         '_layer/API.md': documentationData
     });
     //Optimizing emitted styles after Layer scoping and before buildId, integrity and offline hashes
-    for ( const artifactName of Object.keys( applicationArtifactsData ) ){
-        if ( /\.css$/i.test( artifactName ) ){
-            applicationArtifactsData[artifactName] = layerCssBuild( String(applicationArtifactsData[artifactName]), artifactName, configData.css );
+    for ( const [artifactName, artifactContent] of Object.entries( applicationArtifactsData ) ){
+        if ( typeof artifactContent === 'string' && /\.css$/i.test( artifactName ) ){
+            applicationArtifactsData[artifactName] = layerCssBuild( artifactContent, artifactName, configData.css );
 
         }
 
@@ -1186,7 +1203,15 @@ declare module '*.global.layer.css' {
     const buildHash = createHash('sha256');
     for (const artifactName of [...precacheArtifactNames].sort()) {
         //Including resource names and content without host paths, secrets or timestamps
-        buildHash.update(JSON.stringify([artifactName, applicationArtifactsData[artifactName]]));
+        const artifactContent = applicationArtifactsData[artifactName];
+        if ( artifactContent instanceof Uint8Array ){
+            //Hash opaque resources directly without serializing a JSON array of every byte.
+            buildHash.update(JSON.stringify([artifactName, {sha256: contentHashCreate(artifactContent)}]));
+
+        } else {
+            buildHash.update(JSON.stringify([artifactName, artifactContent]));
+
+        }
 
     }
     buildHash.update(JSON.stringify(publicPrecacheAssets));
@@ -1194,9 +1219,12 @@ declare module '*.global.layer.css' {
     buildHash.update(JSON.stringify(Object.entries(publicCssArtifacts).sort()));
     buildHash.update(String(prototypeWorker['layer-service-worker.js']));
     const updateBuildId = buildHash.digest('hex');
-    for (const artifactName of Object.keys(applicationArtifactsData)) {
-        //Replacing the one reserved bootstrap marker only after the deterministic digest is fixed
-        applicationArtifactsData[artifactName] = String(applicationArtifactsData[artifactName]).replaceAll(LAYER_UPDATE_BUILD_PLACEHOLDER, updateBuildId);
+    for ( const [artifactName, artifactContent] of Object.entries( applicationArtifactsData ) ){
+        //Inject the build ID in generated text while preserving opaque CSS assets byte for byte.
+        if ( typeof artifactContent === 'string' ){
+            applicationArtifactsData[artifactName] = artifactContent.replaceAll( LAYER_UPDATE_BUILD_PLACEHOLDER, updateBuildId );
+
+        }
 
     }
     versionManifest = layerVersionManifestValidate({...versionManifest, assets: versionManifest.assets.map(function(assetData){

@@ -204,6 +204,8 @@ export type LayerPageConfiguration = {
 
     guard?: string | null;
 
+    warmup?: 'auto' | 'on-demand' | 'off';
+
     offline?: LayerPageOfflineMode;
 
     cache?: LayerPageCacheMode;

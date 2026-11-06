@@ -1,6 +1,6 @@
 {
     "name": "@solcorp/layer-events",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "description": "PostgreSQL event journal, Redis fan-out, outbox, and POST event streams for Layer-Engine",
     "license": "Apache-2.0",
     "repository": {
@@ -31,8 +31,8 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@solcorp/layer-database": "0.1.2",
-        "@solcorp/layer-protocol": "0.1.2",
+        "@solcorp/layer-database": "0.2.0",
+        "@solcorp/layer-protocol": "0.2.0",
         "redis": "6.2.1"
     },
     "publishConfig": {

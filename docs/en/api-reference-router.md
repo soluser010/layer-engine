@@ -219,6 +219,57 @@ export declare function layerRouterCreate(routerOptions: LayerRouterOptions): Re
         route: any;
         params: Readonly<Record<string, string>>;
     }> | null;
+    prepare: (pathnameData: string, navigationOptions?: {
+        replace?: boolean;
+        history?: boolean;
+        scrollX?: number;
+        scrollY?: number;
+    }) => Promise<Readonly<{
+        commit: undefined;
+        status: "superseded";
+        pathname: string;
+        route: any;
+        params: Readonly<{}>;
+    }> | Readonly<{
+        commit: undefined;
+        status: "not-found";
+        pathname: string;
+    }> | Readonly<{
+        commit: undefined;
+        status: string;
+        route: any;
+        params: Readonly<Record<string, string>>;
+    }> | Readonly<{
+        status: "ready";
+        route: any;
+        params: Readonly<Record<string, string>>;
+        preload: Readonly<Record<string, unknown>>;
+        preserveLayout: boolean;
+        historyState: Readonly<{
+            layerRouteId: any;
+            scrollX: number;
+            scrollY: number;
+        }>;
+        commit: () => Readonly<{
+            commit: undefined;
+            status: "superseded";
+            pathname: string;
+            route: any;
+            params: Readonly<{}>;
+        }> | Readonly<{
+            status: "ready";
+            route: any;
+            params: Readonly<Record<string, string>>;
+            preload: Readonly<Record<string, unknown>>;
+            preserveLayout: boolean;
+            historyState: Readonly<{
+                layerRouteId: any;
+                scrollX: number;
+                scrollY: number;
+            }>;
+        }>;
+        identity: LayerRouteIdentity;
+    }>>;
     navigate: (pathnameData: string, navigationOptions?: {
         replace?: boolean;
         history?: boolean;
@@ -229,13 +280,25 @@ export declare function layerRouterCreate(routerOptions: LayerRouterOptions): Re
         pathname: string;
         route: any;
         params: Readonly<{}>;
-    }> | Readonly<{
+    } | {
         status: "not-found";
         pathname: string;
-    }> | Readonly<{
+    } | {
         status: string;
         route: any;
         params: Readonly<Record<string, string>>;
+    } | {
+        status: "ready";
+        route: any;
+        params: Readonly<Record<string, string>>;
+        preload: Readonly<Record<string, unknown>>;
+        preserveLayout: boolean;
+        historyState: Readonly<{
+            layerRouteId: any;
+            scrollX: number;
+            scrollY: number;
+        }>;
+        identity: LayerRouteIdentity;
     }>>;
     currentGet(): Readonly<{
         route: any;
@@ -247,7 +310,24 @@ export declare function layerRouterCreate(routerOptions: LayerRouterOptions): Re
 ### LayerRouteRecord
 
 ```typescript
-export type LayerRouteRecord = import('./route-manifest.js').LayerRouteRecord;
+export type LayerRouteRecord = {
+    id: string;
+    file: string;
+    path: string;
+    render: LayerRouteRender;
+    layout: string | null;
+    auth: LayerRouteAuth;
+    permissions: readonly string[];
+    preload: readonly string[];
+    guard: string | null;
+    warmup: 'auto' | 'on-demand' | 'off';
+    offline: LayerRouteOffline;
+    cache: LayerRouteCache;
+    metadata: Readonly<Record<string, string>>;
+    matcher: RegExp;
+    parameters: readonly string[];
+    score: number;
+};
 ```
 
 ### LayerRouterError

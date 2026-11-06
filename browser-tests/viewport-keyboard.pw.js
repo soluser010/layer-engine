@@ -31,7 +31,7 @@ test( 'keyboard component API uses real clicks, preserves drafts and releases ow
 
     }) ).toBe( true );
     const disposedResult = await page.evaluate(async function(){
-        //Keeping the old owner to prove navigation cannot leave a callable stale keyboard facade
+        //A saved screen cannot control the active keyboard until it returns
         const keyboardOwner = window.layerViewportFixture.keyboard;
         await window.layer.navigate( '/second/' );
         try {
@@ -40,7 +40,7 @@ test( 'keyboard component API uses real clicks, preserves drafts and releases ow
 
         } catch( lifecycleError ){
             //Only the expected lifecycle guard satisfies this regression
-            return String( lifecycleError ).includes( 'disposed' );
+            return String( lifecycleError ).includes( 'suspended' );
 
         }
 

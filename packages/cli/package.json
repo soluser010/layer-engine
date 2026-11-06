@@ -1,6 +1,6 @@
 {
     "name": "@solcorp/layer-cli",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "description": "Project creation, build, inspection, documentation, and diagnostics CLI for Layer-Engine",
     "license": "Apache-2.0",
     "repository": {
@@ -34,19 +34,19 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@solcorp/layer-auth": "0.1.2",
-        "@solcorp/layer-compiler": "0.1.2",
-        "@solcorp/layer-database": "0.1.2",
-        "@solcorp/layer-events": "0.1.2",
-        "@solcorp/layer-notifications": "0.1.2",
-        "@solcorp/layer-protocol": "0.1.2",
-        "@solcorp/layer-pwa": "0.1.2",
-        "@solcorp/layer-render": "0.1.2",
-        "@solcorp/layer-router": "0.1.2",
-        "@solcorp/layer-runtime": "0.1.2",
-        "@solcorp/layer-security": "0.1.2",
-        "@solcorp/layer-server": "0.1.2",
-        "@solcorp/layer-storage": "0.1.2",
+        "@solcorp/layer-auth": "0.2.0",
+        "@solcorp/layer-compiler": "0.2.0",
+        "@solcorp/layer-database": "0.2.0",
+        "@solcorp/layer-events": "0.2.0",
+        "@solcorp/layer-notifications": "0.2.0",
+        "@solcorp/layer-protocol": "0.2.0",
+        "@solcorp/layer-pwa": "0.2.0",
+        "@solcorp/layer-render": "0.2.0",
+        "@solcorp/layer-router": "0.2.0",
+        "@solcorp/layer-runtime": "0.2.0",
+        "@solcorp/layer-security": "0.2.0",
+        "@solcorp/layer-server": "0.2.0",
+        "@solcorp/layer-storage": "0.2.0",
         "acorn": "8.18.0",
         "esbuild-wasm": "0.28.2",
         "lightningcss": "1.33.0",
@@ -54,7 +54,7 @@
         "redis": "6.2.1",
         "tar": "7.5.22",
         "yauzl": "3.4.0",
-        "@solcorp/layer-docs": "0.1.2"
+        "@solcorp/layer-docs": "0.2.0"
     },
     "publishConfig": {
         "access": "public"

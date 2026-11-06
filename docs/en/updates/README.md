@@ -9,6 +9,8 @@ updated: 2026-11-04
 
 # Layer-Engine update history
 
+[0.2.0 — Experimental screen warmup](0.2.0.md)
+
 These notes explain changes that matter when developing applications: new behavior, settings, and upgrade steps. The rest of the handbook describes current APIs; this folder preserves their release history.
 
 | Version | Main changes |

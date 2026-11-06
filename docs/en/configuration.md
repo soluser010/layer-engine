@@ -251,3 +251,7 @@ The dev host and generated Caddyfile return 404 for `.env`, `.env.*`, `*.env`, a
 Package/lock files, Caddyfile, node_modules, server/deployment metadata, declarations, and source maps are also private. `security.csp` and `permissionsPolicy` cannot disable these denials. Keep secrets outside public directories regardless: these protections cannot identify arbitrary public copies renamed to unrelated filenames.
 
 The default Caddy error logger removes request headers and the query from `request.uri`, retaining the path and error diagnostic fields. This is not universal redaction of arbitrary messages or application logs. Never put secrets in URL paths or error text; an additional access logger needs its own safe filter.
+
+## Experimental screen warmup
+
+`navigation.warmup.enabled` enables experimental screen warmup and instance retention. It defaults to `true`. Set it to `false` to use ordinary navigation. [Page policies and examples](routing.md#experimental-screen-warmup).

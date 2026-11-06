@@ -25,7 +25,46 @@ The `page` object is static and read by the compiler without executing arbitrary
 | `guard` | `string / null` | `null` | Dotted name; invoked through guardRun after permissions. |
 | `offline` | `'deny' / 'shell' / 'snapshot' / 'local'` | `deny` | deny blocks offline navigation. Others allow it to continue; snapshots/local data are not created automatically. |
 | `cache` | `'private' / 'public' / 'no-store'` | `private` | Metadata in the current pipeline: does not switch HTTP headers, SW behavior or DOM retention. |
+| `warmup` | `auto / on-demand / off` | `auto` | Prepare on visibility, prepare on navigation, or exclude from preparation and retention. |
 | `metadata` | `object` | `{}` | Only the string fields below; no secrets. |
+
+## Choosing a page warmup policy
+
+In the `*.layer.js` file, set `warmup` in the **named `page` export**. It applies to the whole page, including its child components. The default export defines what the page displays. Here is a complete public About page.
+
+```js
+// src/pages/about.layer.js
+import {html, layerComponentCreate, layerPageCreate} from '@solcorp/layer';
+
+
+export const page = layerPageCreate({
+    render: 'ssr',
+    auth: 'none',
+    warmup: 'auto'
+});
+
+export default layerComponentCreate(function AboutPage(){
+    //Render the public screen when the router opens it.
+    return html`<main><h1>About</h1></main>`;
+
+});
+```
+
+Change one field in `layerPageCreate` to select a different policy. Configure the **destination page**: to control opening a chat from a list, set the policy in the chat page file.
+
+| `warmup` value | While the link is visible | On first navigation | On return in the same tab |
+| --- | --- | --- | --- |
+| `'auto'` (default) | An eligible link enters the queue after 250 ms of continuous visibility. Layer prepares resources and static elements. | Reuses the prepared parts and finishes the rest on navigation. Useful for main menu destinations. | Can restore the instance, local state and scroll position. |
+| `'on-demand'` | Seeing the link starts no work. | Selecting a chat or calling `navigate()` starts preparation. Add an application hook to wait for the first messages. | The instance can be restored just as with `'auto'`. |
+| `'off'` | No background preparation. | Creates the screen on opening. Useful for a checkout or a single-use form. | Leaving releases the instance. Opening it again creates a fresh one. |
+
+**Example choices.** Keep `warmup: 'auto'` on an overview page linked from the main menu. Use `warmup: 'on-demand'` on a chat route if even a standalone link from the home screen should wait for the user to select it. Use `warmup: 'off'` on checkout if returning should start with a fresh form instance. Always verify payment status on the server.
+
+**Why a visible link may wait for a click.** With `'auto'`, links in HTML and ARIA lists or in a nested container that actually scrolls vertically are prepared on demand. An ordinary `overflow-y: auto` container whose contents fit still allows background preparation. An explicit `target="_self"` delegates navigation to the browser.
+
+**Application settings.** In `layer.config.js`, `navigation.warmup.enabled` defaults to `true`. Set it to `false` and rebuild to disable the queue and instance retention for every page, including pages with explicit `'auto'`. The data preparation hook still runs on opening. The separate `render` option selects SSR/CSR. Setting `cache: 'no-store'` alone does not release a page instance.
+
+Retention uses the current tab's memory and requires a compatible access context. Reloading the document creates a new instance. Use [IndexedDB](indexeddb.md) for drafts that must survive an app restart. [Chat example, before-open hook and diagnostics](routing.md#experimental-screen-warmup).
 
 ## Metadata
 

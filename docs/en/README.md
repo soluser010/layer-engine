@@ -9,6 +9,8 @@ updated: 2026-10-31
 
 # Layer‑Engine documentation
 
+[0.2.0 — Experimental screen warmup](updates/0.2.0.md)
+
 [Release history](updates/README.md) · [0.1.2](updates/0.1.2.md) · [0.1.1](updates/0.1.1.md) · [0.1.0](updates/0.1.0.md)
 
 [Capability map](capabilities.md)
@@ -42,6 +44,7 @@ Each article separates the smallest working path from the recommended production
 8. [Signals, stores, and partial DOM](reactivity.md)
 9. [Components, props, events, slots, and context](components.md)
 10. [Routing, layouts, SSR, and hydration](routing.md)
+    - [Choosing a page warmup policy](page-configuration.md#choosing-a-page-warmup-policy)
     - [Viewport, keyboard, and application shell](viewport.md)
 
 ### API and server
