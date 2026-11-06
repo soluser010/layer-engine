@@ -1,9 +1,13 @@
-# Layer-Engine agent skill / Навык агента
+# Layer-Engine agent skill
 
-[Main package](https://www.npmjs.com/package/@solcorp/layer) · [Skill](SKILL.md)
+[Main package](https://www.npmjs.com/package/@solcorp/layer) · [Skill instructions](SKILL.md) · [Documentation map](references/documentation-map.md)
 
-Copy this entire directory, including `references`, into the skills directory supported by your coding agent. Enable or invoke `layer-engine` according to that agent's instructions. Agents without skills support can read SKILL.md explicitly as project guidance. Do not copy only the first file: it links to the documentation map.
+Use this skill with a coding agent to build offline-capable, cross-platform Layer-Engine applications. It prioritizes reactive DOM updates, reusable components, the standard project layout and managed storage, navigation and API contracts.
 
-Скопируйте весь каталог вместе с `references` в каталог навыков вашего агента. Активируйте `layer-engine` средствами агента. Если навыки не поддерживаются, передайте SKILL.md как инструкции проекта. Навык не устанавливает зависимости и не разрешает публикацию, отправку секретов или production-изменения.
+Copy this entire directory, including `references`, into the skills directory supported by your agent. Enable or invoke `layer-engine` according to that agent's instructions. Agents without skill support can read `SKILL.md` explicitly as project guidance. Copying only `SKILL.md` omits its documentation map.
 
-The skill guides architecture and API use, not code execution permissions. It finds version-matched documentation in the source checkout or `@solcorp/layer-docs/content`. Syntax V1 is not required for application developers. No IDE extension or skill is installed automatically by npm.
+The instructions are in English. The skill finds the handbook matching the application's installation in the source checkout or `@solcorp/layer-docs/content`. Detailed methods, parameters and examples come from that local handbook. It prefers English documentation and can fall back to the corresponding Russian article. The agent can respond in your preferred language.
+
+The skill works independently of Syntax V1. It follows your project's coding style unless you separately request another style. npm does not automatically install this skill or an IDE extension.
+
+Version `2026.11.06.1` identifies these instructions. Feature availability comes from the installed framework version. Using the skill does not grant permission to publish packages, deploy an application, modify production data or transfer secrets.
