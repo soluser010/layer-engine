@@ -13,6 +13,7 @@
 }
 
 (layer_security_headers) {
+	header Engine Layer-Engine
 	header {
 		-Server
 		Content-Security-Policy "default-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
@@ -31,6 +32,7 @@ http://localhost:8080 {
 	}
 
 	reverse_proxy 127.0.0.1:8787 {
+		header_down -Engine
 		flush_interval -1
 	}
 }
@@ -46,6 +48,7 @@ https://localhost:8443 {
 	}
 
 	reverse_proxy 127.0.0.1:8787 {
+		header_down -Engine
 		flush_interval -1
 	}
 }

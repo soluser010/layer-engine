@@ -140,6 +140,8 @@ await window.layer.auth.registration.create({
 
 ## Sign-in, state, and sessions
 
+An operation that calls `registration.createManaged()` must authorize the administrator on the server before creating the account. Derive the allowed roles there. For phone sign-in, the challenge provider must bind the code to the challenge and phone, check expiration and attempts, and consume the code atomically. Layer issues the session for the phone returned by the provider. Keep signing keys from `layerAuthOAuthSigningJwksCreate()` in server-side secret storage. Clients obtain verification keys from the issuer's `jwks_uri` in the discovery document.
+
 ```js
 const signInResultData = await window.layer.auth.signIn.password({
     identifier: 'developer@example.com',

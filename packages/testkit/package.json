@@ -1,6 +1,6 @@
 {
     "name": "@solcorp/layer-testkit",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Isolated protocol and operation fixtures for Layer-Engine consumers",
     "license": "Apache-2.0",
     "repository": {
@@ -31,8 +31,8 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@solcorp/layer-protocol": "0.2.0",
-        "@solcorp/layer-server": "0.2.0"
+        "@solcorp/layer-protocol": "0.2.1",
+        "@solcorp/layer-server": "0.2.1"
     },
     "publishConfig": {
         "access": "public"

@@ -1,6 +1,6 @@
 {
     "name": "@solcorp/layer",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Complete Layer-Engine framework: authoring API, CLI and application development tools",
     "license": "Apache-2.0",
     "repository": {
@@ -31,12 +31,12 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@solcorp/layer-cli": "0.2.0",
-        "@solcorp/layer-plugin-sdk": "0.2.0",
-        "@solcorp/layer-render": "0.2.0",
-        "@solcorp/layer-runtime": "0.2.0",
-        "@solcorp/layer-testkit": "0.2.0",
-        "@solcorp/layer-docs": "0.2.0"
+        "@solcorp/layer-cli": "0.2.1",
+        "@solcorp/layer-plugin-sdk": "0.2.1",
+        "@solcorp/layer-render": "0.2.1",
+        "@solcorp/layer-runtime": "0.2.1",
+        "@solcorp/layer-testkit": "0.2.1",
+        "@solcorp/layer-docs": "0.2.1"
     },
     "publishConfig": {
         "access": "public"

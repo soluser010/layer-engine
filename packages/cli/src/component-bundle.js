@@ -1,8 +1,5 @@
 import {createHash} from 'node:crypto';
-import {
-    lstat,
-    readFile
-} from 'node:fs/promises';
+import {boundedFileRead} from './bounded-file.js';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {
@@ -674,7 +671,13 @@ export async function layerComponentBundleCreate(bundleOptions) {
 
         }
 
-        const componentSource = await readFile(absoluteFile, 'utf8');
+        const componentContent = await boundedFileRead( bundleOptions.sourceDirectory, absoluteFile );
+        if ( componentContent === null ){
+            throw new LayerCliError( 'CLI_BUILD_IMPORT_DENIED', 'A component import must be a regular file inside src.' );
+
+        }
+
+        const componentSource = componentContent.toString( 'utf8' );
         const descriptiveIdentifier = relativeFile
             .slice(0, -componentSuffix.length)
             .replace(/[^A-Za-z0-9._/-]/g, '-');
@@ -900,9 +903,9 @@ export async function layerComponentBundleCreate(bundleOptions) {
 
                         }
 
-                        const styleStatus = await lstat(styleRequest.absoluteFile);
+                        const styleContent = await boundedFileRead( bundleOptions.sourceDirectory, styleRequest.absoluteFile, 256 * 1024 );
 
-                        if (!styleStatus.isFile() || styleStatus.isSymbolicLink() || styleStatus.size > 256 * 1024) {
+                        if (styleContent === null) {
                             throw new LayerCliError(
                                 'CLI_BUILD_STYLE_IMPORT_INVALID',
                                 'A Layer stylesheet must be a regular file no larger than 256 KiB.'
@@ -910,7 +913,7 @@ export async function layerComponentBundleCreate(bundleOptions) {
 
                         }
 
-                        const styleSource = await readFile(styleRequest.absoluteFile, 'utf8');
+                        const styleSource = styleContent.toString( 'utf8' );
                         const styleRelativeFile = relativeFileNormalize(bundleOptions.rootDirectory, styleRequest.absoluteFile);
                         const componentData = /** @type {Record<string, unknown>} */ (styleRequest.componentRecord.componentData);
                         const scopeIdentifier = String(componentData.scopeId);
@@ -934,9 +937,9 @@ export async function layerComponentBundleCreate(bundleOptions) {
 
                             sourceFileBoundaryCheck(bundleOptions.sourceDirectory, assetFile);
 
-                            const assetStatus = await lstat(assetFile);
+                            const assetContent = await boundedFileRead( bundleOptions.sourceDirectory, assetFile, 10 * 1024 * 1024 );
 
-                            if (!assetStatus.isFile() || assetStatus.isSymbolicLink() || assetStatus.size > 10 * 1024 * 1024) {
+                            if (assetContent === null) {
                                 throw new LayerCliError(
                                     'CLI_BUILD_STYLE_ASSET_INVALID',
                                     'A CSS asset must be a regular file no larger than 10 MiB.'
@@ -944,7 +947,6 @@ export async function layerComponentBundleCreate(bundleOptions) {
 
                             }
 
-                            const assetContent = await readFile(assetFile);
                             const assetExtension = path.extname(assetFile).toLowerCase();
                             let safeExtension = '.bin';
 

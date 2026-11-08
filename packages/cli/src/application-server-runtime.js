@@ -6,10 +6,11 @@ import {
 import {
     mkdir,
     readFile,
-    stat,
+    open,
     writeFile
 } from 'node:fs/promises';
 import path from 'node:path';
+import {constants} from 'node:fs';
 import {layerNotificationsRuntimeCreate} from '@solcorp/layer-notifications';
 import {
     layerAuthMailDeliveryCreate,
@@ -347,14 +348,39 @@ async function postgresTlsOptionsCreate( rootDirectoryData, tlsConfigurationData
 
         }
 
-        const certificateStatusData = await stat( certificateFileData );
+        const certificateFile = await open( certificateFileData, constants.O_RDONLY | (constants.O_NONBLOCK ?? 0) );
+        try {
+            //Read only the checked regular file, including one byte to detect concurrent growth.
+            const status = await certificateFile.stat();
+            if ( !status.isFile() || status.size > certificateMaximumBytes ){
+                throw new Error( 'DATABASE_TLS_CERTIFICATE_INVALID' );
 
-        if ( certificateStatusData.isFile() === false || Number( certificateStatusData.size ) > certificateMaximumBytes ){
-            throw new Error( 'DATABASE_TLS_CERTIFICATE_INVALID' );
+            }
+
+            const pem = Buffer.alloc( status.size + 1 );
+            let length = 0;
+            while ( length < pem.length ){
+                const result = await certificateFile.read( pem, length, pem.length - length, length );
+                if ( result.bytesRead === 0 ){
+                    break;
+
+                }
+
+                length += result.bytesRead;
+
+            }
+
+            if ( length !== status.size ){
+                throw new Error( 'DATABASE_TLS_CERTIFICATE_INVALID' );
+
+            }
+
+            certificateAuthorityData = pem.toString( 'utf8', 0, length );
+
+        } finally {
+            await certificateFile.close();
 
         }
-
-        certificateAuthorityData = await readFile( certificateFileData, 'utf8' );
 
     }
 

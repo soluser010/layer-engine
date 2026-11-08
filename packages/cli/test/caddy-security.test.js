@@ -22,7 +22,7 @@ if ( caddyBinaryFileData === undefined ){
 
     }
 
-    caddyBinaryFileData = path.resolve( 'artifacts/production-test-state/caddy/2.11.4',
+    caddyBinaryFileData = path.resolve( 'artifacts/production-test-state/caddy/2.11.9',
         process.platform + '-' + process.arch, platformBinaryFileNameData );
 
 }
@@ -79,13 +79,13 @@ test( 'pinned Caddy enforces private paths, association routing and redacted pro
     //Skipping only when no test binary exists; an explicit invalid binary is a test failure
     assert.ok( caddyBinaryFileData !== undefined );
     if ( existsSync( caddyBinaryFileData ) === false && process.env.LAYER_TEST_CADDY_BINARY === undefined ){
-        testContext.skip( 'Provide LAYER_TEST_CADDY_BINARY pointing to Caddy 2.11.4 for this runtime gate.' );
+        testContext.skip( 'Provide LAYER_TEST_CADDY_BINARY pointing to Caddy 2.11.9 for this runtime gate.' );
 
         //Completing the unavailable optional runtime fixture
         return;
 
     }
-    assert.match( execFileSync( caddyBinaryFileData, ['version'], {encoding: 'utf8', windowsHide: true} ), /^v2[.]11[.]4\b/u );
+    assert.match( execFileSync( caddyBinaryFileData, ['version'], {encoding: 'utf8', windowsHide: true} ), /^v2[.]11[.]9\b/u );
 
     //Creating marker-only files instead of using any application or real secret
     const fixtureDirectoryData = await mkdtemp( path.join( os.tmpdir(), 'layer-caddy-security-' ) );
@@ -140,6 +140,31 @@ export const layerServerCreate = function(){
     const upstreamData = httpServerCreate(function( requestData, responseData ){
         //Returning socket identity so the test can distinguish safe reuse from stale reuse
         requestData.resume();
+        responseData.setHeader( 'Engine', 'upstream-test' );
+        if ( requestData.method === 'POST' && requestData.headers.accept === 'text/event-stream' ){
+            //Deliver one event, optionally keep the stream active, then send a final event after the old deadline.
+            responseData.writeHead( 200, {'content-type': 'text/event-stream'} );
+            responseData.write( 'data: opened\n\n' );
+            const heartbeat = setInterval(function(){
+                if ( requestData.headers['x-test-heartbeats'] === 'yes' ){
+                    responseData.write( ': heartbeat\n\n' );
+
+                }
+
+            }, 10000);
+            const completion = setTimeout(function(){
+                responseData.end( 'data: completed\n\n' );
+
+            }, 35000);
+            responseData.once( 'close', function(){
+                //Release both timers on completion or early disconnect.
+                clearInterval( heartbeat );
+                clearTimeout( completion );
+
+            });
+            return;
+
+        }
         responseData.writeHead( 200, {'content-type': 'application/json'} );
         responseData.end( JSON.stringify({socket: requestData.socket.remotePort}) );
 
@@ -263,6 +288,21 @@ export const layerServerCreate = function(){
         assert.equal( resumedPostData.status, 200 );
         assert.notEqual( (await resumedPostData.json()).socket, firstSocketData.socket );
 
+        //Both a quiet stream and an active stream must survive the former absolute write deadline.
+        await Promise.all(['yes', 'no'].map(async function( heartbeatMode ){
+            const streamResponse = await fetch( baseUrlData + '/api', {
+                method: 'POST', headers: {accept: 'text/event-stream', 'x-test-heartbeats': heartbeatMode},
+                body: '{}', signal: AbortSignal.timeout( 50000 )
+            });
+            assert.equal( streamResponse.headers.get( 'engine' ), 'Layer-Engine' );
+            assert.equal( streamResponse.status, 200 );
+            const streamBody = await streamResponse.text();
+            assert.ok( streamBody.startsWith( 'data: opened\n\n' ) );
+            assert.equal( streamBody.includes( ': heartbeat' ), heartbeatMode === 'yes' );
+            assert.ok( streamBody.endsWith( 'data: completed\n\n' ) );
+
+        }));
+
         //Checking mutable update metadata on the real generated HTTPS site route
         for ( const metadataNameData of ['version.json', 'update.json'] ){
             for ( const methodData of ['GET', 'HEAD'] ){
@@ -316,6 +356,7 @@ export const layerServerCreate = function(){
                 for ( const portData of [httpsPortData.port, httpPortData.port] ){
                     const deniedResponseData = await fetch( 'http://127.0.0.1:' + Number( portData ) + requestPathData,
                         {method: requestMethodData, headers: {accept: 'text/html'}, redirect: 'manual'} );
+                    assert.equal( deniedResponseData.headers.get( 'engine' ), 'Layer-Engine' );
                     assert.equal( deniedResponseData.status, 404, requestMethodData + ' ' + requestPathData );
                     assert.doesNotMatch( await deniedResponseData.text(), /caddy-fixture-marker/u );
 
@@ -328,8 +369,10 @@ export const layerServerCreate = function(){
         //Checking the actual generated device header, not only its serialized source
         const publicResponseData = await fetch( baseUrlData + '/' );
         assert.equal( publicResponseData.headers.get( 'permissions-policy' ), 'camera=(), microphone=(self), geolocation=(self), payment=()' );
+        assert.equal( publicResponseData.headers.get( 'engine' ), 'Layer-Engine' );
         assert.equal( await publicResponseData.text(), 'caddy-fixture-marker' );
         const redirectResponseData = await fetch( 'http://127.0.0.1:' + Number( httpPortData.port ) + '/', {redirect: 'manual'} );
+        assert.equal( redirectResponseData.headers.get( 'engine' ), 'Layer-Engine' );
         assert.equal( redirectResponseData.status, 301 );
         await redirectResponseData.arrayBuffer();
 
@@ -338,6 +381,7 @@ export const layerServerCreate = function(){
             headers: {authorization: 'Bearer authorization-review-secret', cookie: 'session=cookie-review-secret',
                 'x-csrf-token': 'csrf-review-secret'}
         });
+        assert.equal( errorResponseData.headers.get( 'engine' ), 'Layer-Engine' );
         assert.equal( errorResponseData.status, 502 );
         await errorResponseData.arrayBuffer();
         await timeoutWait( Number( 100 ) );

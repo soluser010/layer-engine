@@ -6,11 +6,11 @@
 
 Разрабатывайте приложение, собирайте переносимый `dist` и запускайте его на сервере. Встроенный launcher подготавливает runtime и Caddy; Caddy автоматически получает и продлевает HTTPS-сертификат настроенного публичного домена.
 
-## Что нового в 0.2.0
+## Что нового в 0.2.1
 
-Экспериментальный прогрев экранов включён по умолчанию. Layer подготавливает доступные видимые ссылки и сохраняет открытые экраны с состоянием и прокруткой. Отключение — `navigation.warmup.enabled: false` в `layer.config.js`. Также исправлена обработка CSS и файлов шрифтов, обновлён англоязычный навык агента.
+**Важное обновление безопасности.** Закрыта возможность чтения файлов за пределами проекта через dev-сервер. Усилены проверки при сборке и генерации клиентского API. Production-сборка включает Caddy 2.11.9 и сохраняет длительные потоки событий. Обновите CLI и пересоберите приложение.
 
-[Изменения и обновление](https://github.com/soluser010/layer-engine/blob/main/docs/ru/updates/0.2.0.md) · [История](https://github.com/soluser010/layer-engine/blob/main/docs/ru/updates/README.md).
+[Изменения и обновление](https://github.com/soluser010/layer-engine/blob/main/docs/ru/updates/0.2.1.md) · [История](https://github.com/soluser010/layer-engine/blob/main/docs/ru/updates/README.md).
 
 
 Автор — **S.O.L CORP** · [solcorp.ru](https://solcorp.ru) · Apache-2.0.

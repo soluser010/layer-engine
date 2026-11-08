@@ -1,6 +1,6 @@
 {
     "name": "@solcorp/layer-security",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Session, CSRF, permissions, and rate-limit primitives for Layer-Engine",
     "license": "Apache-2.0",
     "repository": {
@@ -31,7 +31,7 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@solcorp/layer-protocol": "0.2.0"
+        "@solcorp/layer-protocol": "0.2.1"
     },
     "publishConfig": {
         "access": "public"

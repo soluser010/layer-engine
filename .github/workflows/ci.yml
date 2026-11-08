@@ -18,7 +18,9 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Use Node.js 24
         uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0, Node 24 action runtime
@@ -90,6 +92,11 @@ jobs:
           kill -TERM "$launcher_process"
           wait "$launcher_process" || true
           trap - EXIT
+
+      - name: Verify private routes and long POST streams through the installed Caddy
+        run: |
+          caddy_version=$(node -p "require(process.argv[1]).caddy.version" "$RUNNER_TEMP/layer-production-dist/_layer/deployment.json")
+          LAYER_TEST_CADDY_BINARY="$RUNNER_TEMP/layer-production-state/caddy/$caddy_version/linux-x64/caddy" node --test packages/cli/test/caddy-security.test.js
 
       - name: Chromium, Firefox, and Safari WebKit matrix on Linux x64
         run: LAYER_PLAYWRIGHT_CHROME_CHANNEL=chromium npx --no-install playwright test --project=chrome --project=firefox --project=safari-webkit

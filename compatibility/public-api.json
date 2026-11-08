@@ -2,7 +2,7 @@
     "schemaVersion": 1,
     "packages": {
         "@solcorp/layer-auth": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "auth-error.d.ts": "d8184fa1872eb2f19c509d224929dbc4390c279c1d482a9cae447cc56edbee80",
                 "auth-service.d.ts": "69e0438cbf676955313c8f313966f0a4a88cc3c033be4c36245ab4d34a8aa826",
@@ -33,11 +33,12 @@
             }
         },
         "@solcorp/layer-cli": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "application-bundle.d.ts": "75be49c9c0c2891b8676faece6934a55021d7b4b063f9d23ce71ff45ac9289a9",
                 "application-server-runtime.d.ts": "0ea07f140d32ee24c1f971c80161961c1d3596aa8422608598e01c9e3fa190b7",
                 "bin.d.ts": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012",
+                "bounded-file.d.ts": "b9955a7c889a41c1bef133e9623530149cda58aaa7cfe35939c3d664d799bebd",
                 "cli-error.d.ts": "2efa0435cc0dd56947d008bf14cd8a108d076ffe59d2d5679a72fd569ea485f1",
                 "cli.d.ts": "872149fa5c67631e039fc1a1896fd1f34916f305942a6a13ebdc0cf334d9a8ef",
                 "component-bundle.d.ts": "08ba792edd3220c644ec4c0764e7e08ea06f090db5141e7a353f40e5d9e7f6a3",
@@ -69,7 +70,7 @@
             }
         },
         "@solcorp/layer-compiler": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "compiler-error.d.ts": "b93e90312155c2f9f6eb9c05df6180c30fc176f9444f5ac61a55e5d6d70c6d14",
                 "compiler.d.ts": "2024ff202324ed89bb4fcf34e5e89467d729b29f92db9ac50fe2703398e1dd52",
@@ -82,7 +83,7 @@
             }
         },
         "@solcorp/layer-database": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "api-key-repository.d.ts": "a3b055fb46c1892071e97b5da2ca1f758de92f254eff3190251610e622c5c592",
                 "audit-repository.d.ts": "80a5591e8a838b9088e6c98a2309e65c40d9585085c72c4fcee899980cc315c4",
@@ -126,13 +127,13 @@
             }
         },
         "@solcorp/layer-docs": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "index.d.ts": "5936da4998c01b6d016f0c07ec3c10d74757e45bc2e3af7e37de92e458d41b29"
             }
         },
         "@solcorp/layer-events": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "cache-invalidation-synchronizer.d.ts": "05967e73059a789b5ac05ba6ca13882a73e941c46dd3ce50a82aaeb27210f592",
                 "database-event-bus.d.ts": "f8a24a91f9546d44ac6ef8210f254ba5ff1937502062fe29a3fc57a8d155a1bc",
@@ -151,14 +152,14 @@
             }
         },
         "@solcorp/layer": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "bin.d.ts": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012",
                 "index.d.ts": "77c150dd97d0869fbc5752cd6b40c1c9ccf7d4cfa604fb9b062ad676dac5b1c3"
             }
         },
         "@solcorp/layer-notifications": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "configuration.d.ts": "e48b1aca4741b2781c6e993c97bd3f31be08960568c9d8f4d5a08ae01cad1c11",
                 "crypto.d.ts": "2a3b30d7d87989c1ecb0c4ffc8b67c6050dda4008b4d83e5c2af00423500e2ef",
@@ -169,7 +170,7 @@
             }
         },
         "@solcorp/layer-plugin-sdk": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "index.d.ts": "e617bfe1df91612de316bb2e491597fa2eddf4fc802b1ec95ac6508bb176e0a0",
                 "plugin-error.d.ts": "d35f6de80a6f01a7756ad63e1230c905801de1def470781a69ead2dc9b616148",
@@ -178,7 +179,7 @@
             }
         },
         "@solcorp/layer-protocol": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "constants.d.ts": "e28014dd6530c3b2fe93900e2521230fd651f8f7326e6f07a936921f6ac4d2ac",
                 "data-validator.d.ts": "d5a47f0319a2ced6be090a8db19c3993a5b988266e8d549263b1e66d8fe28917",
@@ -190,7 +191,7 @@
             }
         },
         "@solcorp/layer-pwa": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "application-updates.d.ts": "eb129d3a3a4d07f2d07f37bea868dca51a739800b83a89ca31eb0d66509a2231",
                 "capabilities.d.ts": "1fc82d0324fb3f48e4a25847c3f75da7c922f76859babb697702bfdfd3ea986c",
@@ -214,7 +215,7 @@
             }
         },
         "@solcorp/layer-render": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "component-invocation.d.ts": "f76c0ea88977fa73008c54f35493bee3c94fd310231fadd719fa134cb05cb9a9",
                 "component-runtime.d.ts": "0b4e1f1daab14299e2bad3d51124bb083a3bdc165e80ec77720e2b77d7dcb72c",
@@ -231,7 +232,7 @@
             }
         },
         "@solcorp/layer-router": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "index.d.ts": "b508df063fe815e513914b628b02d9d263dbf58c39ca63c40bf88af9347cf7a7",
                 "route-manifest.d.ts": "e9d3b39d4307969938a2f9f830960dc371ae9a3b0304856b7f6006b60bbb63fd",
@@ -241,7 +242,7 @@
             }
         },
         "@solcorp/layer-runtime": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "api-client.d.ts": "36457a75fd426bd32b178690df67d904eaa3fba21b2db03d4691db9ae3eb2af2",
                 "application-api.d.ts": "ef6499f1d0288c3a7a0910971bbc1eaf84c2ebe1fecdc35a1bc69de6ba49fed6",
@@ -264,7 +265,7 @@
             }
         },
         "@solcorp/layer-security": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "authentication.d.ts": "9586eec699639632f649e9ec70310b8059f6fafdf3926717829b22169b2ed1f9",
                 "headers.d.ts": "43191e29285907cd4e4ec98946cc316baa8910aa72f354b4318ed0a156a65ee6",
@@ -278,7 +279,7 @@
             }
         },
         "@solcorp/layer-server": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "index.d.ts": "df2a5bb21b30744ffe23b4151cf7216966d1adef84eec391c73198faf91e69c1",
                 "operation-registry.d.ts": "39b79696caedcc2152a3c4e5a7db99efcb5c6763258eb2576b456e988f806fb4",
@@ -295,7 +296,7 @@
             }
         },
         "@solcorp/layer-storage": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "index.d.ts": "7c00ed46627926c35214ab295c4a4a70f621b23f2038aa0b519cd1fc4eba0c40",
                 "offline-outbox.d.ts": "cb9c08f3949c0a909415c187193ecfda12045882a58ad624c01344ae22fc13a4",
@@ -307,7 +308,7 @@
             }
         },
         "@solcorp/layer-testkit": {
-            "version": "0.2.0",
+            "version": "0.2.1",
             "declarations": {
                 "fixtures.d.ts": "a5307f976dcb940e7ff0d8fdd37e88262a24684c6a95e9680c62bdc461b2f7e5",
                 "index.d.ts": "7e3219fd908ae1f7c44bb5a2337ab4c795814e2afd55a9d394fc62c3abb267f0"

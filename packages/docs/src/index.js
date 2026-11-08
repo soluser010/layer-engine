@@ -25,6 +25,7 @@ export const layerGuideServe = async function( optionsData = {} ){
     const serverData = createServer( async function( requestData, responseData ){
         //Rejecting remote Host headers and methods that could mutate local state
         responseData.setHeader( 'X-Content-Type-Options', 'nosniff' );
+        responseData.setHeader( 'Engine', 'Layer-Engine' );
         responseData.setHeader( 'Cache-Control', 'no-store' );
         responseData.setHeader( 'Content-Security-Policy', "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; base-uri 'none'; frame-ancestors 'none'" );
         if ( requestData.headers.host !== new URL( originData ).host || !['GET', 'HEAD'].includes( requestData.method ?? '' ) ){

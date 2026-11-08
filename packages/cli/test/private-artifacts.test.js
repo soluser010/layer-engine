@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {mkdir, mkdtemp, readFile, rm, stat, writeFile} from 'node:fs/promises';
+import {mkdir, mkdtemp, readFile, rm, stat, symlink, writeFile} from 'node:fs/promises';
 import {createServer} from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
@@ -159,6 +159,14 @@ test( 'development denies GET and HEAD private files before proxy and navigation
 
     }
     assert.equal( proxyRequestCountData, Number( 0 ) );
+
+    //A directory junction must not publish a sibling file under an innocent public URL.
+    const outside = await securityFixtureDirectoryCreate( testContext );
+    await writeFile( path.join( outside, 'marker.txt' ), 'outside-private-marker' );
+    await symlink( outside, path.join( fixtureDirectoryData, 'linked' ), 'junction' );
+    const linkedResponse = await fetch( baseUrlData + '/linked/marker.txt' );
+    assert.equal( linkedResponse.status, 404 );
+    assert.doesNotMatch( await linkedResponse.text(), /outside-private-marker/ );
 
     //Checking the old default device policy and public navigation still work
     const publicResponseData = await fetch( baseUrlData + '/' );

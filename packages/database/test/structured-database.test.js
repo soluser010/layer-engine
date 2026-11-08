@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import fc from 'fast-check';
 import {
     LAYER_DATABASE_COLUMN_TYPES,
     LAYER_DATABASE_TABLE_SCOPES,
@@ -376,6 +377,26 @@ test('Structured CRUD parameterizes filters and enforces tenant ownership', asyn
         return errorData instanceof LayerDatabaseError && errorData.code === 'DATABASE_QUERY_INVALID';
 
     });
+
+});
+
+test('Structured CRUD keeps tenant and hostile filter values out of SQL grammar', async function(){
+    //Compare the executed SQL across generated data and reject undeclared identifiers before execution.
+    await fc.assert( fc.asyncProperty( fc.string({maxLength: 70}), async function( suffix ){
+        const attack = "' OR TRUE --" + suffix;
+        const fake = databaseFakeCreate();
+        const database = layerDatabaseFacadeCreate({database: fake.database, schema: applicationSchemaCreate(),
+            security: {tenantId: 'tenant-from-session', userId: 'current-user'}});
+        const table = database.table( 'messages' );
+        await table.findMany({where: database.where.equal( 'chatId', 'baseline' )});
+        await table.findMany({where: database.where.equal( 'chatId', attack )});
+        assert.equal( fake.queryCalls[1]?.text, fake.queryCalls[0]?.text );
+        assert.deepEqual( fake.queryCalls[1]?.values.slice( 0, 2 ), [attack, 'tenant-from-session'] );
+        await assert.rejects( table.findMany({orderBy: [{column: attack, direction: 'desc'}]}),
+            {code: 'DATABASE_QUERY_INVALID'} );
+        assert.equal( fake.queryCalls.length, 2 );
+
+    }) );
 
 });
 

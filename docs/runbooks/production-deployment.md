@@ -28,7 +28,7 @@ The target host must already provide Node.js >=24.22.1 <25 and npm 11. Configure
 - `LAYER_HTTP_PORT`/`LAYER_HTTPS_PORT` only for controlled staging or non-standard edge layouts.
 
 Run `npm run check` before opening listeners. It verifies the integrity manifest,
-runtime versions, exact npm tree, pinned Caddy 2.11.4 executable, and Caddyfile.
+runtime versions, exact npm tree, pinned Caddy 2.11.9 executable, and Caddyfile.
 When `node_modules` is absent or does not match the lock, the launcher runs only
 `npm ci --omit=dev --ignore-scripts --no-audit --no-fund`. A failed registry,
 partial tree, concurrent install timeout, checksum mismatch, unsupported platform,

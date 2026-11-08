@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 — Important security update
+
+The development server now blocks reads outside the project output. Builds and client API generation enforce stricter input checks. Production bundles include Caddy 2.11.9 and keep long-lived event streams open. Update the CLI and rebuild your application. [Full release notes](docs/en/updates/0.2.1.md).
+
 ## 0.2.0
 
 - Experimental default-enabled screen warmup and retention; disable with navigation.warmup.enabled=false.

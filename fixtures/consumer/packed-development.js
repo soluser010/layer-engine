@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {findPackageJSON} from 'node:module';
 import {createServer} from 'node:net';
 import {pathToFileURL} from 'node:url';
 
@@ -8,6 +10,22 @@ const appDirectoryData = process.argv[3];
 assert.ok( cliEntryData );
 assert.ok( appDirectoryData );
 const cliData = await import( pathToFileURL( cliEntryData ).href );
+
+//Follow the consumer's resolved dependency chain, including npm's nested global layout.
+const pathRead = function( /** @type {string} */ name, /** @type {string} */ parent ){
+    const manifest = findPackageJSON( name, parent );
+    assert.ok( manifest, 'Expected installed package ' + name );
+    return manifest;
+
+};
+const authManifest = pathRead( '@solcorp/layer-auth', cliEntryData );
+const providerManifest = pathRead( 'oidc-provider', authManifest );
+const koaManifest = pathRead( 'koa', providerManifest );
+const middleware = JSON.parse( await readFile( pathRead( 'koa-compose', koaManifest ), 'utf8' ) );
+assert.notEqual( middleware.version, '4.2.0', 'This deprecated middleware release is incompatible with Koa 3.' );
+const databaseManifest = pathRead( '@solcorp/layer-database', cliEntryData );
+const driver = JSON.parse( await readFile( pathRead( 'pg', databaseManifest ), 'utf8' ) );
+assert.equal( driver.version, JSON.parse( await readFile( databaseManifest, 'utf8' ) ).dependencies.pg );
 const portServerData = createServer();
 await new Promise(function( resolveData, rejectData ){
     //Allocating a temporary local development port without touching existing application servers

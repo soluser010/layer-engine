@@ -148,7 +148,7 @@ const browserDevelopmentChangeWait = function(){
             browserDevelopmentChangeWaiters.delete( changeResolve );
             reject( new Error( String( 'Browser development rebuild timed out.' ) ) );
 
-        }, 20000);
+        }, 45000);
         const changeResolve = function(/** @type {string} */ statusData){
             //Completing this browser control request with the watcher result.
             clearTimeout( changeTimeout );
@@ -260,14 +260,26 @@ const fixtureServer = createServer(async function browserFixtureRequest(request,
 
         }
 
-        //Waiting before the write so a fast watcher result cannot be missed
-        const developmentChangeResultPromise = browserDevelopmentChangeWait();
+        try {
+            //A freshly generated project already has the canonical source and a ready build.
+            if (actionData === 'reset' && await readFile(browserDevelopmentSourceFile, 'utf8') === sourceData) {
+                response.writeHead(202, {'content-type': 'application/json; charset=utf-8'});
+                response.end(JSON.stringify({status: 'build'}));
+                return;
+            }
 
-        //Saving the selected fixture so the real development watcher owns the rebuild.
-        await writeFile(browserDevelopmentSourceFile, sourceData, 'utf8');
-        const developmentChangeResult = await developmentChangeResultPromise;
-        response.writeHead(202, {'content-type': 'application/json; charset=utf-8'});
-        response.end(JSON.stringify({status: developmentChangeResult}));
+            //Subscribe before writing and observe both promises even if one fails first.
+            const [developmentChangeResult] = await Promise.all([
+                browserDevelopmentChangeWait(),
+                writeFile(browserDevelopmentSourceFile, sourceData, 'utf8')
+            ]);
+            response.writeHead(202, {'content-type': 'application/json; charset=utf-8'});
+            response.end(JSON.stringify({status: developmentChangeResult}));
+        } catch {
+            //Fail this control request while keeping the shared browser fixture available.
+            response.writeHead(503, {'content-type': 'application/json; charset=utf-8'});
+            response.end(JSON.stringify({status: 'rebuild-failed', action: actionData}));
+        }
 
         return;
 

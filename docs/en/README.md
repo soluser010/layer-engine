@@ -9,6 +9,8 @@ updated: 2026-10-31
 
 # Layer‑Engine documentation
 
+[0.2.1 — Important security update](updates/0.2.1.md)
+
 [0.2.0 — Experimental screen warmup](updates/0.2.0.md)
 
 [Release history](updates/README.md) · [0.1.2](updates/0.1.2.md) · [0.1.1](updates/0.1.1.md) · [0.1.0](updates/0.1.0.md)

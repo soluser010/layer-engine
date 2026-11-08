@@ -2,11 +2,11 @@
 
 **Part of [Layer-Engine](https://www.npmjs.com/package/@solcorp/layer), a JavaScript framework for full PWA applications.** IndexedDB transactions, query caching and offline commands.
 
-## What's new in 0.2.0
+## What's new in 0.2.1
 
-Experimental screen warmup is enabled by default. Disable it with `navigation.warmup.enabled: false`. CSS/font handling and the English agent skill are also improved.
+**Important security update.** The development server now blocks reads outside the project output. Builds and client API generation enforce stricter input checks. Production bundles include Caddy 2.11.9 and keep long-lived event streams open. Update the CLI and rebuild your application.
 
-[Changes and upgrade steps](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/0.2.0.md).
+[Changes and upgrade steps](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/0.2.1.md).
 
 
 

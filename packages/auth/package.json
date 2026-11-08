@@ -1,6 +1,6 @@
 {
     "name": "@solcorp/layer-auth",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Headless identity, session, MFA, OAuth, and OIDC contracts for Layer-Engine",
     "license": "Apache-2.0",
     "repository": {
@@ -42,10 +42,10 @@
         "@node-rs/argon2": "2.2.1",
         "@simplewebauthn/browser": "14.0.0",
         "@simplewebauthn/server": "14.0.0",
-        "@solcorp/layer-database": "0.2.0",
-        "@solcorp/layer-protocol": "0.2.0",
-        "@solcorp/layer-security": "0.2.0",
-        "@solcorp/layer-server": "0.2.0",
+        "@solcorp/layer-database": "0.2.1",
+        "@solcorp/layer-protocol": "0.2.1",
+        "@solcorp/layer-security": "0.2.1",
+        "@solcorp/layer-server": "0.2.1",
         "jose": "6.2.12",
         "nodemailer": "10.2.1",
         "oidc-provider": "9.12.2",

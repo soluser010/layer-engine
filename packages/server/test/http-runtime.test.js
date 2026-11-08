@@ -123,6 +123,7 @@ test('HTTP runtime serves health and the unified POST API', async () => {
         assert.deepEqual(await readyResponse.json(), {
             status: 'ready'
         });
+        assert.equal(apiResponse.headers.get('engine'), 'Layer-Engine');
         assert.equal(apiResponse.status, 200);
         assert.equal(apiResponse.headers.get('cache-control'), 'no-store');
         assert.equal(apiResponse.headers.get('x-content-type-options'), 'nosniff');
@@ -252,6 +253,7 @@ test('HTTP runtime restricts route and method surface', async () => {
         const methodResponse = await fetch(`${runtimeUrl}/api`);
         const methodData = await methodResponse.json();
 
+        assert.equal(missingResponse.headers.get('engine'), 'Layer-Engine');
         assert.equal(missingResponse.status, 404);
         assert.equal(methodResponse.status, 405);
         assert.equal(methodResponse.headers.get('allow'), 'POST');
@@ -567,6 +569,7 @@ test('HTTP runtime authorizes POST event streams and drains distribution lifecyc
             }))
         });
 
+        assert.equal(streamResponse.headers.get('engine'), 'Layer-Engine');
         assert.equal(streamResponse.status, 200);
         assert.equal(streamResponse.headers.get('content-type'), 'text/event-stream; charset=utf-8');
         assert.equal(await streamResponse.text(), ': heartbeat\n\n');

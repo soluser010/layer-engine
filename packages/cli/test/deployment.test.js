@@ -27,7 +27,7 @@ const deploymentFixtureCreate = function(){
         originPort: 8787,
         serverEntry: false,
         caddy: {
-            version: '2.11.4',
+            version: '2.11.9',
             assets: {
                 'linux-x64': {archive: 'tar.gz', url: 'linux-amd64', sha512: 'linux-amd64-sha'},
                 'linux-arm64': {archive: 'tar.gz', url: 'linux-arm64', sha512: 'linux-arm64-sha'},

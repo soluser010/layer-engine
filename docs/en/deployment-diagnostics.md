@@ -41,7 +41,11 @@ LAYER_STATE_DIRECTORY=/var/lib/layer/application
 
 ## Expected result
 
-The launcher verifies integrity, lockfile, and dependencies, safely installs pinned Caddy 2.11.4, starts private workers, waits for readiness, and keeps Caddy in the foreground.
+The launcher verifies integrity, lockfile, and dependencies, safely installs pinned Caddy 2.11.9, starts private workers, waits for readiness, and keeps Caddy in the foreground.
+
+Application HTTP responses include the fixed header `Engine: Layer-Engine`. The value omits the framework version.
+
+Caddy limits each blocked response write to 30 seconds with `write_idle`. A POST event stream can last longer and can remain silent between events. The 15-second upstream response-header timeout applies until the backend sends its headers. Rebuild and redeploy the complete bundle to adopt the pinned binary and its matching Caddyfile.
 
 ## Explanation
 

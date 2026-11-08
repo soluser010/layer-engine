@@ -2,11 +2,11 @@
 
 **Part of [Layer-Engine](https://www.npmjs.com/package/@solcorp/layer), a JavaScript framework for full PWA applications.** Project creation, development, build, diagnostics and the local handbook.
 
-## What's new in 0.2.0
+## What's new in 0.2.1
 
-Experimental screen warmup is enabled by default. Layer prepares eligible visible destinations and can retain opened screens with their state and scroll position. Disable it with `navigation.warmup.enabled: false` in `layer.config.js`. This release also fixes CSS/font asset handling and updates the English agent skill.
+**Important security update.** The development server now blocks reads outside the project output. Builds and client API generation enforce stricter input checks. Production bundles include Caddy 2.11.9 and keep long-lived event streams open. Update the CLI and rebuild your application.
 
-[Changes and upgrade steps](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/0.2.0.md) · [History](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/README.md).
+[Changes and upgrade steps](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/0.2.1.md) · [History](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/README.md).
 
 Start with `npm install @solcorp/layer`; this module is installed automatically. You do not need to assemble the framework package by package.
 
@@ -120,7 +120,7 @@ dist/
 After copying only `dist`, use `npm run check` for a no-listener preflight and
 `npm start` for the foreground process. The launcher verifies integrity, checks
 Node 24/npm 11, validates `npm ls`, installs missing locked dependencies, obtains
-the pinned Caddy 2.11.4 binary with official SHA-512 verification, validates the
+the pinned Caddy 2.11.9 binary with official SHA-512 verification, validates the
 generated Caddyfile, starts the optional API, and then exposes HTTPS. Supported
 Caddy assets are Linux x64/arm64 and Windows x64/arm64. Runtime state defaults to
 the OS user-state directory and can be moved with `LAYER_STATE_DIRECTORY`.

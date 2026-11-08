@@ -1,5 +1,6 @@
 import {createServer} from 'node:http';
-import {readFile} from 'node:fs/promises';
+import {constants} from 'node:fs';
+import {lstat, open} from 'node:fs/promises';
 import path from 'node:path';
 
 /** @param {{manifest: any, filename: string, shasum: string, integrity: string}[]} packagesData @param {string} archiveDirectoryData */
@@ -13,8 +14,34 @@ export async function packRegistryCreate( packagesData, archiveDirectoryData ){
     const archivesData = new Map();
 
     for ( const packageData of packagesData ){
-        const archiveData = await readFile( path.join( archiveDirectoryData, packageData.filename ) );
-        archivesData.set( `/archives/${packageData.filename}`, archiveData );
+        //Accept only regular npm tarballs directly inside the owned packaging directory.
+        if ( !/^[a-z0-9][a-z0-9._-]*\.tgz$/u.test( packageData.filename ) ){
+            throw new Error( 'Invalid package archive filename.' );
+
+        }
+
+        const archivePath = path.join( archiveDirectoryData, packageData.filename );
+        const expected = await lstat( archivePath, {bigint: true} );
+        if ( !expected.isFile() ){
+            throw new Error( 'Expected a regular package archive.' );
+
+        }
+
+        const archive = await open( archivePath, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0) | (constants.O_NONBLOCK ?? 0) );
+        try {
+            //Check the opened object and read through that same handle on every platform.
+            const actual = await archive.stat({bigint: true});
+            if ( !actual.isFile() || actual.dev !== expected.dev || actual.ino !== expected.ino ){
+                throw new Error( 'Package archive changed before inspection.' );
+
+            }
+
+            archivesData.set( `/archives/${packageData.filename}`, await archive.readFile() );
+
+        } finally {
+            await archive.close();
+
+        }
 
     }
 

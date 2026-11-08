@@ -76,14 +76,15 @@ function fixtureDataMerge(baseData, overrideData) {
     const fixtureData = structuredClone(baseData);
 
     for (const [fieldName, fieldValue] of Object.entries(overrideData)) {
-        const currentValue = fixtureData[fieldName];
+        //Merge only owned data and keep special JSON keys as ordinary fixture fields.
+        const currentValue = Object.getOwnPropertyDescriptor( fixtureData, fieldName )?.value;
+        const mergedValue = plainObjectCheck( currentValue ) && plainObjectCheck( fieldValue )
+            ? fixtureDataMerge( currentValue, fieldValue )
+            : structuredClone( fieldValue );
 
-        if (plainObjectCheck(currentValue) && plainObjectCheck(fieldValue)) {
-            fixtureData[fieldName] = fixtureDataMerge(currentValue, fieldValue);
-            continue;
-        }
-
-        fixtureData[fieldName] = structuredClone(fieldValue);
+        Object.defineProperty( fixtureData, fieldName, {
+            value: mergedValue, enumerable: true, configurable: true, writable: true
+        });
     }
 
     return fixtureData;

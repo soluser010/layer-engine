@@ -32,7 +32,7 @@ const deploymentRuntimeDependencies = Object.freeze({
 });
 const deploymentServerDependencies = Object.freeze({
     '@electric-sql/pglite': '0.5.8',
-    pg: '8.16.3'
+    pg: '8.23.1'
 });
 const deploymentAuthDependencies = Object.freeze({
     '@node-rs/argon2': '2.2.1',
@@ -41,28 +41,28 @@ const deploymentAuthDependencies = Object.freeze({
 const deploymentOAuthDependencies = Object.freeze({
     'oidc-provider': '9.12.2'
 });
-const caddyVersion = String( '2.11.4' );
-const caddyReleaseBaseUrl = String( 'https://github.com/caddyserver/caddy/releases/download/v2.11.4/' );
+const caddyVersion = String( '2.11.9' );
+const caddyReleaseBaseUrl = String( 'https://github.com/caddyserver/caddy/releases/download/v2.11.9/' );
 const caddyAssets = Object.freeze({
     'linux-x64': Object.freeze({
         archive: 'tar.gz',
-        url: caddyReleaseBaseUrl + String( 'caddy_2.11.4_linux_amd64.tar.gz' ),
-        sha512: '8220d1f013b6f27510247b2360c9e0ca9f018feebd82515f07635318b34ff9777ccc8fd0b6e6f2486ce3a33fe389fbb7db12d05baa474f4587509fb4f5ebf1c9'
+        url: caddyReleaseBaseUrl + String( 'caddy_2.11.9_linux_amd64.tar.gz' ),
+        sha512: '0e85544340290a16ce4bfb76fe7d65e9de1bf3a6e67f5ccfff30b30d27ea4c73e078077b7bf3e58ae60b6b12e44327705287059c775bca5782e8ee85ea7edd75'
     }),
     'linux-arm64': Object.freeze({
         archive: 'tar.gz',
-        url: caddyReleaseBaseUrl + String( 'caddy_2.11.4_linux_arm64.tar.gz' ),
-        sha512: 'd5a7c423853c24a799765e0e8210d5c7c22a8f56ed37a3cae2fb9f58be138853c02b4efd6b59d576e6d8c7c0d30b9c1592deeaa6a536ff69bcca23b8c1ea709c'
+        url: caddyReleaseBaseUrl + String( 'caddy_2.11.9_linux_arm64.tar.gz' ),
+        sha512: '9e5e76d7888542924de2c25353ae87c5f77e2a22c5b1198633cae13688922282e05383d142599205c88d8d80eee5e967d291214d7abce4835329a191b20dd6e0'
     }),
     'win32-x64': Object.freeze({
         archive: 'zip',
-        url: caddyReleaseBaseUrl + String( 'caddy_2.11.4_windows_amd64.zip' ),
-        sha512: 'cd5ccfd86a4b40732cf715890d0dca5bf3f63adefec5a7914de85adf240c60ce7e5d2791631b88ef9758e46b23bb1730e020b9c5d696889740b284ffd4788e35'
+        url: caddyReleaseBaseUrl + String( 'caddy_2.11.9_windows_amd64.zip' ),
+        sha512: '98753d5d42650383d00619ac70917a217141f9e92314185bf6c1b8b439cfcfdf8393da0ebb4675c8cb3b23d29a19aabe99dc5aca64fa1bfc3a1ba22509b06871'
     }),
     'win32-arm64': Object.freeze({
         archive: 'zip',
-        url: caddyReleaseBaseUrl + String( 'caddy_2.11.4_windows_arm64.zip' ),
-        sha512: '582ad4657223ecd52a627d88b9d5a0cc051a0289546427659e878c57db3b4f44cedf9edd8ad6efcf29aa20a156d72626db00dfb64caccfe207bbebea2a0773c4'
+        url: caddyReleaseBaseUrl + String( 'caddy_2.11.9_windows_arm64.zip' ),
+        sha512: 'db5993910787c83ddb4b42b39c01d987b929f25bbf3b9a497090f2722ec96d140203c17ae8bbaceef2528195c31ebe8a52e043d25448e453b8e98153670eb9c8'
     })
 });
 
@@ -310,6 +310,7 @@ const deploymentCaddyfileCreate = function( serverEntryStatus, authConfiguration
         }
 
         reverse_proxy {$LAYER_UPSTREAMS:127.0.0.1:8787} {
+            header_down -Engine
             lb_policy least_conn
             flush_interval -1
             health_uri /health/ready
@@ -344,13 +345,14 @@ const deploymentCaddyfileCreate = function( serverEntryStatus, authConfiguration
         timeouts {
             read_body 15s
             read_header 10s
-            write 30s
+            write_idle 30s
             idle 2m
         }
     }
 }
 
 http://{$LAYER_DOMAIN}:{$LAYER_HTTP_PORT:80} {
+    header Engine Layer-Engine
     ${String( environmentMatcherData )}
     ${String( privateMatcherData )}
     route {
@@ -361,6 +363,7 @@ http://{$LAYER_DOMAIN}:{$LAYER_HTTP_PORT:80} {
 }
 
 https://{$LAYER_DOMAIN}:{$LAYER_HTTPS_PORT:443} {
+    header Engine Layer-Engine
     encode zstd gzip
 
     header {

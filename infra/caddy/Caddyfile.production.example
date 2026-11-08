@@ -5,17 +5,19 @@
 		timeouts {
 			read_body 15s
 			read_header 10s
-			write 30s
+			write_idle 30s
 			idle 2m
 		}
 	}
 }
 
 http://{$LAYER_DOMAIN} {
+	header Engine Layer-Engine
 	redir https://{host}{uri} permanent
 }
 
 https://{$LAYER_DOMAIN} {
+	header Engine Layer-Engine
 	encode zstd gzip
 
 	request_body {
@@ -34,6 +36,7 @@ https://{$LAYER_DOMAIN} {
 	}
 
 	reverse_proxy 127.0.0.1:{$LAYER_PORT:3000} {
+		header_down -Engine
 		flush_interval -1
 		health_uri /health/ready
 		health_interval 10s

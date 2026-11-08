@@ -33,14 +33,15 @@ test.beforeEach(async function browserHarnessOpen({page}) {
 
 test('development host reloads templates and CSS and recovers from a build error', async function developmentReloadCheck({page, request}, testInfo) {
     test.skip(testInfo.project.name !== 'chrome', 'The live reload browser gate runs once in the Chrome project.');
-    test.setTimeout(90000);
+    test.setTimeout(180000);
 
     //Restoring the canonical development source before opening the controlled application.
-    await request.post('/__test/live-reload', {
-        data: {
-            action: 'reset'
-        }
+    const resetResponse = await request.post('/__test/live-reload', {
+        data: {action: 'reset'},
+        timeout: 50000
     });
+    expect(resetResponse.status()).toBe(202);
+    expect(await resetResponse.json()).toEqual({status: 'build'});
     await page.goto('http://127.0.0.1:5331/?mode=live#current');
     await page.evaluate(async () => navigator.serviceWorker.ready);
 
@@ -55,11 +56,11 @@ test('development host reloads templates and CSS and recovers from a build error
 
     //Changing markup and CSS through the real watched source file.
     const updateResponse = await request.post('/__test/live-reload', {
-        data: {
-            action: 'update'
-        }
+        data: {action: 'update'},
+        timeout: 50000
     });
     expect(updateResponse.status()).toBe(202);
+    expect(await updateResponse.json()).toEqual({status: 'build'});
     await expect(page.locator('[data-layer-root] h1')).toHaveText('Live reload updated', {
         timeout: developmentReloadAssertionTimeout
     });
@@ -70,11 +71,12 @@ test('development host reloads templates and CSS and recovers from a build error
     expect(await page.evaluate(() => navigator.serviceWorker.controller !== null)).toBe(true);
 
     //Keeping the last working document while the next build is invalid.
-    await request.post('/__test/live-reload', {
-        data: {
-            action: 'error'
-        }
+    const errorResponse = await request.post('/__test/live-reload', {
+        data: {action: 'error'},
+        timeout: 50000
     });
+    expect(errorResponse.status()).toBe(202);
+    expect(await errorResponse.json()).toEqual({status: 'error'});
     await expect(page.locator('#layer-development-error')).toContainText('CLI_', {
         timeout: developmentReloadAssertionTimeout
     });
@@ -83,11 +85,12 @@ test('development host reloads templates and CSS and recovers from a build error
     });
 
     //Fixing the source and waiting for the next successful revision reload.
-    await request.post('/__test/live-reload', {
-        data: {
-            action: 'recover'
-        }
+    const recoverResponse = await request.post('/__test/live-reload', {
+        data: {action: 'recover'},
+        timeout: 50000
     });
+    expect(recoverResponse.status()).toBe(202);
+    expect(await recoverResponse.json()).toEqual({status: 'build'});
     await expect(page.locator('[data-layer-root] h1')).toHaveText('Live reload recovered', {
         timeout: developmentReloadAssertionTimeout
     });

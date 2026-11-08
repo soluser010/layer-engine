@@ -34,6 +34,7 @@ test( 'guide serves versioned offline pages and rejects non-document requests', 
         for ( const targetData of ['/ru/README.html', '/en/README.html', '/', '/assets/guide.css', '/assets/guide.js', '/ru/search.json'] ){
             const responseData = await fetch( guideData.origin + targetData );
             assert.equal( responseData.status, 200 );
+            assert.equal( responseData.headers.get( 'engine' ), 'Layer-Engine' );
             assert.equal( responseData.headers.get( 'x-content-type-options' ), 'nosniff' );
             assert.ok( responseData.headers.get( 'content-security-policy' )?.includes( "frame-ancestors 'none'" ) );
             assert.ok( (await responseData.text()).length > 20 );

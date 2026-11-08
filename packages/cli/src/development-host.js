@@ -1,9 +1,7 @@
 import {createServer as httpServerCreate} from 'node:http';
 import {createServer as httpsServerCreate} from 'node:https';
-import {
-    lstat,
-    readFile
-} from 'node:fs/promises';
+import {readFile} from 'node:fs/promises';
+import {boundedFileRead} from './bounded-file.js';
 import path from 'node:path';
 import {LayerCliError} from './cli-error.js';
 import {layerConfigValidate} from './config.js';
@@ -39,6 +37,7 @@ const contentTypes = /** @type {Readonly<Record<string, string>>} */ (Object.fre
  */
 const securityHeadersApply = function( responseData, contentSecurityPolicyData, permissionsPolicyData ){
     //Applying browser protections while allowing local visual tooling to inject development styles.
+    responseData.setHeader( 'Engine', 'Layer-Engine' );
     responseData.setHeader( 'Cache-Control', 'no-store' );
     responseData.setHeader(
         'Content-Security-Policy',
@@ -79,25 +78,9 @@ function outputFileResolve(outputDirectory, relativeFile) {
  */
 async function outputFileRead(outputDirectory, relativeFile) {
     const outputFile = outputFileResolve(outputDirectory, relativeFile);
-    const fileStatus = await lstat(outputFile).catch(function developmentFileMissing(fileError) {
-        if (/** @type {NodeJS.ErrnoException} */ (fileError).code === 'ENOENT') {
-            return null;
-
-        }
-
-        throw fileError;
-
-    });
-
-    if (fileStatus?.isFile() !== true || fileStatus.isSymbolicLink()) {
-        return null;
-
-    }
-
-    return Object.freeze({
-        file: outputFile,
-        content: await readFile(outputFile)
-    });
+    //Read verified bytes through the same handle that passed the output-boundary check.
+    const content = await boundedFileRead( outputDirectory, outputFile );
+    return content === null ? null : Object.freeze({file: outputFile, content});
 
 }
 

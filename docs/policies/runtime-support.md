@@ -10,7 +10,7 @@ Layer-Engine production support is intentionally narrower than incidental protoc
 | npm | 11.x | `packageManager`, lockfile install, real isolated tarball consumers |
 | PostgreSQL | 16.x–18.x while supported upstream | migrations, transactional outbox, backup/restore rehearsal on every release environment |
 | Redis | 7.2.x, 7.4.x, or supported 8.x | connection, bounded reconnect, rate-limit Lua, pub/sub fan-out, empty-Redis replay |
-| Caddy | exactly 2.11.4 in generated bundles | official release SHA-512, `caddy validate`, HTTP redirect, automatic HTTPS and origin proxy rehearsal |
+| Caddy | exactly 2.11.9 in generated bundles | official release SHA-512, `caddy validate`, HTTP redirect, automatic HTTPS and origin proxy rehearsal |
 
 Generated bundles support Linux x64/arm64 and Windows x64/arm64. Linux remains the recommended production host and the GitVerse deployment gate runs on Linux x64; Windows x64 is additionally rehearsed locally, while ARM adapters are unit-tested. PostgreSQL and Redis must be private network dependencies; Caddy must sit behind the deployment's external CDN/WAF when volumetric attacks are in scope.
 

@@ -1,4 +1,5 @@
-import {readFile, readdir, lstat} from 'node:fs/promises';
+import {readdir} from 'node:fs/promises';
+import {boundedFileRead} from './bounded-file.js';
 import path from 'node:path';
 import {transform} from 'lightningcss';
 import {LayerCliError} from './cli-error.js';
@@ -122,13 +123,14 @@ export async function layerPublicCssBuild( publicDirectoryData, configurationDat
 
             } else if ( entryData.isFile() && /\.css$/i.test( entryData.name ) ){
                 //Bounding both individual files and the total retained stylesheet data
-                const statusData = await lstat( fileData );
-                inputBytesData += statusData.size;
-                if ( statusData.size > 2 * 1024 * 1024 || inputBytesData > 16 * 1024 * 1024 ){
+                const contentData = await boundedFileRead( publicDirectoryData, fileData,
+                    Math.min( 2 * 1024 * 1024, 16 * 1024 * 1024 - inputBytesData ) );
+                if ( contentData === null ){
                     throw new LayerCliError( 'CLI_BUILD_CSS_INVALID', 'Public CSS exceeds the stylesheet size budget.', {file: 'public/' + relativeData} );
 
                 }
-                const sourceData = await readFile( fileData, 'utf8' );
+                inputBytesData += contentData.length;
+                const sourceData = contentData.toString( 'utf8' );
                 artifactsData[relativeData] = layerCssBuild( sourceData, 'public/' + relativeData, configurationData );
 
             }

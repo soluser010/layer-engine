@@ -1,4 +1,8 @@
+import {layerRequestEnvelopeSchema} from '@solcorp/layer-protocol';
 import {LayerCliError} from './cli-error.js';
+
+const operationNameSchema = layerRequestEnvelopeSchema.properties.operation;
+const operationNamePattern = new RegExp( operationNameSchema.pattern, 'u' );
 
 /**
  * @param {unknown} valueData
@@ -435,17 +439,51 @@ export function layerOperationFacadeCreate(operationList) {
 
     }
 
+    //Serialize once so all three generated files use the exact same validated data.
+    let manifestSource;
+    try {
+        manifestSource = JSON.stringify( structuredClone( operationList ), function jsonFieldCheck( fieldName, fieldValue ){
+            if ( ['__proto__', 'prototype', 'constructor'].includes( fieldName ) ){
+                throw new TypeError( 'Reserved contract field.' );
+
+            }
+
+            return fieldValue;
+
+        }, 4 ) + '\n';
+
+    } catch {
+        throw new LayerCliError( 'CLI_OPERATION_CONTRACT_INVALID', 'Operation contracts must contain static JSON data.' );
+
+    }
+
+    const contracts = /** @type {Readonly<Record<string, unknown>>[]} */ (JSON.parse( manifestSource ));
     const exportNames = new Set();
+    const typeNames = new Set();
     const runtimeSources = [];
     const declarationSources = [];
 
-    for (const operationData of operationList) {
+    for (const operationData of contracts) {
         //Generating runtime and declaration entries from the same contract record.
-        const operationName = String(operationData.name);
-        const operationType = String(operationData.type);
-        const exportName = operationExportNameCreate(operationName, operationType);
+        if ( !objectRecordCheck( operationData ) ){
+            throw new LayerCliError( 'CLI_OPERATION_CONTRACT_INVALID', 'Each operation must be a record.' );
 
-        if (exportNames.has(exportName)) {
+        }
+
+        const {name: operationName, type: operationType, inputSchema, outputSchema} = operationData;
+        if ( typeof operationName !== 'string' || operationName.length > operationNameSchema.maxLength ||
+            !operationNamePattern.test( operationName ) ||
+            (operationType !== 'query' && operationType !== 'command' && operationType !== 'sync') ||
+            (!objectRecordCheck( inputSchema ) && typeof inputSchema !== 'boolean') ||
+            (!objectRecordCheck( outputSchema ) && typeof outputSchema !== 'boolean') ){
+            throw new LayerCliError( 'CLI_OPERATION_CONTRACT_INVALID', 'A facade requires a dotted operation name, a client operation type and two schemas.' );
+
+        }
+
+        const exportName = operationExportNameCreate(operationName, operationType);
+        const typeName = operationTypeNameCreate( exportName );
+
+        if (exportNames.has(exportName) || typeNames.has(typeName)) {
             throw new LayerCliError('CLI_OPERATION_EXPORT_COLLISION', 'Operation names produce the same generated export.', {
                 exportName,
                 operation: operationName
@@ -454,13 +492,13 @@ export function layerOperationFacadeCreate(operationList) {
         }
 
         exportNames.add(exportName);
+        typeNames.add(typeName);
         runtimeSources.push(operationFunctionSourceCreate(operationData));
         declarationSources.push(operationDeclarationSourceCreate(operationData));
 
     }
 
-    const manifestSource = `${JSON.stringify(operationList, null, 4)}\n`;
-    const runtimeSource = `const operationContracts = Object.freeze(${JSON.stringify(operationList, null, 4)});
+    const runtimeSource = `const operationContracts = Object.freeze(${manifestSource.trimEnd()});
 
 function __layerOperationApiRead(contextData) {
     if (!contextData || typeof contextData !== 'object' || !contextData.api ||

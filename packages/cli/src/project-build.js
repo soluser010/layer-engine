@@ -1,8 +1,10 @@
 import {createHash} from 'node:crypto';
+import {boundedFileRead} from './bounded-file.js';
 import {
     cp,
     lstat,
     mkdir,
+    mkdtemp,
     readdir,
     readFile,
     rename,
@@ -183,9 +185,9 @@ async function publicPrecacheAssetsRead(publicDirectory) {
             }
 
             const relativeAssetName = path.relative(publicDirectory, entryFile).replaceAll('\\', '/');
-            const assetContent = await readFile(entryFile);
+            const assetContent = await boundedFileRead( publicDirectory, entryFile, assetStatus.size );
 
-            if (assetContent.byteLength !== assetStatus.size) {
+            if (assetContent === null || assetContent.byteLength !== assetStatus.size) {
                 throw new LayerCliError('CLI_BUILD_PUBLIC_ASSETS_INVALID', 'A public/assets file changed during the build.');
 
             }
@@ -674,8 +676,8 @@ export async function layerProjectBuild(buildOptions) {
 
     //Compiling the conventional contract module without importing project code.
     if (operationContractStatus !== null) {
-        if (!operationContractStatus.isFile() || operationContractStatus.isSymbolicLink() ||
-            operationContractStatus.size > 256 * 1024) {
+        const contractContent = await boundedFileRead( sourceDirectory, operationContractFile, 256 * 1024 );
+        if (contractContent === null) {
             throw new LayerCliError(
                 'CLI_OPERATION_CONTRACT_INVALID',
                 'src/operations.js must be a regular file no larger than 256 KiB.'
@@ -683,7 +685,7 @@ export async function layerProjectBuild(buildOptions) {
 
         }
 
-        const operationContractSource = await readFile(operationContractFile, 'utf8');
+        const operationContractSource = contractContent.toString( 'utf8' );
 
         operationContracts = layerOperationContractsCompile(operationContractSource, {
             file: 'src/operations.js'
@@ -750,7 +752,13 @@ declare module '*.global.layer.css' {
     const routeSources = /** @type {{file: string, route: Readonly<Record<string, unknown>>, component: string, style: string, skeleton: string[][]}[]} */ ([]);
 
     for (const pageFile of pageFiles) {
-        const componentSource = await readFile(pageFile, 'utf8');
+        const pageContent = await boundedFileRead( sourceDirectory, pageFile );
+        if (pageContent === null) {
+            throw new LayerCliError( 'CLI_BUILD_IMPORT_DENIED', 'A page must be a regular file inside src.' );
+
+        }
+
+        const componentSource = pageContent.toString( 'utf8' );
         const relativePageFile = path.relative(rootDirectory, pageFile).replaceAll('\\', '/');
         let componentSuffix = '.layer';
 
@@ -861,18 +869,8 @@ declare module '*.global.layer.css' {
 
     for (const layoutName of layoutNames) {
         const layoutFile = path.join(layoutsDirectory, `${layoutName}.layer.js`);
-        const layoutFileStatus = await lstat(layoutFile).catch(function layoutFileMissing(layoutError) {
-            //Converting only a missing referenced layout into the stable build diagnostic.
-            if (/** @type {NodeJS.ErrnoException} */ (layoutError).code === 'ENOENT') {
-                return null;
-
-            }
-
-            throw layoutError;
-
-        });
-
-        if (layoutFileStatus === null || !layoutFileStatus.isFile() || layoutFileStatus.isSymbolicLink()) {
+        const layoutContent = await boundedFileRead( sourceDirectory, layoutFile );
+        if (layoutContent === null) {
             throw new LayerCliError('CLI_BUILD_LAYOUT_MISSING', 'A referenced layout requires src/layouts/<name>.layer.js.', {
                 layout: layoutName,
                 file: layoutFile
@@ -881,7 +879,7 @@ declare module '*.global.layer.css' {
         }
 
         const relativeLayoutFile = path.relative(rootDirectory, layoutFile).replaceAll('\\', '/');
-        const layoutSource = await readFile(layoutFile, 'utf8');
+        const layoutSource = layoutContent.toString( 'utf8' );
         const layoutIdentifier = `${relativeLayoutFile.slice(0, -'.layer.js'.length)}-${contentHashCreate(relativeLayoutFile).slice(0, 12)}`;
         const layoutComponentData = layerJavascriptComponentCompile(layoutSource, {
             componentId: layoutIdentifier,
@@ -1288,97 +1286,82 @@ declare module '*.global.layer.css' {
 
     const outputParentDirectory = path.dirname(outputDirectory);
     const outputDirectoryName = path.basename(outputDirectory);
-    const outputStagingDirectory = path.join(
-        outputParentDirectory,
-        `.${outputDirectoryName}.layer-build-${process.pid}-${Date.now()}`
-    );
-    const outputBackupDirectory = path.join(
-        outputParentDirectory,
-        `.${outputDirectoryName}.layer-backup-${process.pid}-${Date.now()}`
-    );
+    //Reserve a private sibling directory atomically, including space for rollback.
+    await mkdir( outputParentDirectory, {recursive: true} );
+    const buildDirectory = await mkdtemp( path.join( outputParentDirectory, `.${outputDirectoryName}.layer-build-` ) );
+    const outputStagingDirectory = path.join( buildDirectory, 'release' );
+    const outputBackupDirectory = path.join( buildDirectory, 'previous' );
+    let restoreRequired = false;
 
-    //Creating the complete release beside the live output before replacing it
-    await rm(outputStagingDirectory, {
-        recursive: true,
-        force: true
-    });
-    await mkdir(outputStagingDirectory, {recursive: true});
+    try {
+        await mkdir( outputStagingDirectory );
 
-    if (publicStatus !== null) {
-        await cp(publicDirectory, outputStagingDirectory, {
-            recursive: true,
-            errorOnExist: false,
-            filter( publicFileData ){
-                //Keeping environment files and directories out of the portable release
-                const publicRequestPathData = '/' + path.relative( publicDirectory, publicFileData ).replaceAll( '\\', '/' );
+        if (publicStatus !== null) {
+            await cp(publicDirectory, outputStagingDirectory, {
+                recursive: true,
+                errorOnExist: false,
+                filter( publicFileData ){
+                    //Keeping environment files and directories out of the portable release
+                    const publicRequestPathData = '/' + path.relative( publicDirectory, publicFileData ).replaceAll( '\\', '/' );
 
-                //CallBack THE BOOLEAN
-                return layerEnvironmentRequestPathCheck( publicRequestPathData ) === false;
+                    //CallBack THE BOOLEAN
+                    return layerEnvironmentRequestPathCheck( publicRequestPathData ) === false;
 
-            }
-        });
-
-    }
-
-    for (const [artifactName, artifactContent] of Object.entries(generatedArtifacts)) {
-        const artifactFile = path.join(outputStagingDirectory, artifactName);
-        await mkdir(path.dirname(artifactFile), {recursive: true});
-        await writeFile(artifactFile, artifactContent);
-
-    }
-
-    await writeFile(path.join(outputStagingDirectory, '_layer/build.json'), `${JSON.stringify({
-        appName: configData.appName,
-        appVersion: configData.appVersion,
-        integrity: artifactIntegrity
-    }, null, 4)}\n`, 'utf8');
-
-    const currentOutputStatus = await stat(outputDirectory).catch(function outputDirectoryMissing(outputError) {
-        //Returning explicit absence while preserving unexpected filesystem failures.
-        if (/** @type {NodeJS.ErrnoException} */ (outputError).code === 'ENOENT') {
-            return null;
+                }
+            });
 
         }
 
-        throw outputError;
+        for (const [artifactName, artifactContent] of Object.entries(generatedArtifacts)) {
+            const artifactFile = path.join(outputStagingDirectory, artifactName);
+            await mkdir(path.dirname(artifactFile), {recursive: true});
+            await writeFile(artifactFile, artifactContent);
 
-    });
+        }
 
-    try {
+        await writeFile(path.join(outputStagingDirectory, '_layer/build.json'), `${JSON.stringify({
+            appName: configData.appName,
+            appVersion: configData.appVersion,
+            integrity: artifactIntegrity
+        }, null, 4)}\n`, 'utf8');
+
+        const currentOutputStatus = await stat(outputDirectory).catch(function outputDirectoryMissing(outputError) {
+            //Returning explicit absence while preserving unexpected filesystem failures.
+            if (/** @type {NodeJS.ErrnoException} */ (outputError).code === 'ENOENT') {
+                return null;
+
+            }
+
+            throw outputError;
+
+        });
+
         //Moving the previous complete release aside only after staging succeeds
         if (currentOutputStatus !== null) {
             await rename(outputDirectory, outputBackupDirectory);
+            restoreRequired = true;
 
         }
 
         //Publishing the staged release through one same-filesystem rename
         await rename(outputStagingDirectory, outputDirectory);
+        restoreRequired = false;
 
     } catch (outputPublishError) {
-        const backupStatus = await stat(outputBackupDirectory).catch(function outputBackupMissing() {
-            //Returning explicit absence for rollback selection
-            return null;
-
-        });
-
-        //Restoring the previous release when publishing the new directory fails
-        if (backupStatus !== null) {
+        //Keep the recoverable backup if restoring the previous release itself fails.
+        if (restoreRequired) {
             await rename(outputBackupDirectory, outputDirectory);
+            restoreRequired = false;
 
         }
 
         throw outputPublishError;
 
     } finally {
-        //Removing only task-owned staging and backup directories
-        await rm(outputStagingDirectory, {
-            recursive: true,
-            force: true
-        });
-        await rm(outputBackupDirectory, {
-            recursive: true,
-            force: true
-        });
+        if ( !restoreRequired ){
+            await rm( buildDirectory, {recursive: true, force: true} );
+
+        }
 
     }
 

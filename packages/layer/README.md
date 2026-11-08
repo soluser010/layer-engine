@@ -6,11 +6,11 @@
 
 Develop your application, build a portable `dist`, and start it on a server. The included launcher prepares the runtime and Caddy; Caddy obtains and renews HTTPS certificates for your configured public domain.
 
-## What's new in 0.2.0
+## What's new in 0.2.1
 
-Experimental screen warmup is enabled by default. Layer prepares eligible visible destinations and can retain opened screens with their state and scroll position. Disable it with `navigation.warmup.enabled: false` in `layer.config.js`. This release also fixes CSS/font asset handling and updates the English agent skill.
+**Important security update.** The development server now blocks reads outside the project output. Builds and client API generation enforce stricter input checks. Production bundles include Caddy 2.11.9 and keep long-lived event streams open. Update the CLI and rebuild your application.
 
-[Changes and upgrade steps](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/0.2.0.md) · [History](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/README.md).
+[Changes and upgrade steps](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/0.2.1.md) · [History](https://github.com/soluser010/layer-engine/blob/main/docs/en/updates/README.md).
 
 Created by **S.O.L CORP** · [solcorp.ru](https://solcorp.ru) · Apache-2.0.
 

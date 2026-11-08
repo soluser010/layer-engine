@@ -254,6 +254,20 @@ test( 'OAuth provider serves standards discovery from explicit HTTP extension ro
         assert.equal( discoveryData.code_challenge_methods_supported.includes( 'S256' ), true );
         assert.equal( Array.isArray( discoveryData.dpop_signing_alg_values_supported ), true );
 
+        //Read the same key set available to public clients and reject private signing material.
+        const keysResponse = await fetch( discoveryData.jwks_uri );
+        assert.equal( keysResponse.status, 200 );
+        const publicKeySet = await keysResponse.json();
+        assert.ok( publicKeySet.keys.length > 0 );
+        for ( const publicKey of publicKeySet.keys ){
+            assert.ok( publicKey.kty && publicKey.kid );
+            for ( const privateField of ['d', 'p', 'q', 'dp', 'dq', 'qi', 'oth', 'k'] ){
+                assert.equal( Object.hasOwn( publicKey, privateField ), false );
+
+            }
+
+        }
+
         const serviceCredentialData = Buffer.from(
             'service-test:service-client-secret-with-at-least-thirty-two-characters',
             'utf8'

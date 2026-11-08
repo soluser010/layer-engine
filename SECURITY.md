@@ -22,6 +22,14 @@ Include the affected package/version, impact, prerequisites, a minimal reproduct
 
 Security logs and reports must omit raw credentials, cookies, CSRF values, message bodies, encryption keys, and personal data.
 
+## Framework verification
+
+Run `npm run test:threats` to exercise the HTTP threat suite and generated inputs for operation code generation, hostile JSON keys, PostgreSQL row decoding and archive paths. fast-check reports a seed and shrink path for a failed property. `npm run check` also exercises tenant isolation with generated SQL filter values. Use a loopback test database for the opt-in PostgreSQL integration tests.
+
+The GitHub security workflow analyzes JavaScript and TypeScript with CodeQL's security-extended suite and scans fetched Git history with Gitleaks. Run Gitleaks locally with `gitleaks git --config=.github/security/gitleaks.toml --redact=100 --log-opts="--all" .`. The exception for declaration fingerprints is limited to SHA-256 entries in the public API baseline, which `npm run api:check` independently verifies.
+
 ## Deployment boundary
+
+Lightning CSS and its platform bindings are build-time dependencies of the CLI. Web Push uses the separate `web-push` dependency on the server. Their npm packages carry MPL-2.0 notices. Keep those notices when redistributing copies. The dependency versions and integrity hashes for each release are recorded in the lockfile and software bill of materials. [Lightning CSS source](https://github.com/parcel-bundler/lightningcss) · [web-push source](https://github.com/web-push-libs/web-push).
 
 Node.js and Caddy do not provide volumetric DDoS protection. Production deployments require an external CDN/WAF, network-level controls, bounded PostgreSQL/Redis pools, and the application limits documented in [the DDoS runbook](docs/runbooks/ddos-and-capacity.md).

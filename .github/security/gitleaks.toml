@@ -1,0 +1,13 @@
+title = "Layer-Engine credential scanning"
+
+[extend]
+useDefault = true
+
+# api:check recomputes every declaration fingerprint from the built .d.ts files.
+[[allowlists]]
+description = "Generated declaration SHA-256 entries in the public API baseline"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|[/\\])compatibility[/\\]public-api\.json$''']
+regexTarget = "line"
+regexes = ['''^\s*"[A-Za-z0-9_./-]+\.d\.ts": "[0-9a-f]{64}",?\s*$''']

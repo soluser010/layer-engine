@@ -1,6 +1,6 @@
 {
     "name": "layer-engine",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "private": true,
     "description": "Layer-Engine workspace",
     "license": "Apache-2.0",
@@ -58,7 +58,7 @@
         "test": "node --test \"packages/*/test/*.test.js\" \"test/*.test.js\"",
         "test:browsers": "playwright test",
         "test:load": "node scripts/load-soak.js",
-        "test:threats": "node --test test/security-threats.test.js",
+        "test:threats": "node --test test/security-threats.test.js test/security-properties.test.js packages/database/test/structured-database.test.js",
         "test:coverage": "node --test --experimental-test-coverage --test-coverage-lines=90 --test-coverage-functions=90 --test-coverage-branches=85 --test-coverage-exclude=fixtures/** --test-coverage-exclude=dist/** --test-coverage-exclude=packages/**/test/** --test-coverage-exclude=packages/cli/src/deployment-runner.js \"packages/*/test/*.test.js\" \"test/*.test.js\"",
         "typecheck": "tsc -p tsconfig.json"
     },
@@ -75,11 +75,12 @@
         "autocannon": "8.0.0",
         "eslint": "10.10.0",
         "fake-indexeddb": "6.2.5",
+        "fast-check": "4.10.2",
         "globals": "17.12.0",
         "highlight.js": "11.12.0",
         "jsdom": "29.1.1",
         "markdown-it": "15.0.3",
-        "pg": "8.16.3",
+        "pg": "8.23.1",
         "redis": "6.2.1",
         "typescript": "7.0.2"
     }

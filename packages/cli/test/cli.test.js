@@ -495,9 +495,11 @@ test('CLI build compiles pages, routes, integrity, public files, and documentati
     assert.equal(deploymentPackage.dependencies.tar, '7.5.22');
     assert.equal(deploymentPackage.dependencies.yauzl, '3.4.0');
     assert.equal(deploymentLock.lockfileVersion, 3);
-    assert.equal(deploymentManifest.caddy.version, '2.11.4');
+    assert.equal(deploymentManifest.caddy.version, '2.11.9');
     assert.equal(deploymentManifest.serverEntry, false);
     assert.match(deploymentRunner, /npm[\s\S]*ci/);
+    assert.match(deploymentCaddyfile, /\bwrite_idle 30s\b/);
+    assert.doesNotMatch(deploymentCaddyfile, /^\s*write\s/m);
     assert.match(deploymentCaddyfile, /LAYER_HTTPS_PORT/);
     assert.match(deploymentCaddyfile, /LAYER_CADDY_ADMIN_PORT:2019/);
     assert.match(deploymentCaddyfile, /\/_layer\/types\/\*/);
@@ -986,6 +988,7 @@ test('development host serves the application shell on loopback only', async (te
     const shellSource = await shellResponse.text();
     assert.match(shellSource, /data-layer-root/);
     assert.match(shellSource, /_layer\/dev-client\.mjs\?revision=1/);
+    assert.equal(shellResponse.headers.get('engine'), 'Layer-Engine');
     const developmentContentSecurityPolicy = shellResponse.headers.get('content-security-policy');
     assert.equal(developmentContentSecurityPolicy?.includes("default-src 'self'"), true);
     assert.equal(developmentContentSecurityPolicy?.includes("connect-src 'self'"), true);
@@ -1042,6 +1045,7 @@ export async function layerServerCreate(contextData) {
     return {
         async start(listenOptions) {
             serverData = createServer(function requestHandle(requestData, responseData) {
+                responseData.setHeader("Engine", "custom-backend-version");
                 if (requestData.url === '/api?not-ready') {
                     readyStatus = false;
                 }
@@ -1128,6 +1132,8 @@ export async function layerServerCreate(contextData) {
     const healthData = await healthResponse.json();
     const apiData = await apiResponse.json();
 
+    assert.equal(healthResponse.headers.get('engine'), 'Layer-Engine');
+    assert.equal(apiResponse.headers.get('engine'), 'Layer-Engine');
     assert.equal(healthResponse.status, 200);
     assert.equal(healthData.path, '/health/ready');
     assert.equal(healthData.environment, 'development');

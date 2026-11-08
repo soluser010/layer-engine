@@ -141,6 +141,9 @@ export function layerHttpRuntimeCreate(runtimeOptions) {
     }
 
     const httpServer = createServer(async function requestHandle(request, response) {
+        //Identify the framework for every handled response, including streams and early errors.
+        response.setHeader( 'Engine', 'Layer-Engine' );
+
         //Normalizing the path without treating query parameters as routes.
         const requestPath = request.url?.split('?', 1)[0] ?? '/';
 

@@ -66,9 +66,9 @@ function proxyRequestHeadersCreate(sourceHeaders) {
  * @param {import('node:http').ServerResponse} responseData
  */
 function proxyResponseHeadersApply(sourceHeaders, responseData) {
-    //Copying only end-to-end response headers to the browser-facing connection.
+    //Keep the framework identifier owned by the browser-facing server.
     for (const [headerName, headerValue] of Object.entries(sourceHeaders)) {
-        if (headerValue === undefined || hopByHopHeaders.has(headerName.toLowerCase())) {
+        if (headerName.toLowerCase() === 'engine' || headerValue === undefined || hopByHopHeaders.has(headerName.toLowerCase())) {
             continue;
 
         }
